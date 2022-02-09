@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/app_gradient.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/drawable/boarder.xml" value="0.22870370370370371" />
+        <entry key="app/src/main/res/drawable/border_shadow.xml" value="0.22923076923076924" />
+        <entry key="app/src/main/res/drawable/circle_background.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/drawable/dimens.xml" value="0.19010416666666666" />
+        <entry key="app/src/main/res/drawable/dotter.xml" value="0.23148148148148148" />
+        <entry key="app/src/main/res/drawable/gradient_fab.xml" value="0.2205128205128205" />
+        <entry key="app/src/main/res/drawable/item_executors.xml" value="0.20625" />
+        <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.23489583333333333" />
+        <entry key="app/src/main/res/layout/active_draft.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/activity_create_prod.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_show_prod.xml" value="0.23854166666666668" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.23541666666666666" />
+        <entry key="app/src/main/res/layout/all_prods_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_change_additional_info.xml" value="0.2078125" />
+        <entry key="app/src/main/res/layout/dialog_change_name.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_change_profession.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_create_new_task.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_active.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/fragment_active_tasks.xml" value="0.23854166666666668" />
+        <entry key="app/src/main/res/layout/fragment_add_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_all_prods.xml" value="0.21481481481481482" />
+        <entry key="app/src/main/res/layout/fragment_executors.xml" value="0.2046875" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragmnet_active_tasks.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragmnet_all_offers.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_executors.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/navigation_drawer.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/scene_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/scene_registration.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.184375" />
+        <entry key="app/src/main/res/xml/anim_top_bottom.xml" value="0.18177083333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

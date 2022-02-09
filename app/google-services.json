@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "452519425037",
+    "project_id": "cardmarket-505c3",
+    "storage_bucket": "cardmarket-505c3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452519425037:android:8533be3d064f83f8061144",
+        "android_client_info": {
+          "package_name": "com.kseniabl.cardsmarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452519425037-3o67kanl2js4sfro0ae3egrpp40ev24m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn8usk6Cu76U-31-1YvbzFJdppcKJSDuY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "452519425037-3o67kanl2js4sfro0ae3egrpp40ev24m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
