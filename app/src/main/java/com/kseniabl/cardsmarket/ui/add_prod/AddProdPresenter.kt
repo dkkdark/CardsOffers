@@ -2,6 +2,7 @@ package com.kseniabl.cardsmarket.ui.add_prod
 
 import android.util.Log
 import androidx.cardview.widget.CardView
+import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -37,15 +38,16 @@ class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject co
         return items
     }
 
-
     override fun loadBaseCards() {
         val recyclerAdapter = getView()?.provideAdapter()
 
         val cards = UsersCards.getAllCards()
         if (cards.isNotEmpty()) {
             for (card in cards) {
-                if (recyclerAdapter?.getElements()?.contains(card) == false)
-                    recyclerAdapter.addElements(cards)
+                if (recyclerAdapter?.getElements()?.contains(card) == false) {
+                    recyclerAdapter.addElement(card)
+                    loadAddedCards()
+                }
             }
         }
     }
@@ -64,12 +66,17 @@ class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject co
                                 el.child("active").value as Boolean, el.child("date").value.toString(),
                                 el.child("cost").value.toString(), el.child("agreement").value as Boolean, el.child("createTime").value as Long)
                             val elements = recyclerAdapter?.getElements()
-                            if (elements?.contains(newCard) == false && newCard.title != "null" && newCard.description != "null" && newCard.date != "null") {
-                                if (newCard.active) {
-                                    recyclerAdapter.addElement(newCard)
-                                    UsersCards.addCard(newCard)
-                                    //getView()?.startTransition()
+                            var addOrNot = true
+                            if (elements != null) {
+                                for (itm in elements) {
+                                    addOrNot = itm.id != newCard.id
                                 }
+                            }
+
+                            if (addOrNot && elements?.contains(newCard) == false && newCard.active) {
+                                recyclerAdapter.addElement(newCard)
+                                UsersCards.addCard(newCard)
+                                //getView()?.startTransition()
                             }
 
                         }

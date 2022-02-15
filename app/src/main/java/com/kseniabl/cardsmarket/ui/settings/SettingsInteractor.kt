@@ -26,6 +26,22 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
         return null
     }
 
+    override fun getUserRating(): Task<DataSnapshot>? {
+        val userId = getUserId()
+        if (userId != null) {
+            return database.child("users").child(userId).child("profileInfo").child("rating").get()
+        }
+        return null
+    }
+
+    override fun getisExecutor(): Task<DataSnapshot>? {
+        val userId = getUserId()
+        if (userId != null) {
+            return database.child("users").child(userId).child("profileInfo").child("isExecutor").get()
+        }
+        return null
+    }
+
     override fun getUserEmail(): String? {
         return auth.currentUser?.email
     }
@@ -50,6 +66,13 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
         val userId = getUserId()
         if (userId != null) {
             database.child("users").child(userId).child("profileInfo").child("name").setValue(name)
+        }
+    }
+
+    override fun setExecutorState(state: Boolean) {
+        val userId = getUserId()
+        if (userId != null) {
+            database.child("users").child(userId).child("profileInfo").child("isExecutor").setValue(state)
         }
     }
 

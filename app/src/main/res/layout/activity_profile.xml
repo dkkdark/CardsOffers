@@ -277,73 +277,116 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/additionalInfoCardView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp"
         app:cardCornerRadius="30dp"
-        app:cardElevation="15dp"
-        android:layout_marginBottom="30dp">
+        app:cardElevation="15dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp">
+            android:layout_marginBottom="30dp">
 
             <TextView
                 android:id="@+id/otherInfoText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Other"
                 android:fontFamily="@font/opensans_extrabold"
-                android:textSize="24dp"
-                android:textColor="@color/purple"/>
+                android:text="Other"
+                android:textColor="@color/purple"
+                android:textSize="24dp" />
+
+            <com.idlestar.ratingstar.RatingStarView
+                android:id="@+id/ratingBarSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                app:rsv_cornerRadius="4dp"
+                app:rsv_strokeWidth="2px"
+                app:rsv_strokeColor="#457DD7"
+                app:rsv_starForegroundColor="#FFDD00"
+                app:rsv_starBackgroundColor="#E8E8E8"
+                app:rsv_starNum="5"
+                app:rsv_rating="0"
+                app:rsv_onlyHalfStar="true"
+                app:rsv_enableSelectRating="true"
+                app:rsv_starThickness="0.7"
+                app:rsv_drawStrokeForEmptyStar="false"
+                app:rsv_drawStrokeForHalfStar="true"
+                android:background="#fff"
+                android:layout_below="@id/otherInfoText"
+                android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/emailText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:"
-                android:layout_below="@id/otherInfoText"
-                android:fontFamily="@font/opensans_bold"
+                android:layout_below="@id/ratingBarSettings"
                 android:layout_marginTop="20dp"
-                android:textSize="16dp"/>
+                android:fontFamily="@font/opensans_bold"
+                android:textColor="@color/black"
+                android:text="Email:"
+                android:textSize="16dp" />
 
             <TextView
                 android:id="@+id/emailChangeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/emailText"
-                android:layout_alignBottom="@id/emailText"
                 android:layout_alignTop="@id/emailText"
+                android:layout_alignBottom="@id/emailText"
                 android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/emailText"
                 android:text=""
-                android:textSize="16dp" />
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/beExecutorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailText"
+                android:layout_marginTop="10dp"
+                android:text="Be an executor"
+                android:textSize="16dp"
+                android:fontFamily="@font/opensans_bold"
+                android:textColor="@color/black"/>
+
+            <CheckBox
+                android:id="@+id/beExecutorCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:layout_alignTop="@id/beExecutorText"
+                android:layout_alignBottom="@id/beExecutorText"
+                android:layout_marginStart="6dp"
+                android:layout_toEndOf="@id/beExecutorText"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/changePasswordButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/emailText"
+                android:layout_below="@+id/beExecutorText"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/white"
                 android:text="Change password"
                 android:textColor="@color/purple"
                 android:textStyle="bold"
-                app:cornerRadius="16dp"/>
+                app:cornerRadius="16dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/logoutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Logout"
                 android:layout_below="@+id/changePasswordButton"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/white"
-                app:cornerRadius="16dp"
+                android:text="Logout"
                 android:textColor="@color/purple"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"/>
+                app:cornerRadius="16dp" />
 
         </RelativeLayout>
 

@@ -19,6 +19,21 @@ import com.kseniabl.cardsmarket.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.logoutButton
 import javax.inject.Inject
+import android.widget.Toast
+
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import java.io.IOException
+import okhttp3.RequestBody
+
+
+
+
 
 class SettingsFragmnet: BaseFragment(), SettingsView {
 
@@ -37,6 +52,8 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         presenter.showUserEmail(emailChangeText)
         presenter.showUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
         presenter.showUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
+        presenter.setRating(ratingBarSettings)
+        presenter.setIsExecutor(beExecutorCheckBox)
 
         changeNameImage.setOnClickListener { showChangeNameDialog() }
         editProfessionImage.setOnClickListener { showChangeProfessionDialog() }
@@ -44,12 +61,46 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
 
         logoutButton.setOnClickListener { presenter.logoutUser() }
 
+        beExecutorCheckBox.setOnClickListener {
+            //if (profileNameText.text != "—" && )
+        }
+
+        changePasswordButton.setOnClickListener { useOkHttp() }
+
         val shader = getTextGradient()
         professionText.paint.shader = shader
         additionalInfoText.paint.shader = shader
         otherInfoText.paint.shader = shader
         changePasswordButton.paint.shader = shader
         logoutButton.paint.shader = shader
+    }
+
+    private fun useOkHttp() {
+        val formbody: RequestBody = FormBody.Builder()
+            .add("sample", "Do you receive it?")
+            .build()
+        val okHttpClient = OkHttpClient()
+        val request: Request = Request.Builder().url("http://10.0.2.2:5000/print")
+            .post(formbody)
+            .build()
+        okHttpClient.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                activity?.runOnUiThread {
+                    Toast.makeText(context, "data wasn't received", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                activity?.runOnUiThread {
+                    Toast.makeText(context, "${response.body?.string()}", Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+    }
+
+    override fun onPause() {
+        presenter.changeIsExecutorState(beExecutorCheckBox.isChecked)
+        super.onPause()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

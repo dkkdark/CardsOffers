@@ -46,7 +46,13 @@ class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject
                                 el.child("active").value as Boolean, el.child("date").value.toString(), el.child("cost").value.toString(),
                                 el.child("agreement").value as Boolean, el.child("createTime").value as Long)
                             val elements = adapter?.getElements()
-                            if (elements?.contains(newCard) == false) {
+                            var addOrNot = true
+                            if (elements != null) {
+                                for (itm in elements) {
+                                    addOrNot = itm.id != newCard.id
+                                }
+                            }
+                            if (addOrNot && elements?.contains(newCard) == false && newCard.active) {
                                 adapter.addElement(newCard)
                             }
                         }

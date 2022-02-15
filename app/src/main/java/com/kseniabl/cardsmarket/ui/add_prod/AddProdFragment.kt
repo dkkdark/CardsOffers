@@ -40,7 +40,6 @@ class AddProdFragment: BaseFragment(), AddProdView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadBaseCards()
         presenter.loadAddedCards()
     }
 

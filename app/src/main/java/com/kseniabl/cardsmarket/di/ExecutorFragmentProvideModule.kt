@@ -16,11 +16,14 @@ class ExecutorFragmentProvideModule {
     fun provideActivity(executorFragment: ExecutorFragment) : ExecutorFragment = executorFragment
 
     @Provides
-    fun provideExecutorPresenter(executorPresenter: ExecutorPresenter<ExecutorView>)
+    fun provideExecutorInteractor(executorInteractor: ExecutorInteractor): ExecutorInteractorInterface = executorInteractor
+
+    @Provides
+    fun provideExecutorPresenter(executorPresenter: ExecutorPresenter<ExecutorView, ExecutorInteractorInterface>)
             : ExecutorPresenterCardModelInterface<ExecutorView> = executorPresenter
 
     @Provides
-    fun provideExecutorAdapter(executorPresenter: ExecutorPresenter<ExecutorView>, context: Context, executorFragment: ExecutorFragment)
+    fun provideExecutorAdapter(executorPresenter: ExecutorPresenter<ExecutorView, ExecutorInteractorInterface>, context: Context, executorFragment: ExecutorFragment)
             : ExecutorsAdapter = ExecutorsAdapter(executorPresenter, context, executorFragment)
 
     @Provides

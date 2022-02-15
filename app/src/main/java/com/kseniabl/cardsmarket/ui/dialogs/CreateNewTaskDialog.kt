@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.kseniabl.cardsmarket.R
@@ -50,17 +51,25 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
 
     private fun clickOnButtonsListeners() {
         dialogCreateChangeButton.setOnClickListener {
-            setFragmentResult(
-                "CreateNewTaskDialog", bundleOf(
-                    "resTitle" to dialogTaskTitleText.text.toString(),
-                    "resDescription" to dialogTaskDescriptionText.text.toString(),
-                    "resActive" to dialogCheckBox.isChecked,
-                    "resDate" to dialogChooseDate.text.toString(),
-                    "resCost" to dialogTaskCostText.text.toString(),
-                    "resByAgreementValue" to dialogByAgreementCheckBox.isChecked
-                )
-            )
-            dialog?.cancel()
+            dialogTaskTitleText.error = null
+            dialogTaskCostText.error = null
+            var returnOrNot = false
+
+            if (dialogTaskTitleText.text?.isEmpty() == true) {
+                dialogTaskTitleText.error = "You didn't specify title"
+                returnOrNot = true
+            }
+            if (dialogTaskCostText.text?.isEmpty() == true && !dialogByAgreementCheckBox.isChecked) {
+                dialogTaskCostText.error = "You didn't specify cost"
+                returnOrNot = true
+            }
+            if (!returnOrNot) {
+                setFragmentResult("CreateNewTaskDialog", bundleOf(
+                        "resTitle" to dialogTaskTitleText.text.toString(), "resDescription" to dialogTaskDescriptionText.text.toString(),
+                        "resActive" to dialogCheckBox.isChecked, "resDate" to dialogChooseDate.text.toString(),
+                        "resCost" to dialogTaskCostText.text.toString(), "resByAgreementValue" to dialogByAgreementCheckBox.isChecked))
+                dialog?.cancel()
+            }
         }
         dialogCreateCloseButton.setOnClickListener { dialog?.cancel() }
     }
@@ -121,9 +130,5 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
         var time = sdf.format(calendar.time.time)
 
         dialogChooseDate.text = "$date $time"
-    }
-
-    private fun gatherDate() {
-
     }
 }

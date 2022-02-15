@@ -1,18 +1,31 @@
 package com.kseniabl.cardsmarket.di
 
-import com.kseniabl.cardsmarket.ui.add_prod.DraftFragment
-import com.kseniabl.cardsmarket.ui.add_prod.DraftPresenter
-import com.kseniabl.cardsmarket.ui.add_prod.DraftPresenterInterface
-import com.kseniabl.cardsmarket.ui.add_prod.DraftView
+import android.content.Context
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.kseniabl.cardsmarket.di.scope.AddProdFragmentScope
+import com.kseniabl.cardsmarket.di.scope.DraftFragmentScope
+import com.kseniabl.cardsmarket.ui.add_prod.*
 import dagger.Module
 import dagger.Provides
 
 @Module
 class DraftFragmentProvideModule {
-    @Provides
-    fun provideDraftFragment(draftFragment: DraftFragment) : DraftFragment = draftFragment
 
     @Provides
-    fun provideDraftPresenter(draftPresenter: DraftPresenter<DraftView>)
+    @DraftFragmentScope
+    fun provideActivity(draftFragment: DraftFragment) : DraftFragment = draftFragment
+
+    @Provides
+    fun provideDraftInteractor(draftInteractor: DraftInteractor): DraftInteractorInterface = draftInteractor
+
+    @Provides
+    fun provideDraftPresenter(draftPresenter: DraftPresenter<DraftView, DraftInteractorInterface>)
             : DraftPresenterInterface<DraftView> = draftPresenter
+
+    @Provides
+    fun provideDraftFragmentAdapter(draftPresenter: DraftPresenter<DraftView, DraftInteractorInterface>, context: Context, draftFragment: DraftFragment)
+            : DraftAdapter = DraftAdapter(draftPresenter, context, draftFragment)
+
+    @Provides
+    fun provideDraftLayoutManager(fragment: DraftFragment): FlexboxLayoutManager = FlexboxLayoutManager(fragment.context)
 }

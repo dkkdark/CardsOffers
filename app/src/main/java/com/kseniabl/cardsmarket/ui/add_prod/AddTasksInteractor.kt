@@ -1,6 +1,8 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
+import com.kseniabl.cardsmarket.ui.all_prods.CardModel
 import com.kseniabl.cardsmarket.ui.base.UserCardInteractor
+import com.kseniabl.cardsmarket.ui.base.UsersCards
 import java.util.*
 import javax.inject.Inject
 

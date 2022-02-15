@@ -39,6 +39,11 @@ class ExecutorFragment: BaseFragment(), ExecutorView {
         super.onDestroyView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.loadExecutors()
+    }
+
     private fun setupRecyclerView() {
         val flexlayoutManager = layoutManager.get()
         flexlayoutManager.flexDirection = FlexDirection.ROW;
@@ -48,8 +53,10 @@ class ExecutorFragment: BaseFragment(), ExecutorView {
         executors_recycler_view.adapter = adapter
         executors_recycler_view.setHasFixedSize(true)
         executors_recycler_view.setItemViewCacheSize(20)
+    }
 
-        adapter.addElements(listOf(ExecutorModel("Liza Nord", "Math teacher"), ExecutorModel("Dar Brown", "Physics teacher"), ExecutorModel("Sit Git", "Some teacher")))
+    override fun provideAdapter(): ExecutorsAdapter {
+        return adapter
     }
 
     companion object {

@@ -15,7 +15,7 @@ import com.idlestar.ratingstar.RatingStarView
 import com.kseniabl.cardsmarket.ui.base.ItemViewExecutorModel
 
 
-class ExecutorsAdapter @Inject constructor(var presenter: ExecutorPresenter<ExecutorView>, var context: Context, var fragment: ExecutorFragment): RecyclerView.Adapter<ExecutorsAdapter.ExecutorsViewCardModelHolder>() {
+class ExecutorsAdapter @Inject constructor(var presenter: ExecutorPresenter<ExecutorView, ExecutorInteractorInterface>, var context: Context, var fragment: ExecutorFragment): RecyclerView.Adapter<ExecutorsAdapter.ExecutorsViewCardModelHolder>() {
 
     fun addElements(list: List<ExecutorModel>) {
         presenter.addElementsToList(list)

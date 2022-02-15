@@ -1,7 +1,6 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
 import com.kseniabl.cardsmarket.ui.base.BasePresenter
-import java.util.*
 import javax.inject.Inject
 
 class AddTasksPresenter<V: AddTasksView, I: AddTasksInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), AddTasksPresenterInterface<V> {

@@ -2,6 +2,7 @@ package com.kseniabl.cardsmarket.ui.main
 
 import android.graphics.Color
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.fragment.app.commit
 import com.kseniabl.cardsmarket.R
@@ -15,6 +16,7 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationBarView
 import com.kseniabl.cardsmarket.ui.add_prod.AddTasksFragment
 import com.kseniabl.cardsmarket.ui.all_prods.AllOffersFragment
 import com.kseniabl.cardsmarket.ui.show_item.ShowItemFragment
@@ -36,7 +38,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         setContentView(R.layout.activity_main)
 
         setAllProdFragment()
-        setBottomNavigationBar()
+        setUpToolbarNavigation()
         presenter.attachView(this)
     }
 
@@ -78,39 +80,20 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
     }
 
     private fun setUpToolbarNavigation() {
-        all_prods.setOnClickListener {
-            setAllProdFragment()
-            drawerLayout.close()
-        }
-        add_prod.setOnClickListener {
-            setAddProdFragment()
-            drawerLayout.close()
-        }
-        settings.setOnClickListener {
-            setSettingsFragment()
-            drawerLayout.close()
-        }
-
-        /*navigationView.setNavigationItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.all_prods -> {
-                    setAllProdFragment()
-                    drawerLayout.close()
-                    true
+        bottom_navigation.setOnItemSelectedListener { item ->
+                when(item.itemId) {
+                    R.id.all_prods -> {
+                        setAllProdFragment()
+                    }
+                    R.id.add_prod -> {
+                        setAddProdFragment()
+                    }
+                    R.id.settings -> {
+                        setSettingsFragment()
+                    }
                 }
-                R.id.add_prod -> {
-                    setAddProdFragment()
-                    drawerLayout.close()
-                    true
-                }
-                R.id.settings -> {
-                    setSettingsFragment()
-                    drawerLayout.close()
-                    true
-                }
-                else -> false
+                true
             }
-        }*/
     }
 
     private fun setBottomNavigationBar() {
@@ -125,7 +108,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
             drawerLayout.open()
         }
 
-        changeToolbarUpOrHamburger()
+        //changeToolbarUpOrHamburger()
         setUpToolbarNavigation()
     }
 

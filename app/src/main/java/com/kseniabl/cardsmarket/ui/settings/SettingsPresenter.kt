@@ -2,6 +2,7 @@ package com.kseniabl.cardsmarket.ui.settings
 
 import android.content.Context
 import android.util.Log
+import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import co.lujun.androidtagview.TagContainerLayout
@@ -9,10 +10,13 @@ import co.lujun.androidtagview.TagView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.idlestar.ratingstar.RatingStarView
 import com.kseniabl.cardsmarket.ui.base.BasePresenter
 import com.kseniabl.cardsmarket.ui.base.UsersCards
 import org.w3c.dom.Text
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I): BasePresenter<V>(), SettingsPresenterInterface<V> {
 
@@ -29,6 +33,14 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
 
     override fun showUserName(textName: TextView) {
         interactor.getUserName()?.addOnSuccessListener { textName.text = it.value.toString() }
+    }
+
+    override fun setRating(ratingStarView: RatingStarView) {
+        interactor.getUserRating()?.addOnSuccessListener { ratingStarView.rating = (it.value as Long).toFloat() }
+    }
+
+    override fun setIsExecutor(checkBox: CheckBox) {
+        interactor.getisExecutor()?.addOnSuccessListener { checkBox.isChecked = it.value as Boolean }
     }
 
     override fun showUserEmail(textView: TextView) {
@@ -76,6 +88,10 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
 
     override fun changeName(name: String) {
         interactor.setProfileName(name)
+    }
+
+    override fun changeIsExecutorState(state: Boolean) {
+        interactor.setExecutorState(state)
     }
 
     override fun changeProfessionField(spec: String, descr: String, tags: ArrayList<String>) {

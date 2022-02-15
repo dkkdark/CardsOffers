@@ -9,4 +9,5 @@ interface LoginInteractorInterface: BaseInteractor {
     fun createUserWithEmail(email: String, password: String): Task<AuthResult>
     fun singInWithEmail(email: String, password: String): Task<AuthResult>
     fun getCards(): Task<DataSnapshot>?
+    fun setProfileInfo(name: String)
 }
