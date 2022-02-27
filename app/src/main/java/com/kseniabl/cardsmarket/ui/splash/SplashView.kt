@@ -5,4 +5,5 @@ import com.kseniabl.cardsmarket.ui.base.BaseView
 interface SplashView: BaseView {
     fun openMainActivity()
     fun openLoginActivity()
+    fun readToken(): String?
 }

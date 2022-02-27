@@ -4,5 +4,5 @@ import com.kseniabl.cardsmarket.ui.base.PresenterInterface
 import java.util.*
 
 interface AddTasksPresenterInterface<V: AddTasksView>: PresenterInterface<V> {
-    fun addOrChangeCard(title: String, descr: String, active: Boolean, date: String, cost: String, agreement: Boolean, currentTime: Long)
+    fun addUsersNewCard(id: String, title: String, descr: String, active: Boolean, date: String, cost: Int, agreement: Boolean, currentTime: Long)
 }

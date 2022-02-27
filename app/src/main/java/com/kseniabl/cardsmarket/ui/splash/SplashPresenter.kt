@@ -1,34 +1,26 @@
 package com.kseniabl.cardsmarket.ui.splash
 
 import android.util.Log
-import com.google.firebase.auth.FirebaseAuth
-import com.kseniabl.cardsmarket.ui.all_prods.CardModel
-import com.kseniabl.cardsmarket.ui.base.BasePresenter
-import com.kseniabl.cardsmarket.ui.base.UsersCards
+import com.kseniabl.cardsmarket.ui.base.*
+import com.kseniabl.cardsmarket.ui.models.CardModel
 import javax.inject.Inject
 
-class SplashPresenter<V: SplashView, I: SplashInteractorInterface> @Inject constructor(private var interactor: I, private var auth: FirebaseAuth): BasePresenter<V>(), SplashPresenterInterface<V> {
+class SplashPresenter<V: SplashView, I: SplashInteractorInterface> @Inject constructor(private var interactor: I): BasePresenter<V>(), SplashPresenterInterface<V> {
 
-    override fun attachView(view: V?) {
-        super.attachView(view)
-        openActivity()
-    }
-
-    private fun openActivity() {
-        if (isLogin())
+    override fun loadData() {
+        val token = getView()?.readToken()
+        if (token != null && token != "") {
+            interactor.isUserLogin(token)
             getView()?.openMainActivity()
+        }
         else
             getView()?.openLoginActivity()
-
-        loadAndSaveUsersCards()
     }
 
-    private fun isLogin(): Boolean {
-        return interactor.isUserLogin(auth)
-    }
+    private fun loadAndSaveUsersCards(id: String) {
+        interactor.loadUserCards(id)
 
-    private fun loadAndSaveUsersCards() {
-        val cards = arrayListOf<CardModel>()
+        /*val cards = arrayListOf<CardModel>()
 
         interactor.getCards()?.let {
             it.addOnSuccessListener {
@@ -45,6 +37,6 @@ class SplashPresenter<V: SplashView, I: SplashInteractorInterface> @Inject const
             it.addOnFailureListener {
                 Log.e("CreateProdInteractorError", "Something went wrong: " + it.message)
             }
-        }
+        }*/
     }
 }

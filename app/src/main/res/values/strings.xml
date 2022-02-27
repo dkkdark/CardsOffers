@@ -14,4 +14,6 @@
     <string name="register"><u>Sing up</u></string>
     <string name="enter"><u>Sing in</u></string>
     <string name="hello">Hello</string>
+
+    <string name="token_shared_pref">tokenSharedPref</string>
 </resources>

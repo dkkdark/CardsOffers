@@ -9,6 +9,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -24,4 +27,12 @@ class AppModule {
     @Provides
     fun provideFirebaseDatabase(): DatabaseReference = Firebase.database.reference
 
+    @Provides
+    fun createRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .baseUrl("http://10.0.2.2:5000/")
+            .build()
+    }
 }

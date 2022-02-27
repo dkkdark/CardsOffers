@@ -1,28 +1,98 @@
 package com.kseniabl.cardsmarket.ui.base
 
-import com.firebase.ui.auth.data.model.User
 import com.google.gson.JsonObject
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import org.json.JSONObject
+import com.kseniabl.cardsmarket.ui.models.*
+import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
 interface RetrofitApiHolder {
 
+     /*
+        Users methods
+     */
+
     @FormUrlEncoded
     @POST("registration")
-    fun createUser(@Field("username") username: String,
+    fun createUser(@Field("user_id") user_id: String,
+                   @Field("username") username: String,
                    @Field("email") email: String,
-                   @Field("password") password: String) : Call<JsonObject>
+                   @Field("password") password: String) : Observable<JsonObject>
 
     @FormUrlEncoded
     @POST("login")
     fun checkLogin(@Field("email") email: String,
-                   @Field("password") password: String): Call<JsonObject>
+                   @Field("password") password: String): Observable<JsonObject>
 
-    /*@Headers("Content-Type: application/json")
-    @POST("registration")
-    fun createUser(@Body requestBody: UserModel): Call<UserModel>*/
+    @GET("is_current_user_exist")
+    fun isCurrentUserExist(@Header("Authorization") token: String): Observable<UserModel>
+
+
+    @GET("get_profession/{user_id}")
+    fun getUserProfession(@Path("user_id") user_id: String): Observable<Profession>
+
+    @GET("get_name/{user_id}")
+    fun getUserName(@Path("user_id") user_id: String): Observable<BaseProfileInfoModel>
+
+    @GET("get_additional_info/{user_id}")
+    fun getUserAdditionalInfo(@Path("user_id") user_id: String): Observable<AdditionalInfo>
+
+
+    @FormUrlEncoded
+    @POST("set_name")
+    fun setUserName(@Field("id") user_id: String,
+                    @Field("username") username: String): Observable<MessageModel>
+
+    @FormUrlEncoded
+    @POST("set_profession")
+    fun setUserProfession(@Field("id") user_id: String,
+                          @Field("description") description: String,
+                          @Field("specialization") specialization: String,
+                          @Field("tags") tags: ArrayList<String>): Observable<MessageModel>
+
+    @FormUrlEncoded
+    @POST("set_additional_info")
+    fun setUserAdditionalInfo(@Field("id") user_id: String,
+                              @Field("description") description: String,
+                              @Field("country") country: String,
+                              @Field("city") city: String,
+                              @Field("typeOfWork") typeOfWork: String): Observable<MessageModel>
+
+    @FormUrlEncoded
+    @POST("set_is_executor_state")
+    fun setIsExecutorState(@Field("id") user_id: String,
+                              @Field("isExecutor") state: Boolean): Observable<MessageModel>
+
+
+     /*
+        Cards methods
+     */
+
+    @FormUrlEncoded
+    @POST("add_new_card")
+    fun addNewCard(@Field("id") user_id: String,
+                   @Field("cardId") cardId: String,
+                   @Field("title") title: String,
+                   @Field("description") description: String,
+                   @Field("date") date: String,
+                   @Field("createTime") create_time: Long,
+                   @Field("cost") cost: Int,
+                   @Field("active") active: Boolean,
+                   @Field("agreement") agreement: Boolean): Observable<MessageModel>
+
+    @GET("get_users_cards/{user_id}")
+    fun getUsersCards(@Path("user_id") user_id: String): Observable<List<CardModel>>
+
+
+    @GET("get_all_cards")
+    fun getAllCards(): Observable<List<List<CardModel>>>
+
+    /*
+        Executor methods
+     */
+
+    @GET("get_all_executors")
+    fun getAllExecutors(): Observable<List<UserModel>>
+
+
 }

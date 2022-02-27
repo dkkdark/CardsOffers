@@ -14,6 +14,7 @@ import com.kseniabl.cardsmarket.ui.base.ItemViewCardModel
 import javax.inject.Inject
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.kseniabl.cardsmarket.ui.models.CardModel
 import java.util.*
 
 
@@ -64,18 +65,18 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
         }
 
         override fun bindItem(item: CardModel) {
-            ViewCompat.setTransitionName(cardView, item.id)
+            //ViewCompat.setTransitionName(cardView, item.id)
 
             cardTxt.text = item.title
             cardDescr.text = item.description
             cardDate.text = item.date
-            if (item.isAgreement)
+            if (item.agreement)
                 cardCost.text = "By agreement"
             else
                 cardCost.text = "${item.cost} $"
 
             val currentTime = Calendar.getInstance().time.time
-            val distinction = currentTime - item.time
+            val distinction = currentTime - item.createTime
             val numOfDays = (distinction / (1000 * 60 * 60 * 24)).toInt()
             val hours = (distinction / (1000 * 60 * 60)).toInt()
             val minutes = (distinction / (1000 * 60)).toInt()

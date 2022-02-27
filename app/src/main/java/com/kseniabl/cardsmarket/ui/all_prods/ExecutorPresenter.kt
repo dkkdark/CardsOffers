@@ -1,9 +1,7 @@
 package com.kseniabl.cardsmarket.ui.all_prods
 
-import android.util.Log
 import androidx.cardview.widget.CardView
 import com.kseniabl.cardsmarket.ui.base.BasePresenter
-import com.kseniabl.cardsmarket.ui.base.ItemViewCardModel
 import com.kseniabl.cardsmarket.ui.base.ItemViewExecutorModel
 import javax.inject.Inject
 
@@ -36,15 +34,21 @@ class ExecutorPresenter<V: ExecutorView, I: ExecutorInteractorInterface> @Inject
 
     override fun loadExecutors() {
         val adapter = getView()?.provideAdapter()
+        interactor.loadExecutors().subscribe { data ->
+            for (executor in data) {
+                val executorModel = ExecutorModel(executor.username, executor.profession.specialization)
+                adapter?.addElement(executorModel)
+            }
+        }
 
-        interactor.loadCards().addOnSuccessListener {
+        /*interactor.loadExecutors().addOnSuccessListener {
             for (el in it.children) {
                 if (el.child("profileInfo").child("isExecutor").value == true) {
                     val executorModel = ExecutorModel(el.child("profileInfo").child("name").value.toString(), el.child("profileInfo").child("profession").child("specialization").value.toString())
                     adapter?.addElement(executorModel)
                 }
             }
-        }
+        }*/
     }
 
 }

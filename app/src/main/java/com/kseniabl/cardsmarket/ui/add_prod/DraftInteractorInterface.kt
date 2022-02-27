@@ -4,5 +4,6 @@ import com.google.firebase.database.DatabaseReference
 import com.kseniabl.cardsmarket.ui.base.BaseInteractor
 
 interface DraftInteractorInterface: BaseInteractor {
-    fun getChilds(): DatabaseReference?
+    fun observeCards(recyclerAdapter: DraftAdapter)
+    fun loadCards(id: String, recyclerAdapter: DraftAdapter)
 }

@@ -8,10 +8,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.commit
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
 import com.kseniabl.cardsmarket.ui.dialogs.CreateNewTaskDialog
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_add_card.*
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -44,8 +43,13 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
             val resByAgreementValue = bundle.getBoolean("resByAgreementValue")
             val currentTime = Calendar.getInstance().time.time
 
-            if (resTitle != null && resDescription != null && resDate != null && resCost != null) {
-                presenter.addOrChangeCard(resTitle, resDescription, resActive, resDate, resCost, resByAgreementValue, currentTime)
+            if (resTitle != null && resDescription != null && resDate != null && resCost != null && CurrentUser.getUser()?.id != null) {
+                val cost = try {
+                    resCost.toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
+                presenter.addUsersNewCard(CurrentUser.getUser()!!.id, resTitle, resDescription, resActive, resDate, cost, resByAgreementValue, currentTime)
             }
         }
     }

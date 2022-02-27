@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.cardview.widget.CardView
 import com.kseniabl.cardsmarket.ui.base.BasePresenter
 import com.kseniabl.cardsmarket.ui.base.ItemViewCardModel
+import com.kseniabl.cardsmarket.ui.models.CardModel
 import javax.inject.Inject
 
 class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), AllProdsPresenterCardModelInterface<V> {
@@ -34,8 +35,9 @@ class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject
         return items
     }
 
-    override fun loadAllCards() {
-        val adapter = getView()?.provideAdapter()
+    override fun loadAllCards(adapter: AllProdsAdapter) {
+        interactor.loadCards(adapter)
+        /*val adapter = getView()?.provideAdapter()
 
         interactor.loadCards()?.let {
             it.addOnSuccessListener {
@@ -62,6 +64,6 @@ class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject
             it.addOnFailureListener {
                 Log.e("AllProdsInteractorError", "Something went wrong: " + it.message)
             }
-        }
+        }*/
     }
 }

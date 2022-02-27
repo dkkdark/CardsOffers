@@ -1,45 +1,44 @@
 package com.kseniabl.cardsmarket.ui.login
 
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
+import com.kseniabl.cardsmarket.ui.base.RetrofitApiHolder
 import com.kseniabl.cardsmarket.ui.base.UserCardInteractor
+import com.kseniabl.cardsmarket.ui.base.UsersCards
+import com.kseniabl.cardsmarket.utils.CardTasksUtils.generateRandomKey
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class LoginInteractor @Inject constructor(): LoginInteractorInterface, UserCardInteractor() {
+class LoginInteractor @Inject constructor(val retrofit: Retrofit): LoginInteractorInterface, UserCardInteractor() {
 
-    override fun createUserWithEmail(email: String, password: String): Task<AuthResult> {
-        return auth.createUserWithEmailAndPassword(email, password)
+    override fun registrationApiCall(name: String, email: String, password: String): Observable<JsonObject> {
+        val userId = generateRandomKey()
+        val observable = retrofit.create(RetrofitApiHolder::class.java).createUser(userId, name, email, password)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
     }
 
-    override fun singInWithEmail(email: String, password: String): Task<AuthResult> {
-        return auth.signInWithEmailAndPassword(email, password)
+    override fun loginApiCall(email: String, password: String): Observable<JsonObject> {
+        val observable = retrofit.create(RetrofitApiHolder::class.java).checkLogin(email, password)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
     }
 
-    override fun getCards() = loadCards()
-
-    override fun setProfileInfo(name: String) {
-        val userId = getUserId()
-        if (userId != null) {
-            database.child("users").child(userId).child("profileInfo").child("name")
-                .setValue(name)
-            database.child("users").child(userId).child("profileInfo").child("rating")
-                .setValue(0F)
-            database.child("users").child(userId).child("profileInfo").child("isExecutor")
-                .setValue(false)
-            database.child("users").child(userId).child("profileInfo").child("profession")
-                .child("specialization").setValue("")
-            database.child("users").child(userId).child("profileInfo").child("profession")
-                .child("description").setValue("")
-            database.child("users").child(userId).child("profileInfo").child("profession")
-                .child("tags").setValue("")
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("description").setValue("")
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("country").setValue("")
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("city").setValue("")
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("typeOfWork").setValue("")
+    override fun loadUserCards(id: String) {
+        loadAddedCards(id).subscribe { data ->
+            UsersCards.setCards(data)
         }
     }
 }

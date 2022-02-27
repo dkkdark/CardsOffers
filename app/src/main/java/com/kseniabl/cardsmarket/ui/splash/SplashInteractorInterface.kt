@@ -6,6 +6,6 @@ import com.google.firebase.database.DataSnapshot
 import com.kseniabl.cardsmarket.ui.base.BaseInteractor
 
 interface SplashInteractorInterface: BaseInteractor {
-    fun isUserLogin(auth: FirebaseAuth): Boolean
-    fun getCards(): Task<DataSnapshot>?
+    fun isUserLogin(token: String)
+    fun loadUserCards(id: String)
 }

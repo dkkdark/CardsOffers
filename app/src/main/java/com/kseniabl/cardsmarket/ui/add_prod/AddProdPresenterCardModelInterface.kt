@@ -5,5 +5,5 @@ import com.kseniabl.cardsmarket.ui.base.PresenterInterface
 
 interface AddProdPresenterCardModelInterface<V: AddProdView>: PresenterInterface<V>, AdapterFunctionsCardModelInterface {
     fun loadBaseCards()
-    fun loadAddedCards()
+    fun loadUserCards(id: String, recyclerAdapter: AddProdsAdapter)
 }

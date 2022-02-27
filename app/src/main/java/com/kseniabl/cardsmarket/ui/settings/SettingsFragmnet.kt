@@ -1,15 +1,14 @@
 package com.kseniabl.cardsmarket.ui.settings
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.graphics.Shader.TileMode
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
 import com.kseniabl.cardsmarket.ui.dialogs.ChangeAdditionalInfoDialog
@@ -20,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.logoutButton
 import javax.inject.Inject
 import android.widget.Toast
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
 
 
 import okhttp3.Call;
@@ -48,12 +48,9 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         presenter.attachView(this)
         super.onViewCreated(view, savedInstanceState)
 
-        presenter.showUserName(profileNameText)
-        presenter.showUserEmail(emailChangeText)
-        presenter.showUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
-        presenter.showUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
-        presenter.setRating(ratingBarSettings)
-        presenter.setIsExecutor(beExecutorCheckBox)
+        presenter.setupUserBaseInfo(profileNameText, ratingBarSettings, beExecutorCheckBox, emailChangeText)
+        presenter.setupUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
+        presenter.setupUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
 
         changeNameImage.setOnClickListener { showChangeNameDialog() }
         editProfessionImage.setOnClickListener { showChangeProfessionDialog() }
@@ -62,10 +59,9 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         logoutButton.setOnClickListener { presenter.logoutUser() }
 
         beExecutorCheckBox.setOnClickListener {
-            //if (profileNameText.text != "—" && )
         }
 
-        changePasswordButton.setOnClickListener { useOkHttp() }
+        changePasswordButton.setOnClickListener {  }
 
         val shader = getTextGradient()
         professionText.paint.shader = shader
@@ -75,31 +71,9 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         logoutButton.paint.shader = shader
     }
 
-    private fun useOkHttp() {
-        val formbody: RequestBody = FormBody.Builder()
-            .add("sample", "Do you receive it?")
-            .build()
-        val okHttpClient = OkHttpClient()
-        val request: Request = Request.Builder().url("http://10.0.2.2:5000/print")
-            .post(formbody)
-            .build()
-        okHttpClient.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                activity?.runOnUiThread {
-                    Toast.makeText(context, "data wasn't received", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                activity?.runOnUiThread {
-                    Toast.makeText(context, "${response.body?.string()}", Toast.LENGTH_SHORT).show();
-                }
-            }
-        })
-    }
-
     override fun onPause() {
-        presenter.changeIsExecutorState(beExecutorCheckBox.isChecked)
+        if (CurrentUser.getUser()?.id != null)
+            presenter.changeIsExecutorState(CurrentUser.getUser()!!.id, beExecutorCheckBox.isChecked)
         super.onPause()
     }
 
@@ -108,9 +82,9 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
 
         childFragmentManager.setFragmentResultListener("ChangeNameDialogFragment", this) { _, bundle ->
             val result = bundle.getString("resName")
-            if (result != null) {
-                presenter.changeName(result)
-                presenter.showUserName(profileNameText)
+            if (result != null && CurrentUser.getUser()?.id != null) {
+                presenter.changeName(CurrentUser.getUser()!!.id, result)
+                presenter.showUserName(profileNameText, result)
             }
         }
 
@@ -118,9 +92,9 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
             val resSpecialization = bundle.getString("resSpecialization")
             val resDescription = bundle.getString("resDescription")
             val resTagList = bundle.getStringArrayList("resTagList")
-            if (resSpecialization != null && resDescription != null && resTagList != null) {
-                presenter.changeProfessionField(resSpecialization, resDescription, resTagList)
-                presenter.showUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
+            if (resSpecialization != null && resDescription != null && resTagList != null && CurrentUser.getUser()?.id != null) {
+                presenter.changeProfessionField(CurrentUser.getUser()!!.id, resSpecialization, resDescription, resTagList)
+                presenter.showUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText, resSpecialization, resDescription, resTagList)
             }
         }
 
@@ -129,9 +103,9 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
             val resCountry = bundle.getString("resCountry")
             val resCity = bundle.getString("resCity")
             val resTypeOfWork = bundle.getString("resTypeOfWork")
-            if (resDescription != null && resCountry != null && resCity != null && resTypeOfWork != null) {
-                presenter.changeAdditionalInfo(resDescription, resCountry, resCity, resTypeOfWork)
-                presenter.showUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
+            if (resDescription != null && resCountry != null && resCity != null && resTypeOfWork != null && CurrentUser.getUser()?.id != null) {
+                presenter.changeAdditionalInfo(CurrentUser.getUser()!!.id, resDescription, resCountry, resCity, resTypeOfWork)
+                presenter.showUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText, resDescription, resCountry, resCity, resTypeOfWork)
             }
         }
     }
@@ -187,6 +161,11 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         val dialog = ChangeAdditionalInfoDialog()
         dialog.arguments = args
         dialog.show(childFragmentManager, "ChangeAdditionalInfoDialog")
+    }
+
+    override fun editToken() {
+        val sharedPref = activity?.getSharedPreferences("tokenSave", Context.MODE_PRIVATE)
+        sharedPref?.edit()?.putString(getString(R.string.token_shared_pref), "")?.apply()
     }
 
     companion object {

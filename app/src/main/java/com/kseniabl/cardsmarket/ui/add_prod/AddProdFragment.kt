@@ -1,7 +1,7 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +12,11 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardsmarket.R
-import com.kseniabl.cardsmarket.ui.all_prods.CardModel
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
-import com.kseniabl.cardsmarket.ui.create_prod.CreateProdActivity
-import com.kseniabl.cardsmarket.ui.dialogs.ChangeNameDialogFragment
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
+import com.kseniabl.cardsmarket.ui.base.UsersCards
 import com.kseniabl.cardsmarket.ui.dialogs.CreateNewTaskDialog
+import com.kseniabl.cardsmarket.ui.models.CardModel
 import com.kseniabl.cardsmarket.ui.show_item.ShowItemFragment
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_active.*
@@ -40,7 +40,10 @@ class AddProdFragment: BaseFragment(), AddProdView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadAddedCards()
+        if (CurrentUser.getUser()?.id != null) {
+            presenter.loadUserCards(CurrentUser.getUser()!!.id, adapter)
+        }
+        Log.e("qqq", "cards = ${UsersCards.getAllCards()}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +58,6 @@ class AddProdFragment: BaseFragment(), AddProdView {
         addCardRecyclerView.adapter = adapter
         addCardRecyclerView.setHasFixedSize(true)
         addCardRecyclerView.setItemViewCacheSize(20)
-
     }
 
     override fun startTransition() {

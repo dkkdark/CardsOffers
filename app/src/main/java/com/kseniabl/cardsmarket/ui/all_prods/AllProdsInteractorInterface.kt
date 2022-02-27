@@ -5,5 +5,5 @@ import com.google.firebase.database.DataSnapshot
 import com.kseniabl.cardsmarket.ui.base.BaseInteractor
 
 interface AllProdsInteractorInterface: BaseInteractor {
-    fun loadCards(): Task<DataSnapshot>?
+    fun loadCards(adapter: AllProdsAdapter)
 }

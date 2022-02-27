@@ -1,22 +1,47 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
-import com.kseniabl.cardsmarket.ui.all_prods.CardModel
+import android.util.Log
+import com.kseniabl.cardsmarket.ui.base.RetrofitApiHolder
 import com.kseniabl.cardsmarket.ui.base.UserCardInteractor
 import com.kseniabl.cardsmarket.ui.base.UsersCards
+import com.kseniabl.cardsmarket.ui.models.CardModel
+import com.kseniabl.cardsmarket.ui.models.MessageModel
+import com.kseniabl.cardsmarket.utils.CardTasksUtils.generateRandomKey
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import javax.inject.Inject
 
-class AddTasksInteractor @Inject constructor(): AddTasksInteractorInterface, UserCardInteractor() {
+class AddTasksInteractor @Inject constructor(var retrofit: Retrofit): AddTasksInteractorInterface, UserCardInteractor() {
 
-    override fun addNewCard(title: String, descr: String, active: Boolean, date: String, cost: String, agreement: Boolean, currentTime: Long) {
-        childChanged()?.push()?.let {
-            it.child("title").setValue(title)
-            it.child("description").setValue(descr)
-            it.child("active").setValue(active)
-            it.child("date").setValue(date)
-            it.child("cost").setValue(cost)
-            it.child("agreement").setValue(agreement)
-            it.child("createTime").setValue(currentTime)
-        }
+    override fun addNewCard(id: String, title: String, descr: String, active: Boolean, date: String, cost: Int, agreement: Boolean, currentTime: Long) {
+        val cardId = generateRandomKey()
+        retrofit.create(RetrofitApiHolder::class.java).addNewCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<MessageModel> {
+                override fun onSubscribe(d: Disposable?) {
+                }
+
+                override fun onNext(data: MessageModel?) {
+                    if (data?.message == "success") {
+                        Log.e("qqq", "card added successfully")
+                        val card = CardModel(cardId, title, descr, date, currentTime, cost, active, agreement)
+                        UsersCards.addCard(card)
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "baseInfo show onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
     }
 }

@@ -2,103 +2,156 @@ package com.kseniabl.cardsmarket.ui.settings
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import com.firebase.ui.auth.AuthUI
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
+import com.kseniabl.cardsmarket.ui.base.RetrofitApiHolder
 import com.kseniabl.cardsmarket.ui.base.UserCardInteractor
+import com.kseniabl.cardsmarket.ui.models.AdditionalInfo
+import com.kseniabl.cardsmarket.ui.models.Profession
+import com.kseniabl.cardsmarket.ui.models.BaseProfileInfoModel
+import com.kseniabl.cardsmarket.ui.models.MessageModel
+import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
+import retrofit2.converter.gson.GsonConverterFactory
+
+import retrofit2.Retrofit
+
 
 class SettingsInteractor @Inject constructor(var context: Context): SettingsInteractorInterface, UserCardInteractor() {
 
-    override fun singOutOfAccount(): Task<Void> {
-        return AuthUI.getInstance()
-            .signOut(context)
+    private fun createRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .baseUrl("http://10.0.2.2:5000/")
+            .build()
     }
 
-    override fun getUserName(): Task<DataSnapshot>? {
-        val userId = getUserId()
-        if (userId != null) {
-            return database.child("users").child(userId).child("profileInfo").child("name").get()
-        }
-        return null
+    override fun getUserProfession(id: String): Observable<Profession> {
+        val retrofit = createRetrofit()
+        val observable = retrofit.create(RetrofitApiHolder::class.java).getUserProfession(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
     }
 
-    override fun getUserRating(): Task<DataSnapshot>? {
-        val userId = getUserId()
-        if (userId != null) {
-            return database.child("users").child(userId).child("profileInfo").child("rating").get()
-        }
-        return null
+    override fun getUserName(id: String): Observable<BaseProfileInfoModel> {
+        val retrofit = createRetrofit()
+        val observable = retrofit.create(RetrofitApiHolder::class.java).getUserName(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
     }
 
-    override fun getisExecutor(): Task<DataSnapshot>? {
-        val userId = getUserId()
-        if (userId != null) {
-            return database.child("users").child(userId).child("profileInfo").child("isExecutor").get()
-        }
-        return null
+    override fun getUserAdditionalInfo(id: String): Observable<AdditionalInfo> {
+        val retrofit = createRetrofit()
+        val observable = retrofit.create(RetrofitApiHolder::class.java).getUserAdditionalInfo(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
     }
 
-    override fun getUserEmail(): String? {
-        return auth.currentUser?.email
+    override fun setProfileName(id: String, name: String) {
+        val retrofit = createRetrofit()
+        retrofit.create(RetrofitApiHolder::class.java).setUserName(id, name)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<MessageModel> {
+                override fun onSubscribe(d: Disposable?) {
+                }
+
+                override fun onNext(data: MessageModel?) {
+                    if (data?.message == "success") {
+                        CurrentUser.changeName(name)
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
+
     }
 
-    override fun getProfession(): Task<DataSnapshot>? {
-        val userId = getUserId()
-        if (userId != null) {
-            return database.child("users").child(userId).child("profileInfo").child("profession").get()
-        }
-        return null
+    override fun setExecutorState(id: String, state: Boolean) {
+        val retrofit = createRetrofit()
+        retrofit.create(RetrofitApiHolder::class.java).setIsExecutorState(id, state)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<MessageModel> {
+                override fun onSubscribe(d: Disposable?) {
+                }
+
+                override fun onNext(data: MessageModel?) {
+                    if (data?.message == "success") {
+                        CurrentUser.changeIsExecutorState(state)
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "set state onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
     }
 
-    override fun getAdditionalInfo(): Task<DataSnapshot>? {
-        val userId = getUserId()
-        if (userId != null) {
-            return database.child("users").child(userId).child("profileInfo").child("additional").get()
-        }
-        return null
+    override fun setProfileProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>) {
+        val retrofit = createRetrofit()
+        retrofit.create(RetrofitApiHolder::class.java).setUserProfession(id, descr, spec, tags)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<MessageModel> {
+                override fun onSubscribe(d: Disposable?) {
+                    Log.e("qqq", "set prof onSubscribe")
+                }
+
+                override fun onNext(data: MessageModel?) {
+                    if (data?.message == "success") {
+                        CurrentUser.changeProfession(descr, spec, tags)
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "set prof onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                    Log.e("qqq", "set prof onComplete")
+                }
+            })
     }
 
-    override fun setProfileName(name: String) {
-        val userId = getUserId()
-        if (userId != null) {
-            database.child("users").child(userId).child("profileInfo").child("name").setValue(name)
-        }
-    }
+    override fun setAdditionalInfoField(id: String, descr: String, country: String, city: String, type: String) {
+        val retrofit = createRetrofit()
+        retrofit.create(RetrofitApiHolder::class.java).setUserAdditionalInfo(id, descr, country, city, type)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<MessageModel> {
+                override fun onSubscribe(d: Disposable?) {
+                }
 
-    override fun setExecutorState(state: Boolean) {
-        val userId = getUserId()
-        if (userId != null) {
-            database.child("users").child(userId).child("profileInfo").child("isExecutor").setValue(state)
-        }
-    }
+                override fun onNext(data: MessageModel?) {
+                    if (data?.message == "success") {
+                        Log.e("qqq", "suc")
+                        CurrentUser.changeAdditional(descr, country, city, type)
+                    }
+                }
 
-    override fun setProfileProfessionField(spec: String, descr: String, tags: ArrayList<String>) {
-        val userId = getUserId()
-        if (userId != null) {
-            database.child("users").child(userId).child("profileInfo").child("profession")
-                .child("specialization").setValue(spec)
-            database.child("users").child(userId).child("profileInfo").child("profession")
-                .child("description").setValue(descr)
-            database.child("users").child(userId).child("profileInfo").child("profession")
-                .child("tags").setValue(tags)
-        }
-    }
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "set additional onError ${e?.message}")
+                }
 
-    override fun setAdditionalInfoField(descr: String, country: String, city: String, type: String) {
-        val userId = getUserId()
-        if (userId != null) {
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("description").setValue(descr)
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("country").setValue(country)
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("city").setValue(city)
-            database.child("users").child(userId).child("profileInfo").child("additional")
-                .child("typeOfWork").setValue(type)
-        }
+                override fun onComplete() {
+                }
+            })
     }
 }

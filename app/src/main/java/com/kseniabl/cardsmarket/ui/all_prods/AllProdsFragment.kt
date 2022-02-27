@@ -1,6 +1,7 @@
 package com.kseniabl.cardsmarket.ui.all_prods
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
+import com.kseniabl.cardsmarket.ui.base.UsersCards
+import com.kseniabl.cardsmarket.ui.models.CardModel
 import com.kseniabl.cardsmarket.ui.show_item.ShowItemFragment
 import kotlinx.android.synthetic.main.fragment_active_tasks.*
 import javax.inject.Inject
@@ -31,7 +34,8 @@ class AllProdsFragment: BaseFragment(), AllProdsView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadAllCards()
+        presenter.loadAllCards(adapter)
+        Log.e("qqq", "all cards = ${UsersCards.getAllCards()}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -4,4 +4,5 @@ import com.kseniabl.cardsmarket.ui.base.BaseView
 
 interface LoginView: BaseView {
     fun startMainActivity()
+    fun writeToken(token: String)
 }

@@ -4,101 +4,150 @@ import android.content.Context
 import android.util.Log
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import co.lujun.androidtagview.TagContainerLayout
-import co.lujun.androidtagview.TagView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.idlestar.ratingstar.RatingStarView
 import com.kseniabl.cardsmarket.ui.base.BasePresenter
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
 import com.kseniabl.cardsmarket.ui.base.UsersCards
-import org.w3c.dom.Text
-import java.util.*
+import com.kseniabl.cardsmarket.ui.models.AdditionalInfo
+import com.kseniabl.cardsmarket.ui.models.Profession
+import com.kseniabl.cardsmarket.ui.models.BaseProfileInfoModel
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I): BasePresenter<V>(), SettingsPresenterInterface<V> {
 
-    private fun singOut() {
-        interactor.singOutOfAccount()
-            .addOnCompleteListener { getView()?.openLoginActivity() }
-            .addOnCanceledListener { Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show() }
-    }
-
     override fun logoutUser() {
-        singOut()
+        getView()?.editToken()
         UsersCards.clearCards()
+        getView()?.openLoginActivity()
     }
 
-    override fun showUserName(textName: TextView) {
-        interactor.getUserName()?.addOnSuccessListener { textName.text = it.value.toString() }
-    }
+    override fun setupUserBaseInfo(name: TextView, ratingStarView: RatingStarView, checkBox: CheckBox, email: TextView) {
+        CurrentUser.getUser()?.id?.let {
+            interactor.getUserName(it)
+            .subscribe(object : Observer<BaseProfileInfoModel> {
+                override fun onSubscribe(d: Disposable?) {
+                }
 
-    override fun setRating(ratingStarView: RatingStarView) {
-        interactor.getUserRating()?.addOnSuccessListener { ratingStarView.rating = (it.value as Long).toFloat() }
-    }
+                override fun onNext(data: BaseProfileInfoModel?) {
+                    if (data != null) {
+                        name.text = data.username
+                        ratingStarView.rating = data.rating
+                        checkBox.isChecked = data.isExecutor
+                        email.text = data.email
+                    }
+                }
 
-    override fun setIsExecutor(checkBox: CheckBox) {
-        interactor.getisExecutor()?.addOnSuccessListener { checkBox.isChecked = it.value as Boolean }
-    }
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "baseInfo show onError ${e?.message}")
+                }
 
-    override fun showUserEmail(textView: TextView) {
-        interactor.getUserEmail()?.let { textView.text = it }
-    }
-
-    override fun showUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView) {
-        interactor.getProfession()?.addOnSuccessListener {
-            val tagList = arrayListOf<String>()
-            for (el in it.child("tags").children) {
-                tagList.add(el.value.toString())
-            }
-            tags.tags = tagList
-            if (it.child("specialization").value != null && it.child("specialization").value != "")
-                spec.text = it.child("specialization").value.toString()
-            else
-                spec.text = "—"
-            if (it.child("description").value != null && it.child("description").value != "")
-                descr.text = it.child("description").value.toString()
-            else
-                descr.text = "—"
+                override fun onComplete() {
+                }
+            })
         }
     }
 
-    override fun showUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView) {
-        interactor.getAdditionalInfo()?.addOnSuccessListener {
-            if (it.child("description").value != null && it.child("description").value != "")
-                descr.text = it.child("description").value.toString()
-            else
-                descr.text = "—"
-            if (it.child("country").value != null && it.child("country").value != "")
-                country.text = it.child("country").value.toString()
-            else
-                country.text = "—"
-            if (it.child("city").value != null && it.child("city").value != "")
-                city.text = it.child("city").value.toString()
-            else
-                city.text = "—"
-            if (it.child("typeOfWork").value != null && it.child("typeOfWork").value != "")
-                type.text = it.child("typeOfWork").value.toString()
-            else
-                type.text = "—"
+    override fun setupUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView) {
+        CurrentUser.getUser()?.id?.let {
+            interactor.getUserProfession(it).subscribe(object : Observer<Profession> {
+                override fun onSubscribe(d: Disposable?) {
+                }
+
+                override fun onNext(data: Profession?) {
+                    if (data != null) {
+                        tags.tags = data.tags
+                        if (data.specialization != "")
+                            spec.text = data.specialization
+                        else
+                            spec.text = "—"
+                        if (data.description != "")
+                            descr.text = data.description
+                        else
+                            descr.text = "—"
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "profession show onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
         }
     }
 
-    override fun changeName(name: String) {
-        interactor.setProfileName(name)
+    override fun setupUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView) {
+        CurrentUser.getUser()?.id?.let {
+            interactor.getUserAdditionalInfo(it).subscribe(object : Observer<AdditionalInfo> {
+                override fun onSubscribe(d: Disposable?) {
+                }
+
+                override fun onNext(data: AdditionalInfo?) {
+                    if (data != null) {
+                        if (data.description != "")
+                            descr.text = data.description
+                        else
+                            descr.text = "—"
+                        if (data.country != "")
+                            country.text = data.country
+                        else
+                            country.text = "—"
+                        if (data.city != "")
+                            city.text = data.city
+                        else
+                            city.text = "—"
+                        if (data.typeOfWork != "")
+                            type.text = data.typeOfWork
+                        else
+                            type.text = "—"
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "additional show onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
+        }
     }
 
-    override fun changeIsExecutorState(state: Boolean) {
-        interactor.setExecutorState(state)
+    override fun showUserName(name: TextView, username: String) {
+        name.text = username
     }
 
-    override fun changeProfessionField(spec: String, descr: String, tags: ArrayList<String>) {
-        interactor.setProfileProfessionField(spec, descr, tags)
+    override fun showUserProfession(tagsLayout: TagContainerLayout, specText: TextView, descrText: TextView, spec: String, descr: String, tags: List<String>) {
+        specText.text = spec
+        descrText.text = descr
+        tagsLayout.tags = tags
     }
 
-    override fun changeAdditionalInfo(descr: String, country: String, city: String, type: String) {
-        interactor.setAdditionalInfoField(descr, country, city, type)
+    override fun showUserAdditionalInfo(descrText: TextView, countryText: TextView, cityText: TextView, typeText: TextView, descr: String, country: String, city: String, type: String) {
+        descrText.text = descr
+        countryText.text = country
+        cityText.text = city
+        typeText.text = type
+    }
+
+    override fun changeName(id: String, name: String) {
+        interactor.setProfileName(id, name)
+    }
+
+    override fun changeIsExecutorState(id: String, state: Boolean) {
+        interactor.setExecutorState(id, state)
+    }
+
+    override fun changeProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>) {
+        interactor.setProfileProfessionField(id, spec, descr, tags)
+    }
+
+    override fun changeAdditionalInfo(id: String, descr: String, country: String, city: String, type: String) {
+        interactor.setAdditionalInfoField(id, descr, country, city, type)
     }
 }

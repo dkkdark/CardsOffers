@@ -1,9 +1,13 @@
 package com.kseniabl.cardsmarket.ui.splash
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.main.MainActivity
 import com.kseniabl.cardsmarket.ui.base.BaseActivity
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
 import com.kseniabl.cardsmarket.ui.login.LoginActivity
 import javax.inject.Inject
 
@@ -15,6 +19,11 @@ class SplashScreenActivity : BaseActivity(), SplashView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter.attachView(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.loadData()
     }
 
     override fun onDestroy() {
@@ -40,5 +49,10 @@ class SplashScreenActivity : BaseActivity(), SplashView {
 
     override fun hideLoadProgress() {
         TODO("Not yet implemented")
+    }
+
+    override fun readToken(): String? {
+        val sharedPref = getSharedPreferences("tokenSave", Context.MODE_PRIVATE)
+        return sharedPref.getString(getString(R.string.token_shared_pref), "")
     }
 }

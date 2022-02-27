@@ -9,14 +9,16 @@ import com.kseniabl.cardsmarket.ui.base.PresenterInterface
 
 interface SettingsPresenterInterface<V: SettingsView>: PresenterInterface<V> {
     fun logoutUser()
-    fun showUserName(textName: TextView)
-    fun setRating(ratingStarView: RatingStarView)
-    fun setIsExecutor(checkBox: CheckBox)
-    fun showUserEmail(textView: TextView)
-    fun showUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView)
-    fun showUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView)
-    fun changeName(name: String)
-    fun changeIsExecutorState(state: Boolean)
-    fun changeProfessionField(spec: String, descr: String, tags: ArrayList<String>)
-    fun changeAdditionalInfo(descr: String, country: String, city: String, type: String)
+    fun setupUserBaseInfo(name: TextView, ratingStarView: RatingStarView, checkBox: CheckBox, email: TextView)
+    fun setupUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView)
+    fun setupUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView)
+
+    fun showUserName(name: TextView, username: String)
+    fun showUserProfession(tagsLayout: TagContainerLayout, specText: TextView, descrText: TextView, spec: String, descr: String, tags: List<String>)
+    fun showUserAdditionalInfo(descrText: TextView, countryText: TextView, cityText: TextView, typeText: TextView, descr: String, country: String, city: String, type: String)
+
+    fun changeName(id: String, name: String)
+    fun changeIsExecutorState(id: String, state: Boolean)
+    fun changeProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>)
+    fun changeAdditionalInfo(id: String, descr: String, country: String, city: String, type: String)
 }

@@ -9,6 +9,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
+import com.kseniabl.cardsmarket.ui.base.CurrentUser
 import kotlinx.android.synthetic.main.fragment_draft.*
 import javax.inject.Inject
 import javax.inject.Provider
@@ -28,7 +29,9 @@ class DraftFragment: BaseFragment(), DraftView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadAddedCards()
+        if (CurrentUser.getUser()?.id != null) {
+            presenter.loadUserCards(CurrentUser.getUser()!!.id, adapter)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

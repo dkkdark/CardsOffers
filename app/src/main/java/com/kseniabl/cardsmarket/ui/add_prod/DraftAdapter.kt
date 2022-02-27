@@ -9,8 +9,8 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardsmarket.R
-import com.kseniabl.cardsmarket.ui.all_prods.CardModel
 import com.kseniabl.cardsmarket.ui.base.ItemViewCardModel
+import com.kseniabl.cardsmarket.ui.models.CardModel
 import java.util.*
 import javax.inject.Inject
 
@@ -61,18 +61,18 @@ class DraftAdapter @Inject constructor(var presenter: DraftPresenter<DraftView, 
         }
 
         override fun bindItem(item: CardModel) {
-            ViewCompat.setTransitionName(cardView, item.id)
+            //ViewCompat.setTransitionName(cardView, item.id)
 
             cardTxt.text = item.title
             cardDescr.text = item.description
             cardDate.text = item.date
-            if (item.isAgreement)
+            if (item.agreement)
                 cardCost.text = "By agreement"
             else
                 cardCost.text = "${item.cost} $"
 
             val currentTime = Calendar.getInstance().time.time
-            val distinction = currentTime - item.time
+            val distinction = currentTime - item.createTime
             val numOfDays = (distinction / (1000 * 60 * 60 * 24)).toInt()
             val hours = (distinction / (1000 * 60 * 60)).toInt()
             val minutes = (distinction / (1000 * 60)).toInt()

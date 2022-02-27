@@ -1,7 +1,7 @@
 package com.kseniabl.cardsmarket.ui.base
 
 import androidx.cardview.widget.CardView
-import com.kseniabl.cardsmarket.ui.all_prods.CardModel
+import com.kseniabl.cardsmarket.ui.models.CardModel
 
 interface AdapterFunctionsCardModelInterface {
     val itemCount: Int

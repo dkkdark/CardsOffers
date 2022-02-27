@@ -1,5 +1,6 @@
 package com.kseniabl.cardsmarket.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -17,6 +18,7 @@ import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.scene_login.*
 import android.graphics.Shader.TileMode
+import android.util.Log
 
 
 class LoginActivity : BaseActivity(), LoginView {
@@ -137,4 +139,13 @@ class LoginActivity : BaseActivity(), LoginView {
         enterButton.paint.shader = shader
         registerButton.paint.shader = shader
     }
+
+    override fun writeToken(token: String) {
+        val sharedPref = getSharedPreferences("tokenSave", Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putString(getString(R.string.token_shared_pref), token)
+            apply()
+        }
+    }
+
 }
