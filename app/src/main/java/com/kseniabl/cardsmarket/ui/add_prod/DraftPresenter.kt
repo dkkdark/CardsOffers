@@ -18,8 +18,9 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
     override val itemCount: Int
         get() = items.size
 
-    override fun onItemClicked(pos: Int, image: CardView) {
+    override fun onItemClicked(pos: Int) {
         val item = items[pos]
+        getView()?.showCreateTaskDialog(item)
     }
 
     override fun onBindItemView(itemViewCardModel: ItemViewCardModel, pos: Int) {
@@ -30,16 +31,29 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
         items.addAll(list)
     }
 
-    override fun addElementToList(el: CardModel) {
-        items.add(el)
+    override fun addElementToList(el: CardModel, pos: Int) {
+        items.add(pos, el)
+    }
+
+    override fun removeElementFromList(el: CardModel) {
+        items.remove(el)
     }
 
     override fun getAllElements(): MutableList<CardModel> {
         return items
     }
 
+    override fun getPos(el: CardModel): Int {
+        return items.indexOf(el)
+    }
+
     override fun loadUserCards(id: String, recyclerAdapter: DraftAdapter) {
         interactor.loadCards(id, recyclerAdapter)
-        interactor.observeCards(recyclerAdapter)
+    }
+
+    override fun observeDataChange(recyclerAdapter: DraftAdapter) = interactor.observeCards(recyclerAdapter)
+
+    override fun changeUserCard(id: String, cardId: String, title: String, descr: String, date: String, currentTime: Long, cost: Int, active: Boolean, agreement: Boolean) {
+        interactor.changeCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
     }
 }

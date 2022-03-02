@@ -16,18 +16,22 @@ import javax.inject.Inject
 
 class AddProdsAdapter @Inject constructor(var presenter: AddProdPresenter<AddProdView, AddProdInteractorInterface>, var context: Context, var fragment: AddProdFragment): RecyclerView.Adapter<AddProdsAdapter.AddProdsHolder>() {
 
-    fun addElements(list: List<CardModel>) {
-        presenter.addElementsToList(list)
+    fun deleteElement(el: CardModel) {
+        presenter.removeElementFromList(el)
         notifyDataSetChanged()
     }
 
-    fun addElement(el: CardModel) {
-        presenter.addElementToList(el)
+    fun addElement(el: CardModel, pos: Int) {
+        presenter.addElementToList(el, pos)
         notifyDataSetChanged()
     }
 
     fun getElements(): List<CardModel> {
         return presenter.getAllElements()
+    }
+
+    fun getElementPos(el: CardModel): Int {
+        return presenter.getPos(el)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddProdsHolder {
@@ -57,7 +61,7 @@ class AddProdsAdapter @Inject constructor(var presenter: AddProdPresenter<AddPro
         private val cardView: CardView = view.findViewById(R.id.prodItemCardView)
         init {
             view.setOnClickListener {
-                presenter.onItemClicked(adapterPosition, cardView) }
+                presenter.onItemClicked(adapterPosition) }
         }
 
         override fun bindItem(item: CardModel) {

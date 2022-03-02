@@ -25,8 +25,8 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
         notifyDataSetChanged()
     }
 
-    fun addElement(el: CardModel) {
-        presenter.addElementToList(el)
+    fun addElement(el: CardModel, pos: Int) {
+        presenter.addElementToList(el, pos)
         notifyDataSetChanged()
     }
 
@@ -58,10 +58,9 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
         private val cardTime: TextView = view.findViewById(R.id.cardTime)
         private val cardDate: TextView = view.findViewById(R.id.cardDate)
         private val cardCost: TextView = view.findViewById(R.id.cardCost)
-        private val cardView: CardView = view.findViewById(R.id.prodItemCardView)
         init {
             view.setOnClickListener {
-                presenter.onItemClicked(adapterPosition, cardView) }
+                presenter.onItemClicked(adapterPosition) }
         }
 
         override fun bindItem(item: CardModel) {

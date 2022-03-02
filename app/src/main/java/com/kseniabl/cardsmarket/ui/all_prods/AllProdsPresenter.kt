@@ -14,9 +14,9 @@ class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject
     override val itemCount: Int
         get() = items.size
 
-    override fun onItemClicked(pos: Int, image: CardView) {
+    override fun onItemClicked(pos: Int) {
         val item = items[pos]
-        getView()?.openShowItemFragment(item, image)
+        //getView()?.openShowItemFragment(item)
     }
 
     override fun onBindItemView(itemViewCardModel: ItemViewCardModel, pos: Int) {
@@ -27,12 +27,20 @@ class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject
         items.addAll(list)
     }
 
-    override fun addElementToList(el: CardModel) {
-        items.add(el)
+    override fun addElementToList(el: CardModel, pos: Int) {
+        items.add(pos, el)
+    }
+
+    override fun removeElementFromList(el: CardModel) {
+        items.remove(el)
     }
 
     override fun getAllElements(): MutableList<CardModel> {
         return items
+    }
+
+    override fun getPos(el: CardModel): Int {
+        return items.indexOf(el)
     }
 
     override fun loadAllCards(adapter: AllProdsAdapter) {

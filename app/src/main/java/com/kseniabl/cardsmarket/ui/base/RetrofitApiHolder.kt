@@ -87,6 +87,17 @@ interface RetrofitApiHolder {
     @GET("get_all_cards")
     fun getAllCards(): Observable<List<List<CardModel>>>
 
+    @FormUrlEncoded
+    @POST("change_card")
+    fun changeCard(@Field("id") user_id: String,
+                   @Field("cardId") cardId: String,
+                   @Field("title") title: String,
+                   @Field("description") description: String,
+                   @Field("date") date: String,
+                   @Field("cost") cost: Int,
+                   @Field("active") active: Boolean,
+                   @Field("agreement") agreement: Boolean): Observable<MessageModel>
+
     /*
         Executor methods
      */

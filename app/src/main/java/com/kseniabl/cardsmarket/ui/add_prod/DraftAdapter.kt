@@ -21,8 +21,17 @@ class DraftAdapter @Inject constructor(var presenter: DraftPresenter<DraftView, 
         notifyDataSetChanged()
     }
 
-    fun addElement(el: CardModel) {
-        presenter.addElementToList(el)
+    fun getElementPos(el: CardModel): Int {
+        return presenter.getPos(el)
+    }
+
+    fun deleteElement(el: CardModel) {
+        presenter.removeElementFromList(el)
+        notifyDataSetChanged()
+    }
+
+    fun addElement(el: CardModel, pos: Int) {
+        presenter.addElementToList(el, pos)
         notifyDataSetChanged()
     }
 
@@ -57,7 +66,7 @@ class DraftAdapter @Inject constructor(var presenter: DraftPresenter<DraftView, 
         private val cardView: CardView = view.findViewById(R.id.prodItemCardView)
         init {
             view.setOnClickListener {
-                presenter.onItemClicked(adapterPosition, cardView) }
+                presenter.onItemClicked(adapterPosition) }
         }
 
         override fun bindItem(item: CardModel) {

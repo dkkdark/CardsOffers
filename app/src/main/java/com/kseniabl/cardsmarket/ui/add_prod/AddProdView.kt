@@ -6,7 +6,6 @@ import com.kseniabl.cardsmarket.ui.models.CardModel
 
 interface AddProdView: BaseView {
     fun provideAdapter(): AddProdsAdapter
-    fun openShowItemFragment(item: CardModel, image: CardView)
-    fun showCreateTaskDialog()
+    fun showCreateTaskDialog(item: CardModel)
     fun startTransition()
 }

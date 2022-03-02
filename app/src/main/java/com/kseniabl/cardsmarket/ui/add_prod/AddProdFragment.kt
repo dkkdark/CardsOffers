@@ -43,7 +43,6 @@ class AddProdFragment: BaseFragment(), AddProdView {
         if (CurrentUser.getUser()?.id != null) {
             presenter.loadUserCards(CurrentUser.getUser()!!.id, adapter)
         }
-        Log.e("qqq", "cards = ${UsersCards.getAllCards()}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,6 +59,33 @@ class AddProdFragment: BaseFragment(), AddProdView {
         addCardRecyclerView.setItemViewCacheSize(20)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        presenter.observeDataChange(adapter)
+
+        childFragmentManager.setFragmentResultListener("CreateNewTaskDialog", this) { _, bundle ->
+            val resId = bundle.getString("resId")
+            val resTitle = bundle.getString("resTitle")
+            val resDescription = bundle.getString("resDescription")
+            val resActive = bundle.getBoolean("resActive")
+            val resDate = bundle.getString("resDate")
+            val resCost = bundle.getString("resCost")
+            val resByAgreementValue = bundle.getBoolean("resByAgreementValue")
+            val resCreateTime = bundle.getLong("resCreateTime")
+
+            if (resId!= null && resTitle != null && resDescription != null && resDate != null && resCost != null && CurrentUser.getUser()?.id != null) {
+                val cost = try {
+                    resCost.toInt()
+                } catch (e: NumberFormatException) {
+                    0
+                }
+
+                presenter.changeUserCard(CurrentUser.getUser()!!.id, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue)
+            }
+        }
+    }
+
     override fun startTransition() {
         postponeEnterTransition()
         (view?.parent as ViewGroup).doOnPreDraw { startPostponedEnterTransition() }
@@ -74,28 +100,19 @@ class AddProdFragment: BaseFragment(), AddProdView {
         return adapter
     }
 
-    override fun showCreateTaskDialog() {
+    override fun showCreateTaskDialog(item: CardModel) {
         val args = Bundle()
-        //args.putString("name", profileNameText.text.toString())
+        args.putString("id", item.id)
+        args.putString("title", item.title)
+        args.putString("description", item.description)
+        args.putInt("cost", item.cost)
+        args.putString("date", item.date)
+        args.putBoolean("active", item.active)
+        args.putBoolean("agreement", item.agreement)
+        args.putLong("createTime", item.createTime)
         val dialog = CreateNewTaskDialog()
         dialog.arguments = args
         dialog.show(childFragmentManager, "CreateNewTaskDialog")
-    }
-
-    override fun openShowItemFragment(item: CardModel, image: CardView) {
-        val fragment = ShowItemFragment.newInstance()
-        val args = Bundle()
-        //args.putString("img", item.img)
-        //args.putString("name", item.name)
-        args.putString("descr", item.description)
-        fragment.arguments = args
-
-        parentFragmentManager.commit {
-            setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
-            addSharedElement(image, "itemProdContainer")
-            replace(R.id.fragment_container_view, fragment)
-            addToBackStack(null)
-        }
     }
 
     companion object {

@@ -7,6 +7,7 @@ import com.kseniabl.cardsmarket.ui.models.CardModel
 import io.reactivex.rxjava3.core.Observable
 
 interface UserCardInteractorInterface {
-    fun observeAddCards(): Observable<UsersCards>
+    fun observeChangeCards(): Observable<CardModel>
+    fun observeAddCards(): Observable<CardModel>
     fun loadAddedCards(id: String): Observable<List<CardModel>>
 }

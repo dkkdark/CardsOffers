@@ -1,23 +1,33 @@
 package com.kseniabl.cardsmarket.ui.base
 
+import android.util.Log
 import com.kseniabl.cardsmarket.ui.models.CardModel
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlin.collections.ArrayList
 
 
 object UsersCards {
     private val cards = arrayListOf<CardModel>()
-    private val changeObservable: PublishSubject<UsersCards> = PublishSubject.create()
+    private val changeObservable: BehaviorSubject<CardModel> = BehaviorSubject.create()
+    private val addObservable: BehaviorSubject<CardModel> = BehaviorSubject.create()
 
     fun setCards(allCards: List<CardModel>) {
         clearCards()
         cards.addAll(allCards)
     }
 
+    fun changeCard(card: CardModel) {
+        val filterCard = cards.filter { it.id == card.id }[0]
+        cards.remove(filterCard)
+        cards.add(card)
+        changeObservable.onNext(card)
+    }
+
     fun addCard(card: CardModel) {
         cards.add(card)
-        changeObservable.onNext(this)
+        addObservable.onNext(card)
     }
 
     fun getAllCards(): ArrayList<CardModel> {
@@ -28,11 +38,11 @@ object UsersCards {
         cards.clear()
     }
 
-    fun getLastId(): Int {
-        return cards.size
+    fun createChangeObservableModelChange(): Observable<CardModel> {
+        return changeObservable
     }
 
-    fun createObservableModelChange(): Observable<UsersCards> {
-        return changeObservable
+    fun createAddObservableModelChange(): Observable<CardModel> {
+        return addObservable
     }
 }

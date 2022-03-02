@@ -30,7 +30,6 @@ class AddTasksInteractor @Inject constructor(var retrofit: Retrofit): AddTasksIn
 
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
-                        Log.e("qqq", "card added successfully")
                         val card = CardModel(cardId, title, descr, date, currentTime, cost, active, agreement)
                         UsersCards.addCard(card)
                     }

@@ -21,10 +21,27 @@ import java.util.*
 class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private var calendar = Calendar.getInstance()
+
+    var id = ""
+    var title = ""
+    var description = ""
     var date = ""
+    var cost: Int? = null
+    var active = false
+    var agreement = false
+    var createTime: Long = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        id = arguments?.getString("id") ?: ""
+        title = arguments?.getString("title") ?: ""
+        description = arguments?.getString("description") ?: ""
+        date = arguments?.getString("date") ?: ""
+        cost = arguments?.getInt("cost")
+        active = arguments?.getBoolean("active") ?: false
+        agreement = arguments?.getBoolean("agreement") ?: false
+        createTime = arguments?.getLong("createTime") ?: 0
 
         return inflater.inflate(R.layout.dialog_create_new_task, container, false)
     }
@@ -32,9 +49,20 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setDataToDialog(title, description, date, cost, active, agreement)
         showInitialDate()
         clickOnButtonsListeners()
         setListener()
+    }
+
+    private fun setDataToDialog(title: String, description: String, date: String, cost: Int?, active: Boolean, agreement: Boolean) {
+        dialogTaskTitleText.setText(title)
+        dialogTaskDescriptionText.setText(description)
+        if (cost != null)
+            dialogTaskCostText.setText(cost.toString())
+        dialogChooseDate.text = date
+        dialogCheckBox.isChecked = active
+        dialogByAgreementCheckBox.isChecked = agreement
     }
 
     private fun showInitialDate() {
@@ -65,9 +93,9 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
             }
             if (!returnOrNot) {
                 setFragmentResult("CreateNewTaskDialog", bundleOf(
-                        "resTitle" to dialogTaskTitleText.text.toString(), "resDescription" to dialogTaskDescriptionText.text.toString(),
-                        "resActive" to dialogCheckBox.isChecked, "resDate" to dialogChooseDate.text.toString(),
-                        "resCost" to dialogTaskCostText.text.toString(), "resByAgreementValue" to dialogByAgreementCheckBox.isChecked))
+                    "resId" to id, "resTitle" to dialogTaskTitleText.text.toString(), "resDescription" to dialogTaskDescriptionText.text.toString(),
+                    "resActive" to dialogCheckBox.isChecked, "resDate" to dialogChooseDate.text.toString(), "resCost" to dialogTaskCostText.text.toString(),
+                    "resByAgreementValue" to dialogByAgreementCheckBox.isChecked, "resCreateTime" to createTime))
                 dialog?.cancel()
             }
         }
