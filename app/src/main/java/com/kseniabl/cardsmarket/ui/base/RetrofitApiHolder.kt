@@ -105,5 +105,6 @@ interface RetrofitApiHolder {
     @GET("get_all_executors")
     fun getAllExecutors(): Observable<List<UserModel>>
 
-
+    @GET("get_card_user/{user_id}")
+    fun getCardUser(@Path("user_id") user_id: String): Observable<UserModel>
 }

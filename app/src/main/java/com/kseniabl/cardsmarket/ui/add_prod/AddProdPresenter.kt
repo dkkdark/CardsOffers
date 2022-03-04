@@ -1,5 +1,7 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.kseniabl.cardsmarket.ui.base.*
 import com.kseniabl.cardsmarket.ui.models.CardModel
 import javax.inject.Inject
@@ -11,7 +13,7 @@ class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject co
     override val itemCount: Int
         get() = items.size
 
-    override fun onItemClicked(pos: Int) {
+    override fun onItemClicked(pos: Int, cardView: CardView) {
         val item = items[pos]
         getView()?.showCreateTaskDialog(item)
     }

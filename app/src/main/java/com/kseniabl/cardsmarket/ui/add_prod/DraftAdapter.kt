@@ -66,7 +66,7 @@ class DraftAdapter @Inject constructor(var presenter: DraftPresenter<DraftView, 
         private val cardView: CardView = view.findViewById(R.id.prodItemCardView)
         init {
             view.setOnClickListener {
-                presenter.onItemClicked(adapterPosition) }
+                presenter.onItemClicked(adapterPosition, cardView) }
         }
 
         override fun bindItem(item: CardModel) {

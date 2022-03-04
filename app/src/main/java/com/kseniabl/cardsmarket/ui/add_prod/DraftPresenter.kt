@@ -1,6 +1,7 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
 import android.util.Log
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,7 +19,7 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
     override val itemCount: Int
         get() = items.size
 
-    override fun onItemClicked(pos: Int) {
+    override fun onItemClicked(pos: Int, cardView: CardView) {
         val item = items[pos]
         getView()?.showCreateTaskDialog(item)
     }

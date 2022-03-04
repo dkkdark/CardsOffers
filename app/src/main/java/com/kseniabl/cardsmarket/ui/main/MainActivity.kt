@@ -1,13 +1,16 @@
 package com.kseniabl.cardsmarket.ui.main
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.commit
 import com.kseniabl.cardsmarket.R
-import com.kseniabl.cardsmarket.ui.add_prod.AddProdFragment
-import com.kseniabl.cardsmarket.ui.all_prods.AllProdsFragment
 import com.kseniabl.cardsmarket.ui.base.BaseActivity
 import com.kseniabl.cardsmarket.ui.settings.SettingsFragmnet
 import dagger.android.AndroidInjector
@@ -16,11 +19,13 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationBarView
 import com.kseniabl.cardsmarket.ui.add_prod.AddTasksFragment
 import com.kseniabl.cardsmarket.ui.all_prods.AllOffersFragment
-import com.kseniabl.cardsmarket.ui.show_item.ShowItemFragment
-import kotlinx.android.synthetic.main.navigation_drawer.*
+import com.kseniabl.cardsmarket.ui.login.LoginActivity
+import com.kseniabl.cardsmarket.ui.show_item.ShowItemActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
+import com.kseniabl.cardsmarket.ui.models.CardModel
 
 
 class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
@@ -59,10 +64,10 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         TODO("Not yet implemented")
     }
 
-    private fun changeToolbarUpOrHamburger() {
+    /*private fun changeToolbarUpOrHamburger() {
         supportFragmentManager.addOnBackStackChangedListener {
             val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-            if (fragment is ShowItemFragment) {
+            if (fragment is ShowItemActivity) {
                 drawerToggle.isDrawerIndicatorEnabled = false
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
                 toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -77,7 +82,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
                 }
             }
         }
-    }
+    }*/
 
     private fun setUpToolbarNavigation() {
         bottom_navigation.setOnItemSelectedListener { item ->
@@ -110,6 +115,28 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
 
         //changeToolbarUpOrHamburger()
         setUpToolbarNavigation()
+    }
+
+    override fun openShowItemActivity(card: CardModel, cardView: CardView) {
+        val intent = Intent(this, ShowItemActivity::class.java)
+        intent.putExtra("card", card)
+        intent.putExtra("transName", ViewCompat.getTransitionName(cardView))
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this,
+            cardView,
+            ViewCompat.getTransitionName(cardView)!!)
+        startActivity(intent, options.toBundle())
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                supportFinishAfterTransition()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setAllProdFragment() {

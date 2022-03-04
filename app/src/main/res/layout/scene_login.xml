@@ -102,14 +102,14 @@
                 android:id="@+id/enterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/passwordField"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/white"
                 android:text=" Sing in "
                 android:textColor="@color/purple"
                 android:textStyle="bold"
-                android:layout_below="@id/passwordField"
-                android:layout_marginTop="20dp"
-                android:layout_centerHorizontal="true"
-                android:backgroundTint="@color/white"
-                app:cornerRadius="16dp"/>
+                app:cornerRadius="16dp" />
 
             <TextView
                 android:id="@+id/textReg"

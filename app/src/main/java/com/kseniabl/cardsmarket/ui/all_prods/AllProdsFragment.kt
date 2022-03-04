@@ -1,10 +1,12 @@
 package com.kseniabl.cardsmarket.ui.all_prods
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.commit
 import com.google.android.flexbox.FlexDirection
@@ -13,8 +15,10 @@ import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
 import com.kseniabl.cardsmarket.ui.base.UsersCards
+import com.kseniabl.cardsmarket.ui.login.LoginActivity
+import com.kseniabl.cardsmarket.ui.main.MainActivity
 import com.kseniabl.cardsmarket.ui.models.CardModel
-import com.kseniabl.cardsmarket.ui.show_item.ShowItemFragment
+import com.kseniabl.cardsmarket.ui.show_item.ShowItemActivity
 import kotlinx.android.synthetic.main.fragment_active_tasks.*
 import javax.inject.Inject
 import javax.inject.Provider
@@ -35,7 +39,6 @@ class AllProdsFragment: BaseFragment(), AllProdsView {
     override fun onResume() {
         super.onResume()
         presenter.loadAllCards(adapter)
-        Log.e("qqq", "all cards = ${UsersCards.getAllCards()}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,20 +64,8 @@ class AllProdsFragment: BaseFragment(), AllProdsView {
         return adapter
     }
 
-    override fun openShowItemFragment(item: CardModel, image: CardView) {
-        val fragment = ShowItemFragment.newInstance()
-        val args = Bundle()
-        //args.putString("img", item.img)
-        //args.putString("name", item.name)
-        args.putString("descr", item.description)
-        fragment.arguments = args
-
-        parentFragmentManager.commit {
-            setCustomAnimations(R.anim.fade_out, R.anim.fade_in)
-            addSharedElement(image, "itemProdContainer")
-            replace(R.id.fragment_container_view, fragment)
-            addToBackStack(null)
-        }
+    override fun openShowItemFragment(item: CardModel, cardView: CardView) {
+        (activity as MainActivity).openShowItemActivity(item, cardView)
     }
 
     companion object {

@@ -58,13 +58,15 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
         private val cardTime: TextView = view.findViewById(R.id.cardTime)
         private val cardDate: TextView = view.findViewById(R.id.cardDate)
         private val cardCost: TextView = view.findViewById(R.id.cardCost)
+        private var cardView: CardView = view.findViewById(R.id.prodItemCardView)
         init {
             view.setOnClickListener {
-                presenter.onItemClicked(adapterPosition) }
+                presenter.onItemClicked(adapterPosition, cardView)
+            }
         }
 
         override fun bindItem(item: CardModel) {
-            //ViewCompat.setTransitionName(cardView, item.id)
+            ViewCompat.setTransitionName(cardView, item.id)
 
             cardTxt.text = item.title
             cardDescr.text = item.description

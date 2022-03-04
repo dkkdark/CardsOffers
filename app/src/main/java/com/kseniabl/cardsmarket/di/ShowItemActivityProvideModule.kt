@@ -6,11 +6,11 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class ShowItemFragmentProvideModule {
+class ShowItemActivityProvideModule {
 
     @Provides
     @ShowItemScope
-    fun provideActivity(showItemFragment: ShowItemFragment) : ShowItemFragment = showItemFragment
+    fun provideActivity(showItemActivity: ShowItemActivity) : ShowItemActivity = showItemActivity
 
     @Provides
     fun provideShowItemInteractor(showItemInteractor: ShowItemInteractor): ShowItemInteractorInterface = showItemInteractor

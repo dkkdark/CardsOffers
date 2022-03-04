@@ -21,18 +21,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 
 
-class SettingsInteractor @Inject constructor(var context: Context): SettingsInteractorInterface, UserCardInteractor() {
-
-    private fun createRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .baseUrl("http://10.0.2.2:5000/")
-            .build()
-    }
+class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context: Context): SettingsInteractorInterface, UserCardInteractor() {
 
     override fun getUserProfession(id: String): Observable<Profession> {
-        val retrofit = createRetrofit()
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUserProfession(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -40,7 +31,6 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
     }
 
     override fun getUserName(id: String): Observable<BaseProfileInfoModel> {
-        val retrofit = createRetrofit()
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUserName(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +38,6 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
     }
 
     override fun getUserAdditionalInfo(id: String): Observable<AdditionalInfo> {
-        val retrofit = createRetrofit()
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUserAdditionalInfo(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -56,7 +45,6 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
     }
 
     override fun setProfileName(id: String, name: String) {
-        val retrofit = createRetrofit()
         retrofit.create(RetrofitApiHolder::class.java).setUserName(id, name)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -81,7 +69,6 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
     }
 
     override fun setExecutorState(id: String, state: Boolean) {
-        val retrofit = createRetrofit()
         retrofit.create(RetrofitApiHolder::class.java).setIsExecutorState(id, state)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -105,7 +92,6 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
     }
 
     override fun setProfileProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>) {
-        val retrofit = createRetrofit()
         retrofit.create(RetrofitApiHolder::class.java).setUserProfession(id, descr, spec, tags)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -131,7 +117,6 @@ class SettingsInteractor @Inject constructor(var context: Context): SettingsInte
     }
 
     override fun setAdditionalInfoField(id: String, descr: String, country: String, city: String, type: String) {
-        val retrofit = createRetrofit()
         retrofit.create(RetrofitApiHolder::class.java).setUserAdditionalInfo(id, descr, country, city, type)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

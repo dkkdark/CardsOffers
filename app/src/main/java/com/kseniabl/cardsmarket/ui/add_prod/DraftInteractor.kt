@@ -90,7 +90,7 @@ class DraftInteractor @Inject constructor(var retrofit: Retrofit): DraftInteract
 
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
-                        val card = CardModel(cardId, title, descr, date, createTime, cost, active, agreement)
+                        val card = CardModel(cardId, title, descr, date, createTime, cost, active, agreement, id)
                         UsersCards.changeCard(card)
                     }
                 }

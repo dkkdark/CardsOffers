@@ -20,18 +20,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 
-class SplashInteractor @Inject constructor(var context: Context): SplashInteractorInterface, UserCardInteractor() {
-
-    private fun createRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .baseUrl("http://10.0.2.2:5000/")
-            .build()
-    }
+class SplashInteractor @Inject constructor(var retrofit: Retrofit, var context: Context): SplashInteractorInterface, UserCardInteractor() {
 
     override fun isUserLogin(token: String) {
-        val retrofit = createRetrofit()
         retrofit.create(RetrofitApiHolder::class.java).isCurrentUserExist("Bearer $token")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

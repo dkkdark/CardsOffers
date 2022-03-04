@@ -49,7 +49,8 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
                 } catch (e: NumberFormatException) {
                     0
                 }
-                presenter.addUsersNewCard(CurrentUser.getUser()!!.id, resTitle, resDescription, resActive, resDate, cost, resByAgreementValue, currentTime)
+                presenter.addUsersNewCard(CurrentUser.getUser()!!.id, resTitle, resDescription, resActive, resDate,
+                    cost, resByAgreementValue, currentTime)
             }
         }
     }

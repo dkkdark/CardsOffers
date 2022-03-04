@@ -1,26 +1,19 @@
 package com.kseniabl.cardsmarket.ui.add_prod
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.commit
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
 import com.kseniabl.cardsmarket.ui.base.CurrentUser
-import com.kseniabl.cardsmarket.ui.base.UsersCards
 import com.kseniabl.cardsmarket.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardsmarket.ui.models.CardModel
-import com.kseniabl.cardsmarket.ui.show_item.ShowItemFragment
-import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_active.*
-import kotlinx.android.synthetic.main.fragment_add_card.*
 import javax.inject.Inject
 import javax.inject.Provider
 

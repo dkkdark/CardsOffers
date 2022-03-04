@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/drawable/item_executors.xml" value="0.20625" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.23489583333333333" />
         <entry key="app/src/main/res/layout/active_draft.xml" value="0.20104166666666667" />
+        <entry key="app/src/main/res/layout/activity_card_details.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_create_prod.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
