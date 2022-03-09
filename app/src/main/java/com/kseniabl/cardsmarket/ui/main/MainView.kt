@@ -7,4 +7,5 @@ import com.kseniabl.cardsmarket.ui.models.CardModel
 
 interface MainView: BaseView {
     fun openShowItemActivity(card: CardModel, cardView: CardView)
+    fun openFreelancerDetailsActivity()
 }

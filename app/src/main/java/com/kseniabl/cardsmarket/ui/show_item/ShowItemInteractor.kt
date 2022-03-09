@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 class ShowItemInteractor @Inject constructor(val retrofit: Retrofit): ShowItemInteractorInterface {
 
-    override fun loadExecutorFromCard(id: String): Observable<UserModel> {
+    override fun loadFreelancerFromCard(id: String): Observable<UserModel> {
         val observer = retrofit.create(RetrofitApiHolder::class.java).getCardUser(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

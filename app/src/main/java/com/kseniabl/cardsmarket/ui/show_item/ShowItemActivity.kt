@@ -56,6 +56,6 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
         untilText.text = card.date
         descriptionText.text = card.description
 
-        presenter.loadExecutor(card.user_id, nameText, specializationText, itemExeRating)
+        presenter.loadFreelancer(card.user_id, nameText, specializationText, itemExeRating)
     }
 }

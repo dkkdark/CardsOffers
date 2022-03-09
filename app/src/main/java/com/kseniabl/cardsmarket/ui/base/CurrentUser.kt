@@ -27,8 +27,8 @@ object CurrentUser {
         user?.additionalInfo?.typeOfWork = type
     }
 
-    fun changeIsExecutorState(state: Boolean) {
-        user?.isExecutor = state
+    fun changeIsFreelancerState(state: Boolean) {
+        user?.isFreelancer = state
     }
 
     fun getUser(): UserModel? {

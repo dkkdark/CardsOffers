@@ -18,7 +18,7 @@ interface SettingsPresenterInterface<V: SettingsView>: PresenterInterface<V> {
     fun showUserAdditionalInfo(descrText: TextView, countryText: TextView, cityText: TextView, typeText: TextView, descr: String, country: String, city: String, type: String)
 
     fun changeName(id: String, name: String)
-    fun changeIsExecutorState(id: String, state: Boolean)
+    fun changeIsFreelancerState(id: String, state: Boolean)
     fun changeProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>)
     fun changeAdditionalInfo(id: String, descr: String, country: String, city: String, type: String)
 }

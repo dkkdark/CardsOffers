@@ -59,9 +59,9 @@ interface RetrofitApiHolder {
                               @Field("typeOfWork") typeOfWork: String): Observable<MessageModel>
 
     @FormUrlEncoded
-    @POST("set_is_executor_state")
-    fun setIsExecutorState(@Field("id") user_id: String,
-                              @Field("isExecutor") state: Boolean): Observable<MessageModel>
+    @POST("set_is_freelancer_state")
+    fun setIsFreelancerState(@Field("id") user_id: String,
+                              @Field("isFreelancer") state: Boolean): Observable<MessageModel>
 
 
      /*
@@ -99,11 +99,11 @@ interface RetrofitApiHolder {
                    @Field("agreement") agreement: Boolean): Observable<MessageModel>
 
     /*
-        Executor methods
+        Freelancer methods
      */
 
-    @GET("get_all_executors")
-    fun getAllExecutors(): Observable<List<UserModel>>
+    @GET("get_all_freelancers")
+    fun getAllFreelancers(): Observable<List<UserModel>>
 
     @GET("get_card_user/{user_id}")
     fun getCardUser(@Path("user_id") user_id: String): Observable<UserModel>

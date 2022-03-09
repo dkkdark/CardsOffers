@@ -5,5 +5,5 @@ import com.idlestar.ratingstar.RatingStarView
 import com.kseniabl.cardsmarket.ui.base.PresenterInterface
 
 interface ShowItemPresenterInterface<V: ShowItemView>: PresenterInterface<V> {
-    fun loadExecutor(id: String, nameText: TextView, specializationText: TextView, itemExeRating: RatingStarView)
+    fun loadFreelancer(id: String, nameText: TextView, specializationText: TextView, itemExeRating: RatingStarView)
 }

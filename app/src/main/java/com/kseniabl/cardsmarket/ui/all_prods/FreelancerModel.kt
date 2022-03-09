@@ -1,6 +1,6 @@
 package com.kseniabl.cardsmarket.ui.all_prods
 
-data class ExecutorModel (
+data class FreelancerModel (
     var name: String,
     var description: String
 )

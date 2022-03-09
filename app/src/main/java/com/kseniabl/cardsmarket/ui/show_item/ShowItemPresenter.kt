@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 class ShowItemPresenter<V: ShowItemView, I: ShowItemInteractorInterface> @Inject constructor(val interactor: I): ShowItemPresenterInterface<V>, BasePresenter<V>() {
 
-    override fun loadExecutor(id: String, nameText: TextView, specializationText: TextView, itemExeRating: RatingStarView) {
-        interactor.loadExecutorFromCard(id).subscribe(object : Observer<UserModel> {
+    override fun loadFreelancer(id: String, nameText: TextView, specializationText: TextView, itemExeRating: RatingStarView) {
+        interactor.loadFreelancerFromCard(id).subscribe(object : Observer<UserModel> {
             override fun onSubscribe(d: Disposable?) {
             }
 

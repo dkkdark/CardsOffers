@@ -6,6 +6,6 @@ import com.kseniabl.cardsmarket.ui.base.BaseInteractor
 import com.kseniabl.cardsmarket.ui.models.UserModel
 import io.reactivex.rxjava3.core.Observable
 
-interface ExecutorInteractorInterface: BaseInteractor {
-    fun loadExecutors(): Observable<List<UserModel>>
+interface FreelancerInteractorInterface: BaseInteractor {
+    fun loadFreelancers(): Observable<List<UserModel>>
 }

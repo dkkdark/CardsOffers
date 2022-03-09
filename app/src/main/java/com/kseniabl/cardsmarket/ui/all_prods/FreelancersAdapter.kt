@@ -12,31 +12,31 @@ import com.kseniabl.cardsmarket.ui.base.ItemViewCardModel
 import javax.inject.Inject
 import android.widget.ImageView
 import com.idlestar.ratingstar.RatingStarView
-import com.kseniabl.cardsmarket.ui.base.ItemViewExecutorModel
+import com.kseniabl.cardsmarket.ui.base.ItemViewFreelancerModel
 
 
-class ExecutorsAdapter @Inject constructor(var presenter: ExecutorPresenter<ExecutorView, ExecutorInteractorInterface>, var context: Context, var fragment: ExecutorFragment): RecyclerView.Adapter<ExecutorsAdapter.ExecutorsViewCardModelHolder>() {
+class FreelancersAdapter @Inject constructor(var presenter: FreelancerPresenter<FreelancerView, FreelancerInteractorInterface>, var context: Context, var fragment: FreelancerFragment): RecyclerView.Adapter<FreelancersAdapter.FreelancersViewCardModelHolder>() {
 
-    fun addElements(list: List<ExecutorModel>) {
+    fun addElements(list: List<FreelancerModel>) {
         presenter.addElementsToList(list)
         notifyDataSetChanged()
     }
 
-    fun addElement(el: ExecutorModel) {
+    fun addElement(el: FreelancerModel) {
         presenter.addElementToList(el)
         notifyDataSetChanged()
     }
 
-    fun getElements(): List<ExecutorModel> {
+    fun getElements(): List<FreelancerModel> {
         return presenter.getAllElements()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExecutorsViewCardModelHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FreelancersViewCardModelHolder {
         presenter.attachView(fragment)
-        return ExecutorsViewCardModelHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_executors, parent, false))
+        return FreelancersViewCardModelHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_freelancer, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ExecutorsViewCardModelHolder, position: Int) {
+    override fun onBindViewHolder(holder: FreelancersViewCardModelHolder, position: Int) {
         presenter.onBindItemView(holder, position)
     }
 
@@ -49,7 +49,7 @@ class ExecutorsAdapter @Inject constructor(var presenter: ExecutorPresenter<Exec
         super.onDetachedFromRecyclerView(recyclerView)
     }
 
-    inner class ExecutorsViewCardModelHolder(view: View): RecyclerView.ViewHolder(view), ItemViewExecutorModel {
+    inner class FreelancersViewCardModelHolder(view: View): RecyclerView.ViewHolder(view), ItemViewFreelancerModel {
         private val itemTxt: TextView = view.findViewById(R.id.itemExeName)
         private val itemDescr: TextView = view.findViewById(R.id.itemExeDescr)
         private val itemCardView: CardView = view.findViewById(R.id.itemExeCardView)
@@ -60,7 +60,7 @@ class ExecutorsAdapter @Inject constructor(var presenter: ExecutorPresenter<Exec
                 presenter.onItemClicked(adapterPosition, itemCardView) }
         }
 
-        override fun bindItem(item: ExecutorModel) {
+        override fun bindItem(item: FreelancerModel) {
             //ViewCompat.setTransitionName(itemView, item.id)
 
             itemTxt.text = item.name

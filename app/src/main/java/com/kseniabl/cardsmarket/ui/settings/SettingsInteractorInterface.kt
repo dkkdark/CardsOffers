@@ -8,7 +8,7 @@ import io.reactivex.rxjava3.core.Observable
 
 interface SettingsInteractorInterface: BaseInteractor {
     fun setProfileName(id: String, name: String)
-    fun setExecutorState(id: String, state: Boolean)
+    fun setFreelancerState(id: String, state: Boolean)
     fun setProfileProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>)
     fun setAdditionalInfoField(id: String, descr: String, country: String, city: String, type: String)
 

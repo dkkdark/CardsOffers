@@ -36,7 +36,7 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
                     if (data != null) {
                         name.text = data.username
                         ratingStarView.rating = data.rating
-                        checkBox.isChecked = data.isExecutor
+                        checkBox.isChecked = data.isFreelancer
                         email.text = data.email
                     }
                 }
@@ -139,8 +139,8 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
         interactor.setProfileName(id, name)
     }
 
-    override fun changeIsExecutorState(id: String, state: Boolean) {
-        interactor.setExecutorState(id, state)
+    override fun changeIsFreelancerState(id: String, state: Boolean) {
+        interactor.setFreelancerState(id, state)
     }
 
     override fun changeProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>) {

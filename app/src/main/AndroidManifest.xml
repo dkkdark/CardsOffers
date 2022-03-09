@@ -50,11 +50,11 @@
             android:exported="false"
             android:theme="@style/Theme.CardsMarket" />
         <activity
-            android:name=".ui.create_prod.CreateProdActivity"
+            android:name=".ui.show_item.ShowItemActivity"
             android:exported="false"
             android:theme="@style/Theme.CardsMarket"/>
         <activity
-            android:name=".ui.show_item.ShowItemActivity"
+            android:name=".ui.freelancer_details.FreelancerDetailsActivity"
             android:exported="false"
             android:theme="@style/Theme.CardsMarket"/>
     </application>

@@ -1,5 +1,6 @@
 package com.kseniabl.cardsmarket.ui.main
 
+import android.R.attr
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -25,8 +26,9 @@ import com.kseniabl.cardsmarket.ui.login.LoginActivity
 import com.kseniabl.cardsmarket.ui.show_item.ShowItemActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
+import com.kseniabl.cardsmarket.ui.freelancer_details.FreelancerDetailsActivity
 import com.kseniabl.cardsmarket.ui.models.CardModel
-
+import android.R.attr.key
 
 class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
 
@@ -42,7 +44,9 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setAllProdFragment()
+        val whatFragment = intent.extras?.getString("whatFragment")
+
+        setAllProdFragment(whatFragment)
         setUpToolbarNavigation()
         presenter.attachView(this)
     }
@@ -88,7 +92,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         bottom_navigation.setOnItemSelectedListener { item ->
                 when(item.itemId) {
                     R.id.all_prods -> {
-                        setAllProdFragment()
+                        setAllProdFragment(null)
                     }
                     R.id.add_prod -> {
                         setAddProdFragment()
@@ -129,6 +133,12 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
     }
 
+    override fun openFreelancerDetailsActivity() {
+        val intent = Intent(this, FreelancerDetailsActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -139,11 +149,15 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setAllProdFragment() {
+    private fun setAllProdFragment(fragment: String?) {
+        val allOffersFragment = AllOffersFragment.newInstance()
+        val bundle = Bundle()
+        bundle.putString("fragment", fragment)
+        allOffersFragment.arguments = bundle
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            replace(R.id.fragment_container_view, AllOffersFragment.newInstance())
+            replace(R.id.fragment_container_view, allOffersFragment)
         }
     }
 

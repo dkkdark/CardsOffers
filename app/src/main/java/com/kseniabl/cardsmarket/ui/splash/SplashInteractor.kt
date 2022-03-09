@@ -54,7 +54,6 @@ class SplashInteractor @Inject constructor(var retrofit: Retrofit, var context: 
 
             override fun onNext(data: List<CardModel>) {
                 UsersCards.setCards(data)
-                Log.e("qqq", "users cards was set $data")
             }
 
             override fun onError(e: Throwable?) {

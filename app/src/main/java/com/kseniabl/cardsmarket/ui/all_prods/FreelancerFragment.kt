@@ -9,22 +9,23 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
+import com.kseniabl.cardsmarket.ui.main.MainActivity
 import kotlinx.android.synthetic.main.fragment_active_tasks.*
-import kotlinx.android.synthetic.main.fragment_executors.*
+import kotlinx.android.synthetic.main.fragment_freelancers.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ExecutorFragment: BaseFragment(), ExecutorView {
+class FreelancerFragment: BaseFragment(), FreelancerView {
 
     @Inject
-    lateinit var presenter: ExecutorPresenterCardModelInterface<ExecutorView>
+    lateinit var presenter: FreelancerPresenterCardModelInterface<FreelancerView>
     @Inject
     lateinit var layoutManager: Provider<FlexboxLayoutManager>
     @Inject
-    lateinit var adapter: ExecutorsAdapter
+    lateinit var adapter: FreelancersAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_executors, container, false)
+        return inflater.inflate(R.layout.fragment_freelancers, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class ExecutorFragment: BaseFragment(), ExecutorView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadExecutors()
+        presenter.loadFreelancers()
     }
 
     private fun setupRecyclerView() {
@@ -49,17 +50,21 @@ class ExecutorFragment: BaseFragment(), ExecutorView {
         flexlayoutManager.flexDirection = FlexDirection.ROW;
         flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND;
 
-        executors_recycler_view.layoutManager = flexlayoutManager
-        executors_recycler_view.adapter = adapter
-        executors_recycler_view.setHasFixedSize(true)
-        executors_recycler_view.setItemViewCacheSize(20)
+        Freelancers_recycler_view.layoutManager = flexlayoutManager
+        Freelancers_recycler_view.adapter = adapter
+        Freelancers_recycler_view.setHasFixedSize(true)
+        Freelancers_recycler_view.setItemViewCacheSize(20)
     }
 
-    override fun provideAdapter(): ExecutorsAdapter {
+    override fun provideAdapter(): FreelancersAdapter {
         return adapter
     }
 
+    override fun loadFreelancerDetails() {
+        (activity as MainActivity).openFreelancerDetailsActivity()
+    }
+
     companion object {
-        fun newInstance(): ExecutorFragment = ExecutorFragment()
+        fun newInstance(): FreelancerFragment = FreelancerFragment()
     }
 }

@@ -31,10 +31,6 @@ import okhttp3.Response;
 import java.io.IOException
 import okhttp3.RequestBody
 
-
-
-
-
 class SettingsFragmnet: BaseFragment(), SettingsView {
 
     @Inject
@@ -48,7 +44,7 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         presenter.attachView(this)
         super.onViewCreated(view, savedInstanceState)
 
-        presenter.setupUserBaseInfo(profileNameText, ratingBarSettings, beExecutorCheckBox, emailChangeText)
+        presenter.setupUserBaseInfo(profileNameText, ratingBarSettings, beFreelancerCheckBox, emailChangeText)
         presenter.setupUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
         presenter.setupUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
 
@@ -57,9 +53,6 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         editAdditionalInfoImage.setOnClickListener { showChangeAdditionalInfoDialog() }
 
         logoutButton.setOnClickListener { presenter.logoutUser() }
-
-        beExecutorCheckBox.setOnClickListener {
-        }
 
         changePasswordButton.setOnClickListener {  }
 
@@ -73,7 +66,7 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
 
     override fun onPause() {
         if (CurrentUser.getUser()?.id != null)
-            presenter.changeIsExecutorState(CurrentUser.getUser()!!.id, beExecutorCheckBox.isChecked)
+            presenter.changeIsFreelancerState(CurrentUser.getUser()!!.id, beFreelancerCheckBox.isChecked)
         super.onPause()
     }
 

@@ -3,4 +3,4 @@ package com.kseniabl.cardsmarket.di.scope
 import javax.inject.Qualifier
 
 @Qualifier
-@Retention annotation class ExecutorFragmentScope
+@Retention annotation class FreelancerFragmentScope

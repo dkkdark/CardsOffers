@@ -68,8 +68,8 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
     }
 
-    override fun setExecutorState(id: String, state: Boolean) {
-        retrofit.create(RetrofitApiHolder::class.java).setIsExecutorState(id, state)
+    override fun setFreelancerState(id: String, state: Boolean) {
+        retrofit.create(RetrofitApiHolder::class.java).setIsFreelancerState(id, state)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<MessageModel> {
@@ -78,7 +78,7 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
-                        CurrentUser.changeIsExecutorState(state)
+                        CurrentUser.changeIsFreelancerState(state)
                     }
                 }
 

@@ -343,32 +343,32 @@
                 android:textSize="16dp"/>
 
             <TextView
-                android:id="@+id/beExecutorText"
+                android:id="@+id/beFreelancerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/emailText"
                 android:layout_marginTop="10dp"
-                android:text="Be an executor"
+                android:text="Be an Freelancer"
                 android:textSize="16dp"
                 android:fontFamily="@font/opensans_bold"
                 android:textColor="@color/black"/>
 
             <CheckBox
-                android:id="@+id/beExecutorCheckBox"
+                android:id="@+id/beFreelancerCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
-                android:layout_alignTop="@id/beExecutorText"
-                android:layout_alignBottom="@id/beExecutorText"
+                android:layout_alignTop="@id/beFreelancerText"
+                android:layout_alignBottom="@id/beFreelancerText"
                 android:layout_marginStart="6dp"
-                android:layout_toEndOf="@id/beExecutorText"/>
+                android:layout_toEndOf="@id/beFreelancerText"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/changePasswordButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/beExecutorText"
+                android:layout_below="@+id/beFreelancerText"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="@color/white"
                 android:text="Change password"

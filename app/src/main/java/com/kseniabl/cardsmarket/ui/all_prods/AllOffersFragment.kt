@@ -1,9 +1,11 @@
 package com.kseniabl.cardsmarket.ui.all_prods
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import com.kseniabl.cardsmarket.R
 import com.kseniabl.cardsmarket.ui.base.BaseFragment
@@ -23,7 +25,11 @@ class AllOffersFragment: BaseFragment(), AllOffersView {
         presenter.attachView(this)
         super.onViewCreated(view, savedInstanceState)
 
-        openActiveTasksFragment()
+        val fragment = arguments?.getString("fragment")
+        if (fragment == "freelancerFragment")
+            openFreelancersFragment()
+        else
+            openActiveTasksFragment()
         setTopButtonsClickListeners()
     }
 
@@ -36,8 +42,8 @@ class AllOffersFragment: BaseFragment(), AllOffersView {
         activeTasksButton.setOnClickListener {
             openActiveTasksFragment()
         }
-        executorsButton.setOnClickListener {
-            openExecutorsFragment()
+        freelancersButton.setOnClickListener {
+            openFreelancersFragment()
         }
     }
 
@@ -49,11 +55,11 @@ class AllOffersFragment: BaseFragment(), AllOffersView {
         }
     }
 
-    private fun openExecutorsFragment() {
+    private fun openFreelancersFragment() {
         childFragmentManager.commit {
             setReorderingAllowed(true)
             setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
-            replace(R.id.fragmentContainerAllOffers, ExecutorFragment.newInstance())
+            replace(R.id.fragmentContainerAllOffers, FreelancerFragment.newInstance())
         }
     }
 

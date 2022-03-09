@@ -13,8 +13,8 @@ data class UserModel(
     var password: String,
     @SerializedName("rating")
     var rating: Float,
-    @SerializedName("isExecutor")
-    var isExecutor: Boolean,
+    @SerializedName("isFreelancer")
+    var isFreelancer: Boolean,
     @SerializedName("token")
     var token: String,
 
