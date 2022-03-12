@@ -13,6 +13,11 @@
             android:icon="@drawable/add_card"
             android:title="Добавить продукт"/>
         <item
+            android:id="@+id/chats"
+            android:enabled="true"
+            android:icon="@drawable/chat"
+            android:title="Чаты"/>
+        <item
             android:id="@+id/settings"
             android:enabled="true"
             android:icon="@drawable/setting"

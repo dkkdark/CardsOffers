@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CardsMarket</string>
+    <string name="app_name">CardTasks</string>
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -16,4 +16,6 @@
     <string name="hello">Hello</string>
 
     <string name="token_shared_pref">tokenSharedPref</string>
+
+    <string name="chat_api_key">2ep53s7jg93s</string>
 </resources>

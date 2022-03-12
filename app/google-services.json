@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "452519425037",
-    "project_id": "cardmarket-505c3",
-    "storage_bucket": "cardmarket-505c3.appspot.com"
+    "project_number": "48722937595",
+    "project_id": "card-tasks",
+    "storage_bucket": "card-tasks.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:452519425037:android:8533be3d064f83f8061144",
+        "mobilesdk_app_id": "1:48722937595:android:2d64e58fac8e9ac674d25e",
         "android_client_info": {
-          "package_name": "com.kseniabl.cardsmarket"
+          "package_name": "com.kseniabl.cardtasks"
         }
       },
       "oauth_client": [
         {
-          "client_id": "452519425037-3o67kanl2js4sfro0ae3egrpp40ev24m.apps.googleusercontent.com",
+          "client_id": "48722937595-i8b6gn16tuu6e903ngs07kbfe1jup6tr.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBn8usk6Cu76U-31-1YvbzFJdppcKJSDuY"
+          "current_key": "AIzaSyAk64RKB3EvaEx-XjUvkNVRWGTnJZsvjdE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "452519425037-3o67kanl2js4sfro0ae3egrpp40ev24m.apps.googleusercontent.com",
+              "client_id": "48722937595-i8b6gn16tuu6e903ngs07kbfe1jup6tr.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
