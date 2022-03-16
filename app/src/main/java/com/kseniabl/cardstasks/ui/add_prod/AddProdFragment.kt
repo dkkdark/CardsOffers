@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_active.*
 import javax.inject.Inject
 import javax.inject.Provider
 
-
 class AddProdFragment: BaseFragment(), AddProdView {
 
     @Inject
