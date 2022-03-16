@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">CardTasks</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="register"><u>Sing up</u></string>
+    <string name="enter"><u>Sing in</u></string>
+    <string name="hello">Hello</string>
+
+    <string name="token_shared_pref">tokenSharedPref</string>
+
+    <string name="chat_api_key">2ep53s7jg93s</string>
+
+    <string name="channel_tag">ChatNotifications</string>
+</resources>

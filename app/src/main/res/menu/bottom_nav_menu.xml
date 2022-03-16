@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/all_prods"
+            android:enabled="true"
+            android:icon="@drawable/cards"
+            android:title="Все продукты"/>
+        <item
+            android:id="@+id/add_prod"
+            android:enabled="true"
+            android:icon="@drawable/add_card"
+            android:title="Добавить продукт"/>
+        <item
+            android:id="@+id/chats"
+            android:enabled="true"
+            android:icon="@drawable/chat"
+            android:title="Чаты"/>
+        <item
+            android:id="@+id/settings"
+            android:enabled="true"
+            android:icon="@drawable/setting"
+            android:title="Настройки"/>
+    </group>
+
+
+
+</menu>

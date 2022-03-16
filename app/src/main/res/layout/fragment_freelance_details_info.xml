@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/professionCardViewFreelancerDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:id="@+id/professionTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_extrabold"
+                android:text="Profession"
+                android:textSize="24dp"
+                android:textColor="@color/purple"/>
+
+            <co.lujun.androidtagview.TagContainerLayout
+                android:id="@+id/tagContainerLayoutFreelancerDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/professionTextFreelancerDetails"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                app:container_background_color="@color/white"
+                app:container_border_color="@color/white"
+                app:tag_border_width="0dp"
+                app:tag_cross_color="@color/white"
+                app:tag_theme="none"
+                app:tag_text_size="14dp"
+                app:tag_background_color="@color/light_purple"
+                app:tag_text_color="@color/white"/>
+
+            <TextView
+                android:id="@+id/specializationTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Specialization:"
+                android:layout_below="@id/tagContainerLayoutFreelancerDetails"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/specializationChangeTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/specializationTextFreelancerDetails"
+                android:layout_alignBottom="@id/specializationTextFreelancerDetails"
+                android:layout_alignTop="@id/specializationTextFreelancerDetails"
+                android:layout_marginStart="10dp"
+                android:text="—"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/descriptionSpecializationTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description:"
+                android:layout_below="@id/specializationChangeTextFreelancerDetails"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/descriptionSpecializationChangeTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/descriptionSpecializationTextFreelancerDetails"
+                android:layout_alignBottom="@id/descriptionSpecializationTextFreelancerDetails"
+                android:layout_alignTop="@id/descriptionSpecializationTextFreelancerDetails"
+                android:layout_marginStart="10dp"
+                android:text="—"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/additionalInfoCardViewFreelancerDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/professionCardViewFreelancerDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="15dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:id="@+id/additionalInfoTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Additional Information"
+                android:fontFamily="@font/opensans_extrabold"
+                android:textSize="24dp"
+                android:textColor="@color/purple"/>
+
+            <TextView
+                android:id="@+id/descriptionAddInfoTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description:"
+                android:layout_below="@id/additionalInfoTextFreelancerDetails"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="20dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/descriptionAddInfoChangeTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/descriptionAddInfoTextFreelancerDetails"
+                android:layout_alignBottom="@id/descriptionAddInfoTextFreelancerDetails"
+                android:layout_alignTop="@id/descriptionAddInfoTextFreelancerDetails"
+                android:layout_marginStart="10dp"
+                android:text="—"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/countryTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Country:"
+                android:layout_below="@id/descriptionAddInfoTextFreelancerDetails"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/countryChangeTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/countryTextFreelancerDetails"
+                android:layout_alignBottom="@id/countryTextFreelancerDetails"
+                android:layout_alignTop="@id/countryTextFreelancerDetails"
+                android:layout_marginStart="10dp"
+                android:text="—"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/cityTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="City:"
+                android:layout_below="@id/countryTextFreelancerDetails"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/cityChangeTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/cityTextFreelancerDetails"
+                android:layout_alignBottom="@id/cityTextFreelancerDetails"
+                android:layout_alignTop="@id/cityTextFreelancerDetails"
+                android:layout_marginStart="10dp"
+                android:text="—"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/typeOfWorkTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Type of work:"
+                android:layout_below="@id/cityTextFreelancerDetails"
+                android:fontFamily="@font/opensans_bold"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/typeOfWorkChangeTextFreelancerDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/typeOfWorkTextFreelancerDetails"
+                android:layout_alignBottom="@id/typeOfWorkTextFreelancerDetails"
+                android:layout_alignTop="@id/typeOfWorkTextFreelancerDetails"
+                android:layout_marginStart="10dp"
+                android:text="—"
+                android:textSize="16dp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/writeToFreelancerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:text="Write to the freelancer"
+        android:textColor="@color/purple"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:cornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/additionalInfoCardViewFreelancerDetails"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

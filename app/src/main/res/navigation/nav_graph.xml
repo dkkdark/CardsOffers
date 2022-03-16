@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/allProdsFragment">
+    <fragment
+        android:id="@+id/allProdsFragment"
+        android:name="com.kseniabl.cardtasks.ui.all_prods.AllProdsFragment"
+        android:label="AllProdsFragment" />
+    <fragment
+        android:id="@+id/addProdFragment"
+        android:name="com.kseniabl.cardtasks.ui.add_prod.AddProdFragment"
+        android:label="AddProdFragment" />
+    <fragment
+        android:id="@+id/settingsFragmnet"
+        android:name="com.kseniabl.cardtasks.ui.settings.SettingsFragmnet"
+        android:label="SettingsFragmnet" />
+    <fragment
+        android:id="@+id/allOffersFragment"
+        android:name="com.kseniabl.cardtasks.ui.all_prods.AllOffersFragment"
+        android:label="AllOffersFragment" >
+        <action
+            android:id="@+id/action_allOffersFragment_to_allProdsFragment"
+            app:destination="@id/allProdsFragment" />
+        <action
+            android:id="@+id/action_allOffersFragment_to_freelancerFragment"
+            app:destination="@id/freelancerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/freelancerFragment"
+        android:name="com.kseniabl.cardstasks.ui.all_prods.FreelancerFragment"
+        android:label="FreelancerFragment" />
+    <fragment
+        android:id="@+id/addTasksFragment"
+        android:name="com.kseniabl.cardtasks.ui.add_prod.AddTasksFragment"
+        android:label="AddTasksFragment" >
+        <action
+            android:id="@+id/action_addTasksFragment_to_addProdFragment"
+            app:destination="@id/addProdFragment" />
+        <action
+            android:id="@+id/action_addTasksFragment_to_draftFragment"
+            app:destination="@id/draftFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/draftFragment"
+        android:name="com.kseniabl.cardtasks.ui.add_prod.DraftFragment"
+        android:label="DraftFragment" />
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.kseniabl.cardtasks.ui.chat.ChatListFragment"
+        android:label="ChatListFragment" />
+</navigation>

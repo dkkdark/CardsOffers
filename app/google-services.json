@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "874016408809",
+    "project_id": "cardstasks",
+    "storage_bucket": "cardstasks.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874016408809:android:058c093e6baf23b263dc78",
+        "android_client_info": {
+          "package_name": "com.kseniabl.cardstasks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "874016408809-ggk9u7p6ubnmn8hbh7jse1bljcsbqk3q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEdnk2jVGtGYQxUSmS9-OQxiCVj0vfm_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "874016408809-ggk9u7p6ubnmn8hbh7jse1bljcsbqk3q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
