@@ -2,14 +2,14 @@ package com.kseniabl.cardstasks.ui.base
 
 import com.kseniabl.cardtasks.ui.models.CardModel
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlin.collections.ArrayList
 
 
 object UsersCards {
     private val cards = arrayListOf<CardModel>()
-    private val changeObservable: BehaviorSubject<CardModel> = BehaviorSubject.create()
-    private val addObservable: BehaviorSubject<CardModel> = BehaviorSubject.create()
+    private val changeObservable: PublishSubject<CardModel> = PublishSubject.create()
+    private val addObservable: PublishSubject<CardModel> = PublishSubject.create()
 
     fun setCards(allCards: List<CardModel>) {
         clearCards()

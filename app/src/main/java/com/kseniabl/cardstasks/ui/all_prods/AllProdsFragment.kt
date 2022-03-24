@@ -9,7 +9,7 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardtasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_active_tasks.*

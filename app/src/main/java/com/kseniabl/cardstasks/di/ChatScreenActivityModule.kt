@@ -1,6 +1,6 @@
 package com.kseniabl.cardtasks.di
 
-import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
+import com.kseniabl.cardstasks.ui.chat.*
 import com.kseniabl.cardtasks.ui.chat.*
 import dagger.Module
 import dagger.Provides

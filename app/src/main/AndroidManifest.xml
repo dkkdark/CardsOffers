@@ -32,7 +32,7 @@
         </provider>
 
         <activity
-            android:name=".ui.splash.SplashScreenActivity"
+            android:name="com.kseniabl.cardstasks.ui.splash.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -63,7 +63,7 @@
             android:theme="@style/Theme.CardTasks"/>
 
         <service
-            android:name=".ui.firebase_cloud_messaging.FirebaseInstanceIDService"
+            android:name="com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

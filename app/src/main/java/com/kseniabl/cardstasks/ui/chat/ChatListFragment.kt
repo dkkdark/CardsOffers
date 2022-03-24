@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.BaseFragment
 import javax.inject.Inject
 
 class ChatListFragment: BaseFragment(), ChatListView {

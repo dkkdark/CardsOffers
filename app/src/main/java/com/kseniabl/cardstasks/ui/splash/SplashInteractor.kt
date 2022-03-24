@@ -1,13 +1,14 @@
-package com.kseniabl.cardtasks.ui.splash
+package com.kseniabl.cardstasks.ui.splash
 
 import android.content.Context
 import android.util.Log
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardtasks.ui.base.UserCardInteractor
+import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardtasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.models.UserModel
+import com.kseniabl.cardtasks.ui.splash.SplashInteractorInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -15,11 +16,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class SplashInteractor @Inject constructor(var retrofit: Retrofit, var context: Context): SplashInteractorInterface, UserCardInteractor() {
+class SplashInteractor @Inject constructor(var retrofit: Retrofit, var context: Context, var currentUserClass: CurrentUserClass): SplashInteractorInterface, UserCardInteractor() {
 
     override fun isUserLogin(token: String) {
         retrofit.create(RetrofitApiHolder::class.java).isCurrentUserExist("Bearer $token")
             .subscribeOn(Schedulers.io())
+            .retry(3)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<UserModel> {
                 override fun onSubscribe(d: Disposable?) {
@@ -27,10 +29,11 @@ class SplashInteractor @Inject constructor(var retrofit: Retrofit, var context: 
 
                 override fun onNext(data: UserModel?) {
                     if (data != null) {
-                        CurrentUser.setUser(data)
-                        CurrentUser.setToken(token)
-                        if (CurrentUser.getUser()?.id != null)
-                            loadUserCards(CurrentUser.getUser()!!.id)
+                        currentUserClass.saveCurrentUser(data)
+                        Log.e("qqq", "read user = ${currentUserClass.readSharedPref()}")
+                        setTokenServer(1, currentUserClass.readSharedPref().id)
+                        currentUserClass.readSharedPref().token = token
+                        loadUserCards(currentUserClass.readSharedPref().id)
                     }
                 }
 

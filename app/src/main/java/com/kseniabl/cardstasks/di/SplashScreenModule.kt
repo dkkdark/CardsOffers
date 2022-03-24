@@ -1,5 +1,7 @@
 package com.kseniabl.cardtasks.di
 
+import com.kseniabl.cardstasks.ui.splash.SplashInteractor
+import com.kseniabl.cardstasks.ui.splash.SplashScreenActivity
 import com.kseniabl.cardtasks.di.scope.SplashScreenActivityScope
 import com.kseniabl.cardtasks.ui.splash.*
 import dagger.Module

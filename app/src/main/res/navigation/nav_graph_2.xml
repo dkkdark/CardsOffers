@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph_2"
-    app:startDestination="@id/cardsFreelancerFragment3">
+    app:startDestination="@id/cardsFreelancerFragment">
     <fragment
-        android:id="@+id/cardsFreelancerFragment3"
+        android:id="@+id/cardsFreelancerFragment"
         android:name="com.kseniabl.cardtasks.ui.freelancer_details.CardsFreelancerFragment"
         android:label="CardsFreelancerFragment" />
     <fragment
-        android:id="@+id/infoFreelancerFragment3"
+        android:id="@+id/infoFreelancerFragment"
         android:name="com.kseniabl.cardstasks.ui.freelancer_details.InfoFreelancerFragment"
         android:label="InfoFreelancerFragment" />
 </navigation>

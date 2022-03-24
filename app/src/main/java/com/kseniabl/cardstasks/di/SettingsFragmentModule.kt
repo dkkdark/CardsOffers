@@ -1,6 +1,6 @@
 package com.kseniabl.cardtasks.di
 
-import com.kseniabl.cardtasks.ui.settings.SettingsFragmnet
+import com.kseniabl.cardstasks.ui.settings.SettingsFragmnet
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

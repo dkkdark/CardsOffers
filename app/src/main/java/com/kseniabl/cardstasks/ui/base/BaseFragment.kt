@@ -1,8 +1,8 @@
-package com.kseniabl.cardtasks.ui.base
+package com.kseniabl.cardstasks.ui.base
 
 import android.content.Context
-import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.kseniabl.cardtasks.ui.base.BaseView
 import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseFragment: Fragment(), BaseView {

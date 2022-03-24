@@ -1,5 +1,8 @@
 package com.kseniabl.cardtasks.di
 
+import com.kseniabl.cardstasks.ui.settings.SettingsFragmnet
+import com.kseniabl.cardstasks.ui.settings.SettingsInteractor
+import com.kseniabl.cardstasks.ui.settings.SettingsView
 import com.kseniabl.cardtasks.di.scope.SettingsFragmentScope
 import com.kseniabl.cardtasks.ui.settings.*
 import dagger.Module

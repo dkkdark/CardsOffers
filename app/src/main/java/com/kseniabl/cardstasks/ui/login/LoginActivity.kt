@@ -9,7 +9,7 @@ import android.transition.*
 import android.view.Gravity
 import android.widget.Button
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -17,6 +17,9 @@ import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.scene_login.*
 import android.graphics.Shader.TileMode
+import com.google.gson.Gson
+import com.kseniabl.cardstasks.ui.login.LoginView
+import com.kseniabl.cardstasks.ui.models.UserModel
 
 
 class LoginActivity : BaseActivity(), LoginView {

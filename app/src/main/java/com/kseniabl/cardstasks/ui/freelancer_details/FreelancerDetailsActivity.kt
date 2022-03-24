@@ -4,8 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
+import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.freelancer_details.FreelancerDetailsPresenterInterface
 import com.kseniabl.cardtasks.ui.freelancer_details.FreelancerDetailsView
@@ -41,6 +42,13 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
         super.onDestroy()
     }
 
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("whatFragment", "freelancerFragment")
+        startActivity(intent)
+        super.onBackPressed()
+    }
+
     override fun androidInjector(): AndroidInjector<Any> {
         return dispatchingAndroidInjector
     }
@@ -49,12 +57,12 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
         val bundle = Bundle()
         bundle.putSerializable("item", freelancer)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_details_activity) as NavHostFragment
-        navHostFragment.navController.navigate(R.id.infoFreelancerFragment3, bundle)
+        navHostFragment.navController.navigate(R.id.infoFreelancerFragment, bundle)
     }
 
     private fun openCardsFreelancer() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_details_activity) as NavHostFragment
-        navHostFragment.navController.navigate(R.id.cardsFreelancerFragment3)
+        navHostFragment.navController.navigate(R.id.cardsFreelancerFragment)
     }
 
     private fun addListeners() {

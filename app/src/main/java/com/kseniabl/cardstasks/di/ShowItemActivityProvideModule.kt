@@ -1,5 +1,6 @@
 package com.kseniabl.cardtasks.di
 
+import com.kseniabl.cardstasks.ui.show_item.ShowItemInteractorInterface
 import com.kseniabl.cardtasks.di.scope.ShowItemScope
 import com.kseniabl.cardtasks.ui.show_item.*
 import dagger.Module

@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.settings
+package com.kseniabl.cardstasks.ui.settings
 
 import com.kseniabl.cardtasks.ui.base.BaseView
 

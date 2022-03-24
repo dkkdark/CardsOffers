@@ -6,18 +6,19 @@ import android.widget.CheckBox
 import android.widget.TextView
 import co.lujun.androidtagview.TagContainerLayout
 import com.idlestar.ratingstar.RatingStarView
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.base.BasePresenter
-import com.kseniabl.cardstasks.ui.base.CurrentUser
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.Profession
+import com.kseniabl.cardstasks.ui.settings.SettingsView
 import com.kseniabl.cardtasks.ui.models.BaseProfileInfoModel
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I): BasePresenter<V>(), SettingsPresenterInterface<V> {
+class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I, var currentUserClass: CurrentUserClass): BasePresenter<V>(), SettingsPresenterInterface<V> {
 
     override fun logoutUser() {
         getView()?.editToken()
@@ -26,96 +27,90 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
     }
 
     override fun setupUserBaseInfo(name: TextView, ratingStarView: RatingStarView, checkBox: CheckBox, email: TextView) {
-        CurrentUser.getUser()?.id?.let {
-            interactor.getUserName(it)
-            .subscribe(object : Observer<BaseProfileInfoModel> {
-                override fun onSubscribe(d: Disposable?) {
-                }
+        interactor.getUserName(currentUserClass.readSharedPref().id)
+        .subscribe(object : Observer<BaseProfileInfoModel> {
+            override fun onSubscribe(d: Disposable?) {
+            }
 
-                override fun onNext(data: BaseProfileInfoModel?) {
-                    if (data != null) {
-                        name.text = data.username
-                        ratingStarView.rating = data.rating
-                        checkBox.isChecked = data.isFreelancer
-                        email.text = data.email
-                    }
+            override fun onNext(data: BaseProfileInfoModel?) {
+                if (data != null) {
+                    name.text = data.username
+                    ratingStarView.rating = data.rating
+                    checkBox.isChecked = data.isFreelancer
+                    email.text = data.email
                 }
+            }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "baseInfo show onError ${e?.message}")
-                }
+            override fun onError(e: Throwable?) {
+                Log.e("qqq", "baseInfo show onError ${e?.message}")
+            }
 
-                override fun onComplete() {
-                }
-            })
-        }
+            override fun onComplete() {
+            }
+        })
     }
 
     override fun setupUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView) {
-        CurrentUser.getUser()?.id?.let {
-            interactor.getUserProfession(it).subscribe(object : Observer<Profession> {
-                override fun onSubscribe(d: Disposable?) {
-                }
+        interactor.getUserProfession(currentUserClass.readSharedPref().id).subscribe(object : Observer<Profession> {
+            override fun onSubscribe(d: Disposable?) {
+            }
 
-                override fun onNext(data: Profession?) {
-                    if (data != null) {
-                        tags.tags = data.tags
-                        if (data.specialization != "")
-                            spec.text = data.specialization
-                        else
-                            spec.text = "—"
-                        if (data.description != "")
-                            descr.text = data.description
-                        else
-                            descr.text = "—"
-                    }
+            override fun onNext(data: Profession?) {
+                if (data != null) {
+                    tags.tags = data.tags
+                    if (data.specialization != "")
+                        spec.text = data.specialization
+                    else
+                        spec.text = "—"
+                    if (data.description != "")
+                        descr.text = data.description
+                    else
+                        descr.text = "—"
                 }
+            }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "profession show onError ${e?.message}")
-                }
+            override fun onError(e: Throwable?) {
+                Log.e("qqq", "profession show onError ${e?.message}")
+            }
 
-                override fun onComplete() {
-                }
-            })
-        }
+            override fun onComplete() {
+            }
+        })
     }
 
     override fun setupUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView) {
-        CurrentUser.getUser()?.id?.let {
-            interactor.getUserAdditionalInfo(it).subscribe(object : Observer<AdditionalInfo> {
-                override fun onSubscribe(d: Disposable?) {
-                }
+        interactor.getUserAdditionalInfo(currentUserClass.readSharedPref().id).subscribe(object : Observer<AdditionalInfo> {
+            override fun onSubscribe(d: Disposable?) {
+            }
 
-                override fun onNext(data: AdditionalInfo?) {
-                    if (data != null) {
-                        if (data.description != "")
-                            descr.text = data.description
-                        else
-                            descr.text = "—"
-                        if (data.country != "")
-                            country.text = data.country
-                        else
-                            country.text = "—"
-                        if (data.city != "")
-                            city.text = data.city
-                        else
-                            city.text = "—"
-                        if (data.typeOfWork != "")
-                            type.text = data.typeOfWork
-                        else
-                            type.text = "—"
-                    }
+            override fun onNext(data: AdditionalInfo?) {
+                if (data != null) {
+                    if (data.description != "")
+                        descr.text = data.description
+                    else
+                        descr.text = "—"
+                    if (data.country != "")
+                        country.text = data.country
+                    else
+                        country.text = "—"
+                    if (data.city != "")
+                        city.text = data.city
+                    else
+                        city.text = "—"
+                    if (data.typeOfWork != "")
+                        type.text = data.typeOfWork
+                    else
+                        type.text = "—"
                 }
+            }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "additional show onError ${e?.message}")
-                }
+            override fun onError(e: Throwable?) {
+                Log.e("qqq", "additional show onError ${e?.message}")
+            }
 
-                override fun onComplete() {
-                }
-            })
-        }
+            override fun onComplete() {
+            }
+        })
     }
 
     override fun showUserName(name: TextView, username: String) {

@@ -1,5 +1,6 @@
-package com.kseniabl.cardtasks.ui.login
+package com.kseniabl.cardstasks.ui.login
 
+import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.base.BaseView
 
 interface LoginView: BaseView {

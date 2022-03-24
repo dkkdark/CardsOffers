@@ -1,5 +1,6 @@
 package com.kseniabl.cardstasks.ui.models
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 

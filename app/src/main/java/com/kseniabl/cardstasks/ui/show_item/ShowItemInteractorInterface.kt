@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.show_item
+package com.kseniabl.cardstasks.ui.show_item
 
 import com.kseniabl.cardtasks.ui.base.BaseInteractor
 import com.kseniabl.cardstasks.ui.models.UserModel

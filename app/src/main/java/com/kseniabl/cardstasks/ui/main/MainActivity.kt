@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.cardview.widget.CardView
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.base.BaseActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -118,14 +118,14 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
             cardView,
             ViewCompat.getTransitionName(cardView)!!)
         startActivity(intent, options.toBundle())
-        overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
+        //overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
     }
 
     override fun openFreelancerDetailsActivity(item: UserModel) {
         val intent = Intent(this, FreelancerDetailsActivity::class.java)
         intent.putExtra("item", item)
         startActivity(intent)
-        overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
+        //overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

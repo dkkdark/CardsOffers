@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardtasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardtasks.ui.models.CardModel

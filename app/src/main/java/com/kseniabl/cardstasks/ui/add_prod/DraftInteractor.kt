@@ -1,10 +1,12 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.util.Log
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardtasks.ui.base.UserCardInteractor
+import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
+import com.kseniabl.cardtasks.ui.add_prod.DraftAdapter
+import com.kseniabl.cardtasks.ui.add_prod.DraftInteractorInterface
 import com.kseniabl.cardtasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -14,7 +16,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class DraftInteractor @Inject constructor(var retrofit: Retrofit): DraftInteractorInterface, UserCardInteractor() {
+class DraftInteractor @Inject constructor(var retrofit: Retrofit, var currentUserClass: CurrentUserClass): DraftInteractorInterface, UserCardInteractor() {
 
     override fun observeCards(recyclerAdapter: DraftAdapter) {
         observeChangeCards()
@@ -23,16 +25,14 @@ class DraftInteractor @Inject constructor(var retrofit: Retrofit): DraftInteract
                 }
 
                 override fun onNext(card: CardModel) {
-                    if (CurrentUser.getUser()?.id != null) {
-                        val elements = recyclerAdapter.getElements()
-                        try {
-                            val cardForDelete = elements.filter { it.id == card.id }[0]
-                            val pos = recyclerAdapter.getElementPos(cardForDelete)
-                            recyclerAdapter.deleteElement(cardForDelete)
-                            addCardsToDraftRecycler(card, recyclerAdapter, pos)
-                        } catch (e: IndexOutOfBoundsException) {
+                    val elements = recyclerAdapter.getElements()
+                    try {
+                        val cardForDelete = elements.filter { it.id == card.id }[0]
+                        val pos = recyclerAdapter.getElementPos(cardForDelete)
+                        recyclerAdapter.deleteElement(cardForDelete)
+                        addCardsToDraftRecycler(card, recyclerAdapter, pos)
+                    } catch (e: IndexOutOfBoundsException) {
 
-                        }
                     }
                 }
 
@@ -50,11 +50,8 @@ class DraftInteractor @Inject constructor(var retrofit: Retrofit): DraftInteract
             }
 
             override fun onNext(card: CardModel) {
-                if (CurrentUser.getUser()?.id != null) {
-                    val elements = recyclerAdapter.getElements()
-                    if (CurrentUser.getUser()?.id != null)
-                        loadCards(CurrentUser.getUser()!!.id, recyclerAdapter)
-                }
+                val elements = recyclerAdapter.getElements()
+                loadCards(currentUserClass.readSharedPref().id, recyclerAdapter)
             }
 
             override fun onError(e: Throwable?) {

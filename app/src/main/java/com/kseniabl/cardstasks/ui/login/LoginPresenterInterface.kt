@@ -1,5 +1,6 @@
 package com.kseniabl.cardtasks.ui.login
 
+import com.kseniabl.cardstasks.ui.login.LoginView
 import com.kseniabl.cardtasks.ui.base.PresenterInterface
 
 interface LoginPresenterInterface<V: LoginView>: PresenterInterface<V> {

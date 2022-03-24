@@ -1,10 +1,9 @@
-package com.kseniabl.cardtasks.ui.firebase_cloud_messaging
+package com.kseniabl.cardstasks.ui.firebase_cloud_messaging
 
 import android.content.Intent
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.kseniabl.cardstasks.ui.base.CurrentUser
 import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
@@ -23,10 +22,28 @@ import android.os.Build
 import android.app.PendingIntent
 import android.content.Context
 import androidx.core.app.NotificationCompat
+import co.intentservice.chatui.models.ChatMessage
+import com.kseniabl.cardstasks.db.ChatModel
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.MessageSaveAndLoadInterface
+import com.kseniabl.cardstasks.ui.base.MessagesContainer
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
+import com.kseniabl.cardstasks.utils.CardTasksUtils
+import com.kseniabl.cardstasks.ui.splash.SplashScreenActivity
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
 class FirebaseInstanceIDService: FirebaseMessagingService() {
+
+    @Inject
+    lateinit var messagesSaveAndLoad: MessageSaveAndLoadInterface
+    @Inject
+    lateinit var currentUserClass: CurrentUserClass
+
+    override fun onCreate() {
+        AndroidInjection.inject(this)
+        super.onCreate()
+    }
 
     private fun createRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -37,53 +54,57 @@ class FirebaseInstanceIDService: FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-        Log.d("qqq", "Refreshed token: $token")
+        Log.e("qqq", "Refreshed token: $token")
         val retrofit = createRetrofit()
-        if (CurrentUser.getUser()?.id != null) {
-            val id = CurrentUser.getUser()!!.id
-            retrofit.create(RetrofitApiHolder::class.java).setToken(id, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<MessageModel> {
-                    override fun onSubscribe(d: Disposable?) {
-                    }
+        val id = currentUserClass.readSharedPref().id
+        retrofit.create(RetrofitApiHolder::class.java).setToken(id, token)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<MessageModel> {
+                override fun onSubscribe(d: Disposable?) {
+                }
 
-                    override fun onNext(data: MessageModel) {
-                        if (data.message == "success") {
-                            Log.e("qqq", "token setup succeed")
-                        }
+                override fun onNext(data: MessageModel) {
+                    if (data.message == "success") {
+                        Log.e("qqq", "token setup succeed")
                     }
+                }
 
-                    override fun onError(e: Throwable?) {
-                        Log.e("qqq", "onNewToken onError ${e?.message}")
-                    }
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "onNewToken onError ${e?.message}")
+                }
 
-                    override fun onComplete() {
-                    }
-                })
-        }
+                override fun onComplete() {
+                }
+            })
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (remoteMessage.data.isNotEmpty()) {
-            Log.d("qqq", "Message data payload: ${remoteMessage.data}")
-        }
-        remoteMessage.notification?.let {
-            Log.d("qqq", "Message Notification Body: ${it.body}")
-            sendNotification(remoteMessage)
+            receiveMessage(remoteMessage)
         }
     }
 
+    private fun receiveMessage(remoteMessage: RemoteMessage) {
+        if (CardTasksUtils.isAppIsInBackground(applicationContext))
+            sendNotification(remoteMessage)
+        MessagesContainer.addMessageToReceiver(remoteMessage.data["body"]!!, remoteMessage.sentTime)
+
+        val id = currentUserClass.readSharedPref().id
+        Log.e("qqq", "id = $id")
+        messagesSaveAndLoad.setNewList(id, ChatModel(message = remoteMessage.data["body"]!!, timestamp = remoteMessage.sentTime, type = ChatMessage.Type.RECEIVED))
+    }
+
     private fun sendNotification(remoteMessage: RemoteMessage) {
-        val intent = Intent(this, ChatScreenActivity::class.java)
+        val intent = Intent(this, SplashScreenActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this,
             0, intent, PendingIntent.FLAG_IMMUTABLE
         )
         val channelId = resources.getString(R.string.channel_tag)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.chat)
-            .setContentTitle(remoteMessage.notification?.title)
-            .setContentText(remoteMessage.notification?.body)
+            .setContentTitle(remoteMessage.data["title"])
+            .setContentText(remoteMessage.data["body"])
             .setAutoCancel(true)
             .setContentIntent(pendingIntent)
 

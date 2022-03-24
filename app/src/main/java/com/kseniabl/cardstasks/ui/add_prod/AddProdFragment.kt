@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,11 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseFragment
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardtasks.ui.add_prod.AddProdPresenterCardModelInterface
+import com.kseniabl.cardtasks.ui.add_prod.AddProdView
+import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardtasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_active.*
@@ -25,6 +28,8 @@ class AddProdFragment: BaseFragment(), AddProdView {
     lateinit var adapter: AddProdsAdapter
     @Inject
     lateinit var layoutManager: Provider<FlexboxLayoutManager>
+    @Inject
+    lateinit var currentUserClass: CurrentUserClass
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_active, container, false)
@@ -32,9 +37,7 @@ class AddProdFragment: BaseFragment(), AddProdView {
 
     override fun onResume() {
         super.onResume()
-        if (CurrentUser.getUser()?.id != null) {
-            presenter.loadUserCards(CurrentUser.getUser()!!.id, adapter)
-        }
+        presenter.loadUserCards(currentUserClass.readSharedPref().id, adapter)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,14 +69,14 @@ class AddProdFragment: BaseFragment(), AddProdView {
             val resByAgreementValue = bundle.getBoolean("resByAgreementValue")
             val resCreateTime = bundle.getLong("resCreateTime")
 
-            if (resId!= null && resTitle != null && resDescription != null && resDate != null && resCost != null && CurrentUser.getUser()?.id != null) {
+            if (resId!= null && resTitle != null && resDescription != null && resDate != null && resCost != null) {
                 val cost = try {
                     resCost.toInt()
                 } catch (e: NumberFormatException) {
                     0
                 }
 
-                presenter.changeUserCard(CurrentUser.getUser()!!.id, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue)
+                presenter.changeUserCard(currentUserClass.readSharedPref().id, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue)
             }
         }
     }

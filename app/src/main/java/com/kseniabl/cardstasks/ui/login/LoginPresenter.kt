@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.login
+package com.kseniabl.cardstasks.ui.login
 
 import android.content.Context
 import android.util.Log
@@ -8,15 +8,19 @@ import com.google.gson.JsonObject
 import javax.inject.Inject
 
 import com.google.gson.JsonParser
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
+import com.kseniabl.cardstasks.ui.login.LoginInteractorInterface
+import com.kseniabl.cardstasks.ui.login.LoginView
 import com.kseniabl.cardtasks.ui.base.*
 import com.kseniabl.cardtasks.ui.models.ErrorModel
 import com.kseniabl.cardstasks.ui.models.UserModel
+import com.kseniabl.cardtasks.ui.login.LoginPresenterInterface
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 
-
-class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject constructor(var context: Context, var interactor: I): BasePresenter<V>(), LoginPresenterInterface<V> {
+class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject constructor(var context: Context, var interactor: I, var currentUserClass: CurrentUserClass) :
+    BasePresenter<V>(), LoginPresenterInterface<V> {
 
     private fun createNewUser(name: String, email: String, password: String, passwordRep: String) {
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || passwordRep.isEmpty())
@@ -45,9 +49,10 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                     else {
                         val userModel = gson.fromJson(mJson, UserModel::class.java)
                         getView()?.writeToken(userModel.token)
-                        CurrentUser.setUser(userModel)
+                        currentUserClass.saveCurrentUser(userModel)
+                        //CurrentUser.setUser(userModel)
                         Toast.makeText(context, "You sing up successfully", Toast.LENGTH_SHORT).show()
-                        interactor.setTokenServer()
+                        interactor.setToken()
                         getView()?.startMainActivity()
                     }
                 }
@@ -79,11 +84,12 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                     else {
                         val userModel = gson.fromJson(mJson, UserModel::class.java)
                         getView()?.writeToken(userModel.token)
-                        CurrentUser.setUser(userModel)
+                        currentUserClass.saveCurrentUser(userModel)
+                        //CurrentUser.setUser(userModel)
                         Toast.makeText(context, "You login successfully", Toast.LENGTH_SHORT).show()
-                        if (CurrentUser.getUser()?.id != null)
-                            loadAndSaveUsersCards(CurrentUser.getUser()!!.id)
-                        interactor.setTokenServer()
+                        loadAndSaveUsersCards(currentUserClass.readSharedPref().id)
+                        //loadAndSaveUsersCards(CurrentUser.getUser()!!.id)
+                        interactor.setToken()
                         getView()?.startMainActivity()
                     }
                 }
@@ -109,5 +115,6 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
     override fun singIn(email: String, password: String) {
         loginWithServer(email, password)
     }
+
 
 }

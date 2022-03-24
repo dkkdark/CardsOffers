@@ -1,7 +1,12 @@
-package com.kseniabl.cardtasks.di
+package com.kseniabl.cardstasks.di
 
 import android.app.Application
 import android.content.Context
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
+import com.kseniabl.cardstasks.ui.base.MessageSaveAndLoadInterface
+import com.kseniabl.cardstasks.ui.base.MessagesSaveAndLoad
+import com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService
 import dagger.Module
 import dagger.Provides
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
@@ -24,4 +29,10 @@ class AppModule {
             .baseUrl("http://10.0.2.2:5000/")
             .build()
     }
+
+    @Provides
+    fun provideMessageSaveAndLoad(context: Context): MessageSaveAndLoadInterface = MessagesSaveAndLoad(context)
+
+    @Provides
+    fun provideCurrentUserClass(context: Context): CurrentUserClassInterface = CurrentUserClass(context)
 }

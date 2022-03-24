@@ -16,6 +16,7 @@
     <string name="hello">Hello</string>
 
     <string name="token_shared_pref">tokenSharedPref</string>
+    <string name="current_user_shared_pref">currentUserSharedPref</string>
 
     <string name="chat_api_key">2ep53s7jg93s</string>
 

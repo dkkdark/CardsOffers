@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardtasks.ui.freelancer_details.InfoFreelancePresenterInterface
 import com.kseniabl.cardtasks.ui.freelancer_details.InfoFreelanceView
-import com.kseniabl.cardtasks.utils.CardTasksUtils
+import com.kseniabl.cardstasks.utils.CardTasksUtils
 import kotlinx.android.synthetic.main.fragment_freelance_details_info.*
 import javax.inject.Inject
 

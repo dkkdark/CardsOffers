@@ -4,6 +4,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import co.lujun.androidtagview.TagContainerLayout
 import com.idlestar.ratingstar.RatingStarView
+import com.kseniabl.cardstasks.ui.settings.SettingsView
 import com.kseniabl.cardtasks.ui.base.PresenterInterface
 
 interface SettingsPresenterInterface<V: SettingsView>: PresenterInterface<V> {

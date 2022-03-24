@@ -1,6 +1,6 @@
 package com.kseniabl.cardtasks.di
 
-import com.kseniabl.cardtasks.ui.add_prod.AddProdFragment
+import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

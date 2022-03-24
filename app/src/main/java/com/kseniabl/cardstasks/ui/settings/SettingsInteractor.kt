@@ -1,14 +1,15 @@
-package com.kseniabl.cardtasks.ui.settings
+package com.kseniabl.cardstasks.ui.settings
 
 import android.content.Context
 import android.util.Log
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardtasks.ui.base.UserCardInteractor
+import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.Profession
 import com.kseniabl.cardtasks.ui.models.BaseProfileInfoModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
+import com.kseniabl.cardtasks.ui.settings.SettingsInteractorInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
@@ -19,7 +20,7 @@ import javax.inject.Inject
 import retrofit2.Retrofit
 
 
-class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context: Context): SettingsInteractorInterface, UserCardInteractor() {
+class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context: Context, var currentUserClass: CurrentUserClass): SettingsInteractorInterface, UserCardInteractor() {
 
     override fun getUserProfession(id: String): Observable<Profession> {
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUserProfession(id)
@@ -52,7 +53,7 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
-                        CurrentUser.changeName(name)
+                        currentUserClass.readSharedPref().username = name
                     }
                 }
 
@@ -76,7 +77,7 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
-                        CurrentUser.changeIsFreelancerState(state)
+                        currentUserClass.readSharedPref().isFreelancer = state
                     }
                 }
 
@@ -100,7 +101,9 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
-                        CurrentUser.changeProfession(descr, spec, tags)
+                        currentUserClass.readSharedPref().profession.description = descr
+                        currentUserClass.readSharedPref().profession.specialization = spec
+                        currentUserClass.readSharedPref().profession.tags = tags
                     }
                 }
 
@@ -125,7 +128,10 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
                 override fun onNext(data: MessageModel?) {
                     if (data?.message == "success") {
                         Log.e("qqq", "suc")
-                        CurrentUser.changeAdditional(descr, country, city, type)
+                        currentUserClass.readSharedPref().additionalInfo.description = descr
+                        currentUserClass.readSharedPref().additionalInfo.country = country
+                        currentUserClass.readSharedPref().additionalInfo.city = city
+                        currentUserClass.readSharedPref().additionalInfo.typeOfWork = type
                     }
                 }
 

@@ -1,9 +1,9 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import android.util.Log
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardtasks.ui.base.UserCardInteractor
+import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardtasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class AddProdInteractor @Inject constructor(var retrofit: Retrofit): AddProdInteractorInterface, UserCardInteractor() {
+class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentUserClass: CurrentUserClass): AddProdInteractorInterface, UserCardInteractor() {
 
     override fun observeCards(recyclerAdapter: AddProdsAdapter) {
         observeChangeCards()
@@ -23,16 +23,14 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit): AddProdInte
                 }
 
                 override fun onNext(card: CardModel) {
-                    if (CurrentUser.getUser()?.id != null) {
-                        val elements = recyclerAdapter.getElements()
-                        try {
-                            val cardForDelete = elements.filter { it.id == card.id }[0]
-                            val pos = recyclerAdapter.getElementPos(cardForDelete)
-                            recyclerAdapter.deleteElement(cardForDelete)
-                            addCardsToAddProdsRecycler(card, recyclerAdapter, pos)
-                        } catch (e: IndexOutOfBoundsException) {
+                    val elements = recyclerAdapter.getElements()
+                    try {
+                        val cardForDelete = elements.filter { it.id == card.id }[0]
+                        val pos = recyclerAdapter.getElementPos(cardForDelete)
+                        recyclerAdapter.deleteElement(cardForDelete)
+                        addCardsToAddProdsRecycler(card, recyclerAdapter, pos)
+                    } catch (e: IndexOutOfBoundsException) {
 
-                        }
                     }
                 }
 
@@ -50,11 +48,9 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit): AddProdInte
             }
 
             override fun onNext(card: CardModel) {
-                if (CurrentUser.getUser()?.id != null) {
-                    val elements = recyclerAdapter.getElements()
-                    if (CurrentUser.getUser()?.id != null)
-                        loadCards(CurrentUser.getUser()!!.id, recyclerAdapter)
-                }
+                val elements = recyclerAdapter.getElements()
+                if (currentUserClass.readSharedPref().id != null)
+                    loadCards(currentUserClass.readSharedPref().id, recyclerAdapter)
             }
 
             override fun onError(e: Throwable?) {

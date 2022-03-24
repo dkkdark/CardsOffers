@@ -1,6 +1,8 @@
 package com.kseniabl.cardtasks.di
 
 import android.app.Application
+import com.kseniabl.cardstasks.di.ActivityBuilder
+import com.kseniabl.cardstasks.di.AppModule
 import com.kseniabl.cardtasks.CardTasksApplication
 import dagger.BindsInstance
 import dagger.Component

@@ -1,8 +1,9 @@
-package com.kseniabl.cardtasks.ui.base
+package com.kseniabl.cardstasks.ui.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import com.kseniabl.cardtasks.ui.base.BaseView
 import dagger.android.AndroidInjection
 
 abstract class BaseActivity: AppCompatActivity(), BaseView {

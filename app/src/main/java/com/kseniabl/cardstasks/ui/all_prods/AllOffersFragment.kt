@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.all_prods
+package com.kseniabl.cardstasks.ui.all_prods
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseFragment
+import com.kseniabl.cardtasks.ui.all_prods.AllOffersPresenterInterface
+import com.kseniabl.cardtasks.ui.all_prods.AllOffersView
+import com.kseniabl.cardstasks.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.fragmnet_all_offers.*
 import javax.inject.Inject
 

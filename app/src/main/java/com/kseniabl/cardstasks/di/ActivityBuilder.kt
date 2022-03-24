@@ -1,11 +1,13 @@
-package com.kseniabl.cardtasks.di
+package com.kseniabl.cardstasks.di
 
 import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
+import com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService
 import com.kseniabl.cardstasks.ui.freelancer_details.FreelancerDetailsActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
+import com.kseniabl.cardtasks.di.*
 import com.kseniabl.cardtasks.ui.login.LoginActivity
 import com.kseniabl.cardtasks.ui.show_item.ShowItemActivity
-import com.kseniabl.cardtasks.ui.splash.SplashScreenActivity
+import com.kseniabl.cardstasks.ui.splash.SplashScreenActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -29,4 +31,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector(modules = [(ChatScreenActivityModule::class)])
     abstract fun bindShowChatScreenActivityModule(): ChatScreenActivity
+
+    @ContributesAndroidInjector
+    abstract fun fcmMessaging(): FirebaseInstanceIDService
 }

@@ -7,18 +7,22 @@
     <fragment
         android:id="@+id/allProdsFragment"
         android:name="com.kseniabl.cardtasks.ui.all_prods.AllProdsFragment"
-        android:label="AllProdsFragment" />
+        android:label="AllProdsFragment" >
+        <action
+            android:id="@+id/action_allProdsFragment_to_allOffersFragment"
+            app:destination="@id/allOffersFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addProdFragment"
-        android:name="com.kseniabl.cardtasks.ui.add_prod.AddProdFragment"
+        android:name="com.kseniabl.cardstasks.ui.add_prod.AddProdFragment"
         android:label="AddProdFragment" />
     <fragment
         android:id="@+id/settingsFragmnet"
-        android:name="com.kseniabl.cardtasks.ui.settings.SettingsFragmnet"
+        android:name="com.kseniabl.cardstasks.ui.settings.SettingsFragmnet"
         android:label="SettingsFragmnet" />
     <fragment
         android:id="@+id/allOffersFragment"
-        android:name="com.kseniabl.cardtasks.ui.all_prods.AllOffersFragment"
+        android:name="com.kseniabl.cardstasks.ui.all_prods.AllOffersFragment"
         android:label="AllOffersFragment" >
         <action
             android:id="@+id/action_allOffersFragment_to_allProdsFragment"
@@ -30,7 +34,11 @@
     <fragment
         android:id="@+id/freelancerFragment"
         android:name="com.kseniabl.cardstasks.ui.all_prods.FreelancerFragment"
-        android:label="FreelancerFragment" />
+        android:label="FreelancerFragment" >
+        <action
+            android:id="@+id/action_freelancerFragment_to_allOffersFragment"
+            app:destination="@id/allOffersFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addTasksFragment"
         android:name="com.kseniabl.cardtasks.ui.add_prod.AddTasksFragment"

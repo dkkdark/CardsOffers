@@ -1,6 +1,9 @@
+/*
 package com.kseniabl.cardstasks.ui.base
 
+import android.content.Context
 import com.kseniabl.cardstasks.ui.models.UserModel
+import com.kseniabl.cardtasks.R
 
 object CurrentUser {
 
@@ -38,4 +41,5 @@ object CurrentUser {
     fun getUser(): UserModel? {
         return user
     }
-}
+
+}*/

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.ViewCompat
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardtasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.activity_card_details.*

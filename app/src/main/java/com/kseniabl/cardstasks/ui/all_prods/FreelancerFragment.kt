@@ -10,7 +10,7 @@ import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardtasks.ui.all_prods.FreelancerPresenterCardModelInterface
 import com.kseniabl.cardtasks.ui.all_prods.FreelancersAdapter
-import com.kseniabl.cardtasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.UserModel
 import kotlinx.android.synthetic.main.fragment_freelancers.*

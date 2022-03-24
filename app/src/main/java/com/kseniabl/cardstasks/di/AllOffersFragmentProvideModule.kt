@@ -1,5 +1,6 @@
 package com.kseniabl.cardtasks.di
 
+import com.kseniabl.cardstasks.ui.all_prods.AllOffersFragment
 import com.kseniabl.cardtasks.ui.all_prods.*
 import dagger.Module
 import dagger.Provides

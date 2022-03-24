@@ -5,9 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.commit
+import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.BaseFragment
-import com.kseniabl.cardstasks.ui.base.CurrentUser
+import com.kseniabl.cardstasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
 import kotlinx.android.synthetic.main.fragment_add_card.*
 import java.util.*
@@ -17,6 +18,8 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
 
     @Inject
     lateinit var presenter: AddTasksPresenterInterface<AddTasksView>
+    @Inject
+    lateinit var currentUserClass: CurrentUserClass
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_card, container, false)
@@ -42,14 +45,14 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
             val resByAgreementValue = bundle.getBoolean("resByAgreementValue")
             val currentTime = Calendar.getInstance().time.time
 
-            if (resTitle != null && resDescription != null && resDate != null && resCost != null && CurrentUser.getUser()?.id != null) {
+            if (resTitle != null && resDescription != null && resDate != null && resCost != null) {
                 val cost = try {
                     resCost.toInt()
                 } catch (e: NumberFormatException) {
                     0
                 }
                 presenter.addUsersNewCard(
-                    CurrentUser.getUser()!!.id, resTitle, resDescription, resActive, resDate,
+                    currentUserClass.readSharedPref().id, resTitle, resDescription, resActive, resDate,
                     cost, resByAgreementValue, currentTime)
             }
         }

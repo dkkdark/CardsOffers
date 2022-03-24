@@ -1,12 +1,14 @@
-package com.kseniabl.cardtasks.ui.splash
+package com.kseniabl.cardstasks.ui.splash
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.main.MainActivity
-import com.kseniabl.cardtasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardtasks.ui.login.LoginActivity
+import com.kseniabl.cardtasks.ui.splash.SplashPresenterInterface
+import com.kseniabl.cardtasks.ui.splash.SplashView
 import javax.inject.Inject
 
 class SplashScreenActivity : BaseActivity(), SplashView {
