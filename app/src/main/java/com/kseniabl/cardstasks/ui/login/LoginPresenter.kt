@@ -9,9 +9,6 @@ import javax.inject.Inject
 
 import com.google.gson.JsonParser
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardstasks.ui.login.LoginInteractorInterface
-import com.kseniabl.cardstasks.ui.login.LoginView
 import com.kseniabl.cardtasks.ui.base.*
 import com.kseniabl.cardtasks.ui.models.ErrorModel
 import com.kseniabl.cardstasks.ui.models.UserModel
@@ -24,7 +21,7 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
 
     private fun createNewUser(name: String, email: String, password: String, passwordRep: String) {
         if (name.isEmpty() || email.isEmpty() || password.isEmpty() || passwordRep.isEmpty())
-            Toast.makeText(context, "Please, fill al fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please fill al fields", Toast.LENGTH_SHORT).show()
         else if (password != passwordRep)
             Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
         else {
@@ -48,9 +45,8 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                     }
                     else {
                         val userModel = gson.fromJson(mJson, UserModel::class.java)
-                        getView()?.writeToken(userModel.token)
                         currentUserClass.saveCurrentUser(userModel)
-                        //CurrentUser.setUser(userModel)
+                        Log.e("qqq", "2 current user = ${currentUserClass.readSharedPref()}")
                         Toast.makeText(context, "You sing up successfully", Toast.LENGTH_SHORT).show()
                         interactor.setToken()
                         getView()?.startMainActivity()
@@ -60,6 +56,7 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
 
             override fun onError(e: Throwable?) {
                 Log.e("qqq", "registration onError ${e?.message}")
+                Toast.makeText(context, "Server is not accessible. Try later", Toast.LENGTH_SHORT).show()
             }
 
             override fun onComplete() {
@@ -83,13 +80,12 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                     }
                     else {
                         val userModel = gson.fromJson(mJson, UserModel::class.java)
-                        getView()?.writeToken(userModel.token)
                         currentUserClass.saveCurrentUser(userModel)
-                        //CurrentUser.setUser(userModel)
+                        Log.e("qqq", "3 current user = ${currentUserClass.readSharedPref()}")
                         Toast.makeText(context, "You login successfully", Toast.LENGTH_SHORT).show()
-                        loadAndSaveUsersCards(currentUserClass.readSharedPref().id)
-                        //loadAndSaveUsersCards(CurrentUser.getUser()!!.id)
+                        loadAndSaveUsersCards(currentUserClass.readSharedPref()!!.id)
                         interactor.setToken()
+
                         getView()?.startMainActivity()
                     }
                 }
@@ -97,6 +93,7 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
 
             override fun onError(e: Throwable?) {
                 Log.e("qqq", "login onError ${e?.message}")
+                Toast.makeText(context, "Server is not accessible. Try later", Toast.LENGTH_SHORT).show()
             }
 
             override fun onComplete() {

@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.settings
+package com.kseniabl.cardstasks.ui.settings
 
 import com.kseniabl.cardtasks.ui.base.BaseInteractor
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
@@ -15,4 +15,6 @@ interface SettingsInteractorInterface: BaseInteractor {
     fun getUserProfession(id: String): Observable<Profession>
     fun getUserName(id: String): Observable<BaseProfileInfoModel>
     fun getUserAdditionalInfo(id: String): Observable<AdditionalInfo>
+
+    fun clearToken(id: String, token: String)
 }

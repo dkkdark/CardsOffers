@@ -1,10 +1,11 @@
-package com.kseniabl.cardtasks.ui.base
+package com.kseniabl.cardstasks.ui.base
 
 import com.google.gson.JsonObject
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.Profession
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.models.*
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.*
 
@@ -27,7 +28,7 @@ interface RetrofitApiHolder {
                    @Field("password") password: String): Observable<JsonObject>
 
     @GET("is_current_user_exist")
-    fun isCurrentUserExist(@Header("Authorization") token: String): Observable<UserModel>
+    fun isCurrentUserExist(@Header("Authorization") token: String): Flowable<UserModel>
 
 
     @GET("get_profession/{user_id}")
@@ -105,7 +106,7 @@ interface RetrofitApiHolder {
      */
 
     @GET("get_all_freelancers")
-    fun getAllFreelancers(): Observable<List<UserModel>>
+    fun getAllFreelancers(): Observable<List<FreelancerModel>>
 
     @GET("get_card_user/{user_id}")
     fun getCardUser(@Path("user_id") user_id: String): Observable<UserModel>
@@ -120,8 +121,20 @@ interface RetrofitApiHolder {
                  @Field("token") token: String): Observable<MessageModel>
 
     @FormUrlEncoded
+    @POST("replace_token")
+    fun replaceToken(@Field("user_id") user_id: String,
+                 @Field("old_token") old_token: String,
+                 @Field("new_token") new_token: String): Flowable<MessageModel>
+
+    @FormUrlEncoded
+    @POST("clear_token")
+    fun clearToken(@Field("user_id") user_id: String,
+                 @Field("token") token: String): Flowable<MessageModel>
+
+    @FormUrlEncoded
     @POST("send_message")
-    fun sendMessage(@Field("user_id") user_id: String,
+    fun sendMessage(@Field("sender_id") sender_id: String,
+                    @Field("user_id") user_id: String,
                     @Field("title") title: String,
                     @Field("body") body: String): Observable<MessageModel>
 }

@@ -19,6 +19,8 @@ data class UserModel(
     var isFreelancer: Boolean,
     @SerializedName("token")
     var token: String,
+    @SerializedName("messagingToken")
+    var messagingToken: String,
 
     @SerializedName("additionalInfo")
     var additionalInfo: AdditionalInfo,

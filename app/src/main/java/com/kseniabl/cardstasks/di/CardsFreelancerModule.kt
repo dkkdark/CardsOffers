@@ -1,6 +1,6 @@
 package com.kseniabl.cardtasks.di
 
-import com.kseniabl.cardtasks.ui.freelancer_details.CardsFreelancerFragment
+import com.kseniabl.cardstasks.ui.freelancer_details.CardsFreelancerFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

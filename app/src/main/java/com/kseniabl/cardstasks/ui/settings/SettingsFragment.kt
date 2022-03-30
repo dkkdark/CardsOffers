@@ -1,6 +1,5 @@
 package com.kseniabl.cardstasks.ui.settings
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +11,14 @@ import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardtasks.ui.dialogs.ChangeAdditionalInfoDialog
 import com.kseniabl.cardtasks.ui.dialogs.ChangeNameDialogFragment
 import com.kseniabl.cardtasks.ui.dialogs.ChangeProfessionDialogFragment
-import com.kseniabl.cardtasks.ui.login.LoginActivity
+import com.kseniabl.cardstasks.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.fragment_settings.logoutButton
 import javax.inject.Inject
 import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.ui.settings.SettingsPresenterInterface
 
-class SettingsFragmnet: BaseFragment(), SettingsView {
+class SettingsFragment: BaseFragment(), SettingsView {
 
     @Inject
     lateinit var presenter: SettingsPresenterInterface<SettingsView>
@@ -50,7 +49,7 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
     }
 
     override fun onPause() {
-        presenter.changeIsFreelancerState(currentUserClass.readSharedPref().id, beFreelancerCheckBox.isChecked)
+        currentUserClass.readSharedPref()?.id?.let { presenter.changeIsFreelancerState(it, beFreelancerCheckBox.isChecked) }
         super.onPause()
     }
 
@@ -59,8 +58,8 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
 
         childFragmentManager.setFragmentResultListener("ChangeNameDialogFragment", this) { _, bundle ->
             val result = bundle.getString("resName")
-            if (result != null) {
-                presenter.changeName(currentUserClass.readSharedPref().id, result)
+            if (result != null && currentUserClass.readSharedPref() != null) {
+                presenter.changeName(currentUserClass.readSharedPref()!!.id, result)
                 presenter.showUserName(profileNameText, result)
             }
         }
@@ -69,8 +68,8 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
             val resSpecialization = bundle.getString("resSpecialization")
             val resDescription = bundle.getString("resDescription")
             val resTagList = bundle.getStringArrayList("resTagList")
-            if (resSpecialization != null && resDescription != null && resTagList != null) {
-                presenter.changeProfessionField(currentUserClass.readSharedPref().id, resSpecialization, resDescription, resTagList)
+            if (resSpecialization != null && resDescription != null && resTagList != null && currentUserClass.readSharedPref() != null) {
+                presenter.changeProfessionField(currentUserClass.readSharedPref()!!.id, resSpecialization, resDescription, resTagList)
                 presenter.showUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText, resSpecialization, resDescription, resTagList)
             }
         }
@@ -80,8 +79,8 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
             val resCountry = bundle.getString("resCountry")
             val resCity = bundle.getString("resCity")
             val resTypeOfWork = bundle.getString("resTypeOfWork")
-            if (resDescription != null && resCountry != null && resCity != null && resTypeOfWork != null) {
-                presenter.changeAdditionalInfo(currentUserClass.readSharedPref().id, resDescription, resCountry, resCity, resTypeOfWork)
+            if (resDescription != null && resCountry != null && resCity != null && resTypeOfWork != null && currentUserClass.readSharedPref() != null) {
+                presenter.changeAdditionalInfo(currentUserClass.readSharedPref()!!.id, resDescription, resCountry, resCity, resTypeOfWork)
                 presenter.showUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText, resDescription, resCountry, resCity, resTypeOfWork)
             }
         }
@@ -141,13 +140,8 @@ class SettingsFragmnet: BaseFragment(), SettingsView {
         dialog.show(childFragmentManager, "ChangeAdditionalInfoDialog")
     }
 
-    override fun editToken() {
-        val sharedPref = activity?.getSharedPreferences("tokenSave", Context.MODE_PRIVATE)
-        sharedPref?.edit()?.putString(getString(R.string.token_shared_pref), "")?.apply()
-    }
-
     companion object {
-        fun newInstance(): SettingsFragmnet = SettingsFragmnet()
+        fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
 }

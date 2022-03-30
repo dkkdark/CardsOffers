@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.base
+package com.kseniabl.cardstasks.ui.base
 
 import com.kseniabl.cardtasks.ui.models.CardModel
 

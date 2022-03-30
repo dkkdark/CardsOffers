@@ -1,14 +1,11 @@
 package com.kseniabl.cardstasks.ui.splash
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.base.BaseActivity
-import com.kseniabl.cardtasks.ui.login.LoginActivity
+import com.kseniabl.cardstasks.ui.login.LoginActivity
 import com.kseniabl.cardtasks.ui.splash.SplashPresenterInterface
-import com.kseniabl.cardtasks.ui.splash.SplashView
 import javax.inject.Inject
 
 class SplashScreenActivity : BaseActivity(), SplashView {
@@ -49,10 +46,5 @@ class SplashScreenActivity : BaseActivity(), SplashView {
 
     override fun hideLoadProgress() {
         TODO("Not yet implemented")
-    }
-
-    override fun readToken(): String? {
-        val sharedPref = getSharedPreferences("tokenSave", Context.MODE_PRIVATE)
-        return sharedPref.getString(getString(R.string.token_shared_pref), "")
     }
 }

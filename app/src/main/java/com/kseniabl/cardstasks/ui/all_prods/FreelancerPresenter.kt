@@ -1,15 +1,16 @@
-package com.kseniabl.cardtasks.ui.all_prods
+package com.kseniabl.cardstasks.ui.all_prods
 
 import androidx.cardview.widget.CardView
-import com.kseniabl.cardstasks.ui.all_prods.FreelancerView
+import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardtasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewFreelancerModel
-import com.kseniabl.cardstasks.ui.models.UserModel
 import javax.inject.Inject
 
-class FreelancerPresenter<V: FreelancerView, I: FreelancerInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), FreelancerPresenterCardModelInterface<V> {
+class FreelancerPresenter<V: FreelancerView, I: FreelancerInteractorInterface> @Inject constructor(var interactor: I, val currentUserClass: CurrentUserClass):
+    BasePresenter<V>(), FreelancerPresenterCardModelInterface<V> {
 
-    private val items = mutableListOf<UserModel>()
+    private val items = mutableListOf<FreelancerModel>()
 
     override val itemCount: Int
         get() = items.size
@@ -23,15 +24,15 @@ class FreelancerPresenter<V: FreelancerView, I: FreelancerInteractorInterface> @
         itemViewFreelancerModel.bindItem(items[pos])
     }
 
-    override fun addElementsToList(list: List<UserModel>) {
+    override fun addElementsToList(list: List<FreelancerModel>) {
         items.addAll(list)
     }
 
-    override fun addElementToList(el: UserModel) {
+    override fun addElementToList(el: FreelancerModel) {
         items.add(el)
     }
 
-    override fun getAllElements(): MutableList<UserModel> {
+    override fun getAllElements(): MutableList<FreelancerModel> {
         return items
     }
 
@@ -39,7 +40,8 @@ class FreelancerPresenter<V: FreelancerView, I: FreelancerInteractorInterface> @
         val adapter = getView()?.provideAdapter()
         interactor.loadFreelancers().subscribe { data ->
             for (freelancer in data) {
-                adapter?.addElement(freelancer)
+                if (freelancer.id != currentUserClass.readSharedPref()?.id)
+                    adapter?.addElement(freelancer)
             }
         }
     }

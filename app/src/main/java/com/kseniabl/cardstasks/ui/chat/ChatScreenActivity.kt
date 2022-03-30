@@ -3,6 +3,7 @@ package com.kseniabl.cardstasks.ui.chat
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import co.intentservice.chatui.models.ChatMessage
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
@@ -14,6 +15,9 @@ import com.kseniabl.cardtasks.ui.chat.ChatScreenView
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat_screen.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class ChatScreenActivity: BaseActivity(), ChatScreenView {
@@ -34,8 +38,11 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
 
         setPreviousMessages()
         setupSendMessageListener()
-        setObserver()
-
+        //setObserver()
+        id?.let {
+            presenter.loadReceived(it, chatView, this)
+        }
+        Log.e("qqq", "id = $id")
     }
 
     companion object {
@@ -48,40 +55,14 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     }
 
     private fun setPreviousMessages() {
-        /*val messages = MessagesContainer.getMessages()
-        for (m in messages) {
-            chatView.addMessage(m)
-        }*/
-        presenter.setAllMessages(currentUserClass.readSharedPref().id, chatView)
-    }
-
-    private fun setObserver() {
-        MessagesContainer.getIsMessageAppearObservable().subscribe(object : Observer<ChatMessage> {
-            override fun onSubscribe(d: Disposable?) {
-            }
-
-            override fun onNext(m: ChatMessage) {
-                Log.e("qqq", "onNext")
-                runOnUiThread {
-                    chatView.addMessage(m)
-                }
-            }
-
-            override fun onError(e: Throwable?) {
-                Log.e("qqq", "onError ChatScreenActivity ${e?.message}")
-            }
-
-            override fun onComplete() {
-            }
-
-        })
+        id?.let { presenter.setAllMessages(it, chatView) }
     }
 
     private fun setupSendMessageListener() {
         chatView.setOnSentMessageListener {
-            if (id != null) {
-                presenter.sentMessageWithServer(id!!, currentUserClass.readSharedPref().username, it.message)
-                presenter.insertMessage(currentUserClass.readSharedPref().id, it, chatView)
+            if (id != null && currentUserClass.readSharedPref() != null) {
+                presenter.sentMessageWithServer(currentUserClass.readSharedPref()!!.id, id!!, currentUserClass.readSharedPref()!!.username, it.message)
+                presenter.insertMessage(id!!, it, chatView)
                 true
             }
 

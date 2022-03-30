@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.freelancer_details
+package com.kseniabl.cardstasks.ui.freelancer_details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
+import com.kseniabl.cardtasks.ui.freelancer_details.CardsFreelancerPresenterInterface
+import com.kseniabl.cardtasks.ui.freelancer_details.CardsFreelancerView
 import javax.inject.Inject
 
 class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {

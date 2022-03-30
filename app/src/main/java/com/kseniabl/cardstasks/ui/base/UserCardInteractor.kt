@@ -1,9 +1,6 @@
 package com.kseniabl.cardstasks.ui.base
 
 import android.util.Log
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.messaging.FirebaseMessaging
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardtasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
@@ -12,6 +9,8 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -32,23 +31,32 @@ abstract class UserCardInteractor: UserCardInteractorInterface {
         return observable
     }
 
-    override fun setTokenServer(rec: Int, id: String) {
-        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
-            if (!task.isSuccessful) {
-                Log.w("qqq", "Fetching FCM registration token failed", task.exception)
-                if (rec != 4) {
-                    Log.e("qqq", "call else one time")
-                    setTokenServer(rec + 1, id)
+    override fun replaceToken(oldToken: String, newToken: String, id: String) {
+        val retrofit = createRetrofit()
+        retrofit.create(RetrofitApiHolder::class.java).replaceToken(id, oldToken, newToken)
+            .subscribeOn(Schedulers.io())
+            .retry(3)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Subscriber<MessageModel> {
+                override fun onSubscribe(s: Subscription?) {
                 }
-                return@OnCompleteListener
-            }
-            val token = task.result
-            Log.e("qqq", "token = $token")
-            sendTokenToServer(token, id)
-        })
+
+                override fun onNext(data: MessageModel) {
+                    if (data.message == "success") {
+                        Log.e("qqq", "token was replaced")
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "replaceToken onError ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+            })
     }
 
-    private fun sendTokenToServer(token: String, id: String) {
+    override fun sendTokenToServer(token: String, id: String) {
         val retrofit = createRetrofit()
         retrofit.create(RetrofitApiHolder::class.java).setToken(id, token)
             .subscribeOn(Schedulers.io())
@@ -77,7 +85,7 @@ abstract class UserCardInteractor: UserCardInteractorInterface {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .baseUrl("http://10.0.2.2:5000/")
+            .baseUrl("http:///192.168.1.64/")
             .build()
     }
 

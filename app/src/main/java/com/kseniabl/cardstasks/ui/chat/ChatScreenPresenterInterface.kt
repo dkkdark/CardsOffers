@@ -7,7 +7,8 @@ import com.kseniabl.cardtasks.ui.base.PresenterInterface
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
 
 interface ChatScreenPresenterInterface<V: ChatScreenView>: PresenterInterface<V> {
-    fun sentMessageWithServer(id: String, title: String, body: String)
+    fun sentMessageWithServer(senderId: String, id: String, title: String, body: String)
     fun setAllMessages(id: String, chatView: ChatView)
     fun insertMessage(id: String, msg: ChatMessage, chatView: ChatView)
+    fun loadReceived(id: String, chatView: ChatView, activity: ChatScreenActivity)
 }

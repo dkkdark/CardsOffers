@@ -1,6 +1,7 @@
-package com.kseniabl.cardtasks.di
+package com.kseniabl.cardstasks.di
 
-import com.kseniabl.cardtasks.ui.chat.ChatListFragment
+import com.kseniabl.cardstasks.di.ChatListFragmentProvideModule
+import com.kseniabl.cardstasks.ui.chat.ChatListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

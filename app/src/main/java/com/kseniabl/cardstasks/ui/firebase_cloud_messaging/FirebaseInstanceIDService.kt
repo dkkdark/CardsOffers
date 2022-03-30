@@ -4,7 +4,7 @@ import android.content.Intent
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
+import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -49,34 +49,35 @@ class FirebaseInstanceIDService: FirebaseMessagingService() {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .baseUrl("http://10.0.2.2:5000/")
+            .baseUrl("http:///192.168.1.64/")
             .build()
     }
 
     override fun onNewToken(token: String) {
         Log.e("qqq", "Refreshed token: $token")
         val retrofit = createRetrofit()
-        val id = currentUserClass.readSharedPref().id
-        retrofit.create(RetrofitApiHolder::class.java).setToken(id, token)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<MessageModel> {
-                override fun onSubscribe(d: Disposable?) {
-                }
-
-                override fun onNext(data: MessageModel) {
-                    if (data.message == "success") {
-                        Log.e("qqq", "token setup succeed")
+        currentUserClass.readSharedPref()?.id?.let {
+            retrofit.create(RetrofitApiHolder::class.java).setToken(it, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<MessageModel> {
+                    override fun onSubscribe(d: Disposable?) {
                     }
-                }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "onNewToken onError ${e?.message}")
-                }
+                    override fun onNext(data: MessageModel) {
+                        if (data.message == "success") {
+                            Log.e("qqq", "token setup succeed")
+                        }
+                    }
 
-                override fun onComplete() {
-                }
-            })
+                    override fun onError(e: Throwable?) {
+                        Log.e("qqq", "onNewToken onError ${e?.message}")
+                    }
+
+                    override fun onComplete() {
+                    }
+                })
+        }
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -88,10 +89,8 @@ class FirebaseInstanceIDService: FirebaseMessagingService() {
     private fun receiveMessage(remoteMessage: RemoteMessage) {
         if (CardTasksUtils.isAppIsInBackground(applicationContext))
             sendNotification(remoteMessage)
-        MessagesContainer.addMessageToReceiver(remoteMessage.data["body"]!!, remoteMessage.sentTime)
 
-        val id = currentUserClass.readSharedPref().id
-        Log.e("qqq", "id = $id")
+        val id = remoteMessage.data["id"]!!
         messagesSaveAndLoad.setNewList(id, ChatModel(message = remoteMessage.data["body"]!!, timestamp = remoteMessage.sentTime, type = ChatMessage.Type.RECEIVED))
     }
 

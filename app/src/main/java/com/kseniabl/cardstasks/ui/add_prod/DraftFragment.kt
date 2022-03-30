@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,9 @@ import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardtasks.ui.add_prod.DraftAdapter
+import com.kseniabl.cardtasks.ui.add_prod.DraftPresenterInterface
+import com.kseniabl.cardtasks.ui.add_prod.DraftView
 import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardtasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_draft.*
@@ -33,7 +36,7 @@ class DraftFragment: BaseFragment(), DraftView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadUserCards(currentUserClass.readSharedPref().id, adapter)
+        currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, adapter) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +61,7 @@ class DraftFragment: BaseFragment(), DraftView {
                     0
                 }
 
-                presenter.changeUserCard(currentUserClass.readSharedPref().id, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue)
+                currentUserClass.readSharedPref()?.id?.let { presenter.changeUserCard(it, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue) }
             }
         }
     }

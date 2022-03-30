@@ -17,21 +17,19 @@ import javax.inject.Inject
 class ChatScreenPresenter<V: ChatScreenView, I: ChatScreenInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(),
     ChatScreenPresenterInterface<V> {
 
-    override fun sentMessageWithServer(id: String, title: String, body: String) {
-        interactor.sendMessage(id, title, body)
+    override fun sentMessageWithServer(senderId: String, id: String, title: String, body: String) {
+        interactor.sendMessage(senderId, id, title, body)
     }
 
     override fun setAllMessages(id: String, chatView: ChatView) {
-        interactor.loadMsg().subscribe(object : SingleObserver<MapOfChatModels> {
+        interactor.loadMsg(id).subscribe(object : SingleObserver<MapOfChatModels> {
             override fun onSubscribe(d: Disposable?) {
             }
 
             override fun onSuccess(mocm: MapOfChatModels) {
-                Log.e("qqq", "loadAll chatmodelList = ${mocm.chatModelList}")
-                if (mocm.userId == id) {
-                    for (el in mocm.chatModelList) {
-                        chatView.addMessage(ChatMessage(el.message, el.timestamp, el.type))
-                    }
+                Log.e("qqq", "update messages")
+                for (el in mocm.chatModelList) {
+                    chatView.addMessage(ChatMessage(el.message, el.timestamp, el.type))
                 }
             }
 
@@ -40,6 +38,10 @@ class ChatScreenPresenter<V: ChatScreenView, I: ChatScreenInteractorInterface> @
             }
 
         })
+    }
+
+    override fun loadReceived(id: String, chatView: ChatView, activity: ChatScreenActivity) {
+        interactor.loadReceivedMsg(id, chatView, activity)
     }
 
     override fun insertMessage(id: String, msg: ChatMessage, chatView: ChatView) {

@@ -8,9 +8,9 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.all_prods.FreelancerPresenterCardModelInterface
 import com.kseniabl.cardtasks.ui.all_prods.FreelancersAdapter
 import com.kseniabl.cardstasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.UserModel
 import kotlinx.android.synthetic.main.fragment_freelancers.*
@@ -62,7 +62,7 @@ class FreelancerFragment: BaseFragment(), FreelancerView {
         return adapter
     }
 
-    override fun loadFreelancerDetails(item: UserModel) {
+    override fun loadFreelancerDetails(item: FreelancerModel) {
         (activity as MainActivity).openFreelancerDetailsActivity(item)
     }
 

@@ -3,18 +3,19 @@ package com.kseniabl.cardstasks.ui.settings
 import android.content.Context
 import android.util.Log
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
+import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.Profession
 import com.kseniabl.cardtasks.ui.models.BaseProfileInfoModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
-import com.kseniabl.cardtasks.ui.settings.SettingsInteractorInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.reactivestreams.Subscriber
+import org.reactivestreams.Subscription
 import javax.inject.Inject
 
 import retrofit2.Retrofit
@@ -52,8 +53,8 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
                 }
 
                 override fun onNext(data: MessageModel?) {
-                    if (data?.message == "success") {
-                        currentUserClass.readSharedPref().username = name
+                    if (data?.message == "success" && currentUserClass.readSharedPref() != null) {
+                        currentUserClass.readSharedPref()!!.username = name
                     }
                 }
 
@@ -76,8 +77,8 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
                 }
 
                 override fun onNext(data: MessageModel?) {
-                    if (data?.message == "success") {
-                        currentUserClass.readSharedPref().isFreelancer = state
+                    if (data?.message == "success" && currentUserClass.readSharedPref() != null) {
+                        currentUserClass.readSharedPref()!!.isFreelancer = state
                     }
                 }
 
@@ -100,10 +101,10 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
                 }
 
                 override fun onNext(data: MessageModel?) {
-                    if (data?.message == "success") {
-                        currentUserClass.readSharedPref().profession.description = descr
-                        currentUserClass.readSharedPref().profession.specialization = spec
-                        currentUserClass.readSharedPref().profession.tags = tags
+                    if (data?.message == "success" && currentUserClass.readSharedPref() != null) {
+                        currentUserClass.readSharedPref()!!.profession.description = descr
+                        currentUserClass.readSharedPref()!!.profession.specialization = spec
+                        currentUserClass.readSharedPref()!!.profession.tags = tags
                     }
                 }
 
@@ -126,12 +127,11 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
                 }
 
                 override fun onNext(data: MessageModel?) {
-                    if (data?.message == "success") {
-                        Log.e("qqq", "suc")
-                        currentUserClass.readSharedPref().additionalInfo.description = descr
-                        currentUserClass.readSharedPref().additionalInfo.country = country
-                        currentUserClass.readSharedPref().additionalInfo.city = city
-                        currentUserClass.readSharedPref().additionalInfo.typeOfWork = type
+                    if (data?.message == "success" && currentUserClass.readSharedPref() != null) {
+                        currentUserClass.readSharedPref()!!.additionalInfo.description = descr
+                        currentUserClass.readSharedPref()!!.additionalInfo.country = country
+                        currentUserClass.readSharedPref()!!.additionalInfo.city = city
+                        currentUserClass.readSharedPref()!!.additionalInfo.typeOfWork = type
                     }
                 }
 
@@ -141,6 +141,29 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
                 override fun onComplete() {
                 }
+            })
+    }
+
+    override fun clearToken(id: String, token: String) {
+        retrofit.create(RetrofitApiHolder::class.java).clearToken(id, token)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Subscriber<MessageModel> {
+                override fun onSubscribe(s: Subscription?) {
+                }
+
+                override fun onNext(m: MessageModel) {
+                    if (m.message == "success")
+                        Log.e("qqq", "token deleted successfully")
+                }
+
+                override fun onError(t: Throwable?) {
+                    Log.e("qqq", "clearToken onError ${t?.message}")
+                }
+
+                override fun onComplete() {
+                }
+
             })
     }
 }

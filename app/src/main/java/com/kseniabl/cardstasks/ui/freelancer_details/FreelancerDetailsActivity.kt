@@ -2,9 +2,11 @@ package com.kseniabl.cardstasks.ui.freelancer_details
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.UserModel
@@ -23,14 +25,14 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    private var freelancer: UserModel? = null
+    private var freelancer: FreelancerModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details_freelancer)
         presenter.attachView(this)
 
-        freelancer = intent.extras?.getSerializable("item") as UserModel
+        freelancer = intent.extras?.getSerializable("item") as FreelancerModel
         freelancerNameText.text = freelancer?.username
 
         addListeners()
@@ -74,6 +76,5 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
         val intent = Intent(this, ChatScreenActivity::class.java)
         intent.putExtra("id", freelancer?.id)
         startActivity(intent)
-        overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
     }
 }

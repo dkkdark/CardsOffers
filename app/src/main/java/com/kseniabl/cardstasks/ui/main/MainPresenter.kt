@@ -1,5 +1,6 @@
 package com.kseniabl.cardtasks.ui.main
 
+import com.kseniabl.cardstasks.ui.main.MainView
 import com.kseniabl.cardtasks.ui.base.BasePresenter
 import javax.inject.Inject
 

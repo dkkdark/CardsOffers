@@ -10,11 +10,15 @@ import com.google.gson.Gson
 
 class CurrentUserClass @Inject constructor(var context: Context): CurrentUserClassInterface {
 
-    override fun readSharedPref(): UserModel {
+    override fun readSharedPref(): UserModel? {
         val sharedPref = context.getSharedPreferences("currentUserSave", Context.MODE_PRIVATE)
         val json = sharedPref.getString(context.getString(R.string.current_user_shared_pref), "")
         val gson = Gson()
-        return gson.fromJson(json, UserModel::class.java)
+        return try {
+            gson.fromJson(json, UserModel::class.java)
+        } catch (e: NullPointerException) {
+            null
+        }
     }
 
     override fun saveCurrentUser(currentUser: UserModel) {

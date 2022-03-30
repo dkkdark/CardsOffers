@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
+import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardtasks.ui.freelancer_details.InfoFreelancePresenterInterface
 import com.kseniabl.cardtasks.ui.freelancer_details.InfoFreelanceView
 import com.kseniabl.cardstasks.utils.CardTasksUtils
@@ -18,7 +19,7 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
     @Inject
     lateinit var presenter: InfoFreelancePresenterInterface<InfoFreelanceView>
 
-    private var freelancer: UserModel? = null
+    private var freelancer: FreelancerModel? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_freelance_details_info, container, false)
@@ -28,7 +29,7 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
         presenter.attachView(this)
         super.onViewCreated(view, savedInstanceState)
 
-        freelancer = arguments?.getSerializable("item") as UserModel
+        freelancer = arguments?.getSerializable("item") as FreelancerModel
 
         setOnClickListeners()
         setTextFields()

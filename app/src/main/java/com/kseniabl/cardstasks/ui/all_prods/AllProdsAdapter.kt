@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.all_prods
+package com.kseniabl.cardstasks.ui.all_prods
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,9 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.ItemViewCardModel
+import com.kseniabl.cardtasks.ui.all_prods.AllProdsInteractorInterface
+import com.kseniabl.cardtasks.ui.all_prods.AllProdsView
+import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import javax.inject.Inject
 import com.kseniabl.cardtasks.ui.models.CardModel
 import java.util.*

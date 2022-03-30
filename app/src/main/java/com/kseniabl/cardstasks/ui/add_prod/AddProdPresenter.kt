@@ -1,6 +1,7 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import androidx.cardview.widget.CardView
+import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardtasks.ui.base.*
 import com.kseniabl.cardtasks.ui.models.CardModel

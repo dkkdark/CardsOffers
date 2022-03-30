@@ -1,7 +1,8 @@
 package com.kseniabl.cardtasks.ui.all_prods
 
 import android.util.Log
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
+import com.kseniabl.cardstasks.ui.all_prods.AllProdsAdapter
+import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardtasks.ui.models.CardModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer

@@ -1,7 +1,6 @@
 package com.kseniabl.cardstasks.ui.base
 
 import androidx.cardview.widget.CardView
-import com.kseniabl.cardtasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardtasks.ui.models.CardModel
 
 interface AdapterFunctionsCardModelInterface {

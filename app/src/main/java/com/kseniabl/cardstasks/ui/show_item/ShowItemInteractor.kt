@@ -1,6 +1,6 @@
 package com.kseniabl.cardtasks.ui.show_item
 
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
+import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardstasks.ui.show_item.ShowItemInteractorInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

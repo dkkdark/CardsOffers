@@ -6,6 +6,11 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.22447916666666667" />
         <entry key="app/src/main/res/layout/activity_details_freelancer.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1712962962962963" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/chat_list_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_add_card.xml" value="0.22135416666666666" />
+        <entry key="app/src/main/res/layout/fragment_cards_freelancer.xml" value="0.23333333333333334" />
+        <entry key="app/src/main/res/layout/fragment_chat_list.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_chat_screen.xml" value="0.18020833333333333" />
         <entry key="app/src/main/res/layout/fragment_freelance_details_info.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/fragment_freelancers.xml" value="0.17777777777777778" />

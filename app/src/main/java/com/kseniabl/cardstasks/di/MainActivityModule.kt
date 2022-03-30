@@ -1,6 +1,7 @@
 package com.kseniabl.cardtasks.di
 
 import com.kseniabl.cardstasks.ui.main.MainActivity
+import com.kseniabl.cardstasks.ui.main.MainView
 import com.kseniabl.cardtasks.di.scope.MainActivityScope
 import com.kseniabl.cardtasks.ui.main.*
 import dagger.Module

@@ -9,7 +9,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.base.ItemViewCardModel
+import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardtasks.ui.models.CardModel
 import java.util.*
 import javax.inject.Inject

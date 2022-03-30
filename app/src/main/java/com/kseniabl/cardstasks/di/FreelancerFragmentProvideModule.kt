@@ -2,9 +2,8 @@ package com.kseniabl.cardtasks.di
 
 import android.content.Context
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.kseniabl.cardstasks.ui.all_prods.*
 import com.kseniabl.cardtasks.di.scope.FreelancerFragmentScope
-import com.kseniabl.cardstasks.ui.all_prods.FreelancerFragment
-import com.kseniabl.cardstasks.ui.all_prods.FreelancerView
 import com.kseniabl.cardtasks.ui.all_prods.*
 import dagger.Module
 import dagger.Provides

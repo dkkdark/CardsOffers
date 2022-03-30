@@ -17,11 +17,10 @@ import com.kseniabl.cardtasks.ui.show_item.ShowItemActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.NavHostFragment
+import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardtasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.freelancer_details.FreelancerDetailsActivity
-import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.main.MainPresenterInterface
-import com.kseniabl.cardtasks.ui.main.MainView
 
 class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
 
@@ -60,26 +59,6 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
     override fun showLoadProgress() {
         TODO("Not yet implemented")
     }
-
-    /*private fun changeToolbarUpOrHamburger() {
-        supportFragmentManager.addOnBackStackChangedListener {
-            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-            if (fragment is ShowItemActivity) {
-                drawerToggle.isDrawerIndicatorEnabled = false
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                toolbar.setNavigationOnClickListener { onBackPressed() }
-            }
-            else {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                drawerToggle.isDrawerIndicatorEnabled = true
-                drawerToggle.toolbarNavigationClickListener = null
-                drawerToggle.syncState()
-                toolbar.setNavigationOnClickListener {
-                    drawerLayout.open()
-                }
-            }
-        }
-    }*/
 
     private fun setUpToolbarNavigation() {
         bottom_navigation.setOnItemSelectedListener { item ->
@@ -121,7 +100,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         //overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
     }
 
-    override fun openFreelancerDetailsActivity(item: UserModel) {
+    override fun openFreelancerDetailsActivity(item: FreelancerModel) {
         val intent = Intent(this, FreelancerDetailsActivity::class.java)
         intent.putExtra("item", item)
         startActivity(intent)

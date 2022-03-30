@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.all_prods
+package com.kseniabl.cardstasks.ui.all_prods
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.main.MainActivity
+import com.kseniabl.cardtasks.ui.all_prods.AllProdsView
 import com.kseniabl.cardtasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_active_tasks.*
 import javax.inject.Inject

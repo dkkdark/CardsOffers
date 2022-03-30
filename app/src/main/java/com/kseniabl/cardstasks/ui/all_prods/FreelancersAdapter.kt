@@ -12,24 +12,27 @@ import javax.inject.Inject
 import android.widget.ImageView
 import com.idlestar.ratingstar.RatingStarView
 import com.kseniabl.cardstasks.ui.all_prods.FreelancerFragment
+import com.kseniabl.cardstasks.ui.all_prods.FreelancerInteractorInterface
+import com.kseniabl.cardstasks.ui.all_prods.FreelancerPresenter
 import com.kseniabl.cardstasks.ui.all_prods.FreelancerView
+import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardstasks.ui.base.ItemViewFreelancerModel
 
 
 class FreelancersAdapter @Inject constructor(var presenter: FreelancerPresenter<FreelancerView, FreelancerInteractorInterface>, var context: Context, var fragment: FreelancerFragment): RecyclerView.Adapter<FreelancersAdapter.FreelancersViewCardModelHolder>() {
 
-    fun addElements(list: List<UserModel>) {
+    fun addElements(list: List<FreelancerModel>) {
         presenter.addElementsToList(list)
         notifyDataSetChanged()
     }
 
-    fun addElement(el: UserModel) {
+    fun addElement(el: FreelancerModel) {
         presenter.addElementToList(el)
         notifyDataSetChanged()
     }
 
-    fun getElements(): List<UserModel> {
+    fun getElements(): List<FreelancerModel> {
         return presenter.getAllElements()
     }
 
@@ -63,7 +66,7 @@ class FreelancersAdapter @Inject constructor(var presenter: FreelancerPresenter<
                 presenter.onItemClicked(adapterPosition, itemCardView) }
         }
 
-        override fun bindItem(item: UserModel) {
+        override fun bindItem(item: FreelancerModel) {
             //ViewCompat.setTransitionName(itemView, item.id)
 
             itemTxt.text = item.username

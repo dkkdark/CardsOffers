@@ -2,7 +2,7 @@ package com.kseniabl.cardtasks.ui.add_prod
 
 import android.util.Log
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
+import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardtasks.ui.models.CardModel
@@ -49,8 +49,8 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
 
             override fun onNext(card: CardModel) {
                 val elements = recyclerAdapter.getElements()
-                if (currentUserClass.readSharedPref().id != null)
-                    loadCards(currentUserClass.readSharedPref().id, recyclerAdapter)
+                if (currentUserClass.readSharedPref()?.id != null)
+                    loadCards(currentUserClass.readSharedPref()!!.id, recyclerAdapter)
             }
 
             override fun onError(e: Throwable?) {

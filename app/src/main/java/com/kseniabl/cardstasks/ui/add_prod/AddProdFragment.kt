@@ -37,7 +37,7 @@ class AddProdFragment: BaseFragment(), AddProdView {
 
     override fun onResume() {
         super.onResume()
-        presenter.loadUserCards(currentUserClass.readSharedPref().id, adapter)
+        currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, adapter) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class AddProdFragment: BaseFragment(), AddProdView {
                     0
                 }
 
-                presenter.changeUserCard(currentUserClass.readSharedPref().id, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue)
+                currentUserClass.readSharedPref()?.id?.let { presenter.changeUserCard(it, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue) }
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.kseniabl.cardtasks.di
 
-import com.kseniabl.cardstasks.ui.settings.SettingsFragmnet
+import com.kseniabl.cardstasks.ui.settings.SettingsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class SettingsFragmentModule {
 
     @ContributesAndroidInjector(modules = [(SettingsFragmentProvideModule::class)])
-    abstract fun provideSettingsFragment(): SettingsFragmnet
+    abstract fun provideSettingsFragment(): SettingsFragment
 }

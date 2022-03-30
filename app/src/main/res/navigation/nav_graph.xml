@@ -6,24 +6,24 @@
     app:startDestination="@id/allProdsFragment">
     <fragment
         android:id="@+id/allProdsFragment"
-        android:name="com.kseniabl.cardtasks.ui.all_prods.AllProdsFragment"
-        android:label="AllProdsFragment" >
-        <action
-            android:id="@+id/action_allProdsFragment_to_allOffersFragment"
-            app:destination="@id/allOffersFragment" />
-    </fragment>
+        android:name="com.kseniabl.cardstasks.ui.all_prods.AllProdsFragment"
+        android:label="AllProdsFragment"
+        tools:layout="@layout/fragment_active_tasks"/>
     <fragment
         android:id="@+id/addProdFragment"
         android:name="com.kseniabl.cardstasks.ui.add_prod.AddProdFragment"
-        android:label="AddProdFragment" />
+        android:label="AddProdFragment"
+        tools:layout="@layout/fragment_active"/>
     <fragment
         android:id="@+id/settingsFragmnet"
-        android:name="com.kseniabl.cardstasks.ui.settings.SettingsFragmnet"
-        android:label="SettingsFragmnet" />
+        android:name="com.kseniabl.cardstasks.ui.settings.SettingsFragment"
+        android:label="SettingsFragmnet"
+        tools:layout="@layout/activity_profile"/>
     <fragment
         android:id="@+id/allOffersFragment"
         android:name="com.kseniabl.cardstasks.ui.all_prods.AllOffersFragment"
-        android:label="AllOffersFragment" >
+        android:label="AllOffersFragment"
+        tools:layout="@layout/fragmnet_all_offers">
         <action
             android:id="@+id/action_allOffersFragment_to_allProdsFragment"
             app:destination="@id/allProdsFragment" />
@@ -34,15 +34,13 @@
     <fragment
         android:id="@+id/freelancerFragment"
         android:name="com.kseniabl.cardstasks.ui.all_prods.FreelancerFragment"
-        android:label="FreelancerFragment" >
-        <action
-            android:id="@+id/action_freelancerFragment_to_allOffersFragment"
-            app:destination="@id/allOffersFragment" />
-    </fragment>
+        android:label="FreelancerFragment"
+        tools:layout="@layout/fragment_freelancers"/>
     <fragment
         android:id="@+id/addTasksFragment"
-        android:name="com.kseniabl.cardtasks.ui.add_prod.AddTasksFragment"
-        android:label="AddTasksFragment" >
+        android:name="com.kseniabl.cardstasks.ui.add_prod.AddTasksFragment"
+        android:label="AddTasksFragment"
+        tools:layout="@layout/fragment_add_card">
         <action
             android:id="@+id/action_addTasksFragment_to_addProdFragment"
             app:destination="@id/addProdFragment" />
@@ -52,10 +50,12 @@
     </fragment>
     <fragment
         android:id="@+id/draftFragment"
-        android:name="com.kseniabl.cardtasks.ui.add_prod.DraftFragment"
-        android:label="DraftFragment" />
+        android:name="com.kseniabl.cardstasks.ui.add_prod.DraftFragment"
+        android:label="DraftFragment"
+        tools:layout="@layout/fragment_draft"/>
     <fragment
         android:id="@+id/chatListFragment"
-        android:name="com.kseniabl.cardtasks.ui.chat.ChatListFragment"
-        android:label="ChatListFragment" />
+        android:name="com.kseniabl.cardstasks.ui.chat.ChatListFragment"
+        android:label="ChatListFragment"
+        tools:layout="@layout/fragment_chat_list"/>
 </navigation>

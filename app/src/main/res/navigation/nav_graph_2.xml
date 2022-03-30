@@ -6,7 +6,7 @@
     app:startDestination="@id/cardsFreelancerFragment">
     <fragment
         android:id="@+id/cardsFreelancerFragment"
-        android:name="com.kseniabl.cardtasks.ui.freelancer_details.CardsFreelancerFragment"
+        android:name="com.kseniabl.cardstasks.ui.freelancer_details.CardsFreelancerFragment"
         android:label="CardsFreelancerFragment" />
     <fragment
         android:id="@+id/infoFreelancerFragment"

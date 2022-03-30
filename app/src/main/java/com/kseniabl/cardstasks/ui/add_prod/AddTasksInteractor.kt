@@ -1,7 +1,7 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import android.util.Log
-import com.kseniabl.cardtasks.ui.base.RetrofitApiHolder
+import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardtasks.ui.models.CardModel

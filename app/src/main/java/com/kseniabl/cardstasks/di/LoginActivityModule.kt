@@ -1,9 +1,6 @@
 package com.kseniabl.cardtasks.di
 
-import com.kseniabl.cardstasks.ui.login.LoginInteractor
-import com.kseniabl.cardstasks.ui.login.LoginInteractorInterface
-import com.kseniabl.cardstasks.ui.login.LoginPresenter
-import com.kseniabl.cardstasks.ui.login.LoginView
+import com.kseniabl.cardstasks.ui.login.*
 import com.kseniabl.cardtasks.di.scope.LoginActivityScope
 import com.kseniabl.cardtasks.ui.login.*
 import dagger.Module
