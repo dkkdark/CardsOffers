@@ -3,7 +3,7 @@ package com.kseniabl.cardtasks.ui.show_item
 import android.util.Log
 import android.widget.TextView
 import com.idlestar.ratingstar.RatingStarView
-import com.kseniabl.cardtasks.ui.base.BasePresenter
+import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardstasks.ui.show_item.ShowItemInteractorInterface
 import io.reactivex.rxjava3.core.Observer

@@ -14,7 +14,8 @@ interface MessageSaveAndLoadInterface {
     fun insertData(msg: MapOfChatModels)
     fun getReceivedMsg(id: String): Flowable<MapOfChatModels>
     fun getAllData(id: String): Single<MapOfChatModels>
-    fun setNewList(id: String, el: ChatModel)
+    fun setNewList(id: String, cardId: String, el: ChatModel)
     fun loadAllById(id: String): MapOfChatModels?
     fun dellAll()
+    fun setList(id: String, list: MutableList<CardChatModel>): Single<Int>
 }

@@ -1,12 +1,15 @@
-package com.kseniabl.cardtasks.ui.show_item
+package com.kseniabl.cardstasks.ui.show_item
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.ViewCompat
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
+import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardtasks.ui.show_item.ShowItemPresenterInterface
+import com.kseniabl.cardtasks.ui.show_item.ShowItemView
 import kotlinx.android.synthetic.main.activity_card_details.*
 import javax.inject.Inject
 
@@ -14,6 +17,8 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
 
     @Inject
     lateinit var presenter: ShowItemPresenterInterface<ShowItemView>
+
+    private var card: CardModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +28,12 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
         val transName = intent.extras?.getString("transName")
         ViewCompat.setTransitionName(headerLayout, transName)
 
-        val card = intent.extras?.getSerializable("card") as CardModel
-        setData(card)
+        card = intent.extras?.getSerializable("card") as CardModel
+        card?.let {
+            setData()
+            setListener()
+        }
+
     }
 
     override fun onDestroy() {
@@ -38,15 +47,28 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
         super.onBackPressed()
     }
 
-    private fun setData(card: CardModel) {
-        detailTitle.text = card.title
-        if (card.agreement)
+    private fun setData() {
+        detailTitle.text = card!!.title
+        if (card!!.agreement)
             feeText.text = "By agreement"
         else
-            feeText.text = card.cost.toString()
-        untilText.text = card.date
-        descriptionText.text = card.description
+            feeText.text = card!!.cost.toString()
+        untilText.text = card!!.date
+        descriptionText.text = card!!.description
 
-        presenter.loadFreelancer(card.user_id, nameText, specializationText, itemExeRating)
+        presenter.loadFreelancer(card!!.user_id, nameText, specializationText, itemExeRating)
+    }
+
+    private fun setListener() {
+        respondToTask.setOnClickListener { openChatScreenActivity() }
+    }
+
+    private fun openChatScreenActivity() {
+        val intent = Intent(this, ChatScreenActivity::class.java)
+        intent.putExtra("id", card!!.user_id)
+        intent.putExtra("card_id", card!!.id)
+        intent.putExtra("card_title", card!!.title)
+        intent.putExtra("card_cost", card!!.cost.toString())
+        startActivity(intent)
     }
 }

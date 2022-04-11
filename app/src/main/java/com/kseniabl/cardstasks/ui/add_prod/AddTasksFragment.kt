@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddTasksPresenterInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddTasksView
 import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
@@ -23,7 +24,7 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
     @Inject
     lateinit var presenter: AddTasksPresenterInterface<AddTasksView>
     @Inject
-    lateinit var currentUserClass: CurrentUserClass
+    lateinit var currentUserClass: CurrentUserClassInterface
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_card, container, false)
@@ -71,7 +72,7 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
 
     private fun openActiveFragment() {
         val navHostFragment = childFragmentManager.findFragmentById(R.id.fragmentContainerAddCard) as NavHostFragment
-        navHostFragment.navController.navigate(R.id.allProdsFragment)
+        navHostFragment.navController.navigate(R.id.addProdFragment)
     }
 
     private fun openDraftFragment() {
@@ -81,7 +82,6 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
 
     private fun showCreateTaskDialog() {
         val args = Bundle()
-        //args.putString("name", profileNameText.text.toString())
         val dialog = CreateNewTaskDialog()
         dialog.arguments = args
         dialog.show(childFragmentManager, "CreateNewTaskDialog")

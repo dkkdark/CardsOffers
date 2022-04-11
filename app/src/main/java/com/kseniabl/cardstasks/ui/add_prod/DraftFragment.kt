@@ -14,7 +14,7 @@ import com.kseniabl.cardtasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardtasks.ui.add_prod.DraftPresenterInterface
 import com.kseniabl.cardtasks.ui.add_prod.DraftView
 import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_draft.*
 import javax.inject.Inject
 import javax.inject.Provider

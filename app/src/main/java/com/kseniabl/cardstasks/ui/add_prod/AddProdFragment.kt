@@ -1,6 +1,7 @@
 package com.kseniabl.cardstasks.ui.add_prod
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,11 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddProdPresenterCardModelInterface
-import com.kseniabl.cardtasks.ui.add_prod.AddProdView
 import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_active.*
 import javax.inject.Inject
 import javax.inject.Provider
@@ -29,7 +29,7 @@ class AddProdFragment: BaseFragment(), AddProdView {
     @Inject
     lateinit var layoutManager: Provider<FlexboxLayoutManager>
     @Inject
-    lateinit var currentUserClass: CurrentUserClass
+    lateinit var currentUserClass: CurrentUserClassInterface
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_active, container, false)

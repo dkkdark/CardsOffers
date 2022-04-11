@@ -1,9 +1,5 @@
 package com.kseniabl.cardstasks.ui.chat
 
-import androidx.cardview.widget.CardView
-import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
-import com.kseniabl.cardtasks.ui.models.CardModel
-
 interface AdapterFunctionsChatWithModeInterface {
     val itemCount: Int
     fun onItemClicked(pos: Int)
@@ -14,4 +10,5 @@ interface AdapterFunctionsChatWithModeInterface {
     fun getAllElements(): MutableList<ChatWithModel>
     fun removeElementFromList(el: ChatWithModel)
     fun getPos(el: ChatWithModel): Int
+    fun removeAll(list: List<ChatWithModel>)
 }

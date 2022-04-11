@@ -13,12 +13,12 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
-import com.kseniabl.cardtasks.ui.show_item.ShowItemActivity
+import com.kseniabl.cardstasks.ui.show_item.ShowItemActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardstasks.ui.base.FreelancerModel
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.freelancer_details.FreelancerDetailsActivity
 import com.kseniabl.cardtasks.ui.main.MainPresenterInterface
 

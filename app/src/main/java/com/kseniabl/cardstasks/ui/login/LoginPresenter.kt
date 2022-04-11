@@ -8,15 +8,15 @@ import com.google.gson.JsonObject
 import javax.inject.Inject
 
 import com.google.gson.JsonParser
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardtasks.ui.base.*
+import com.kseniabl.cardstasks.ui.base.BasePresenter
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardtasks.ui.models.ErrorModel
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.login.LoginPresenterInterface
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 
-class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject constructor(var context: Context, var interactor: I, var currentUserClass: CurrentUserClass) :
+class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject constructor(var context: Context, var interactor: I, var currentUserClass: CurrentUserClassInterface) :
     BasePresenter<V>(), LoginPresenterInterface<V> {
 
     private fun createNewUser(name: String, email: String, password: String, passwordRep: String) {

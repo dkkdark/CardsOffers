@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import co.intentservice.chatui.models.ChatMessage
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.kseniabl.cardstasks.ui.base.CardChatModel
 import java.lang.reflect.Type
 
 object ConverterEnum {
@@ -32,20 +33,20 @@ object ConvertersMutableList {
     }
 }
 
-object ConvertersArrayList {
+object ConvertersMutableListCardChatModel {
 
     var gson: Gson = Gson()
 
     @TypeConverter
     @JvmStatic
-    fun stringToSomeObjectList(data: String?): ArrayList<String> {
-        val listType: Type = object : TypeToken<ArrayList<String?>?>() {}.type
+    fun stringToObjectList(data: String?): MutableList<CardChatModel> {
+        val listType: Type = object : TypeToken<MutableList<CardChatModel?>?>() {}.type
         return gson.fromJson(data, listType)
     }
 
     @TypeConverter
     @JvmStatic
-    fun someObjectListToString(someObjects: ArrayList<String>?): String {
+    fun objectListToString(someObjects: MutableList<CardChatModel>?): String {
         return gson.toJson(someObjects)
     }
 }

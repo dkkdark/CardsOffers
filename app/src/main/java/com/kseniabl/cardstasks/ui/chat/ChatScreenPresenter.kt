@@ -4,32 +4,32 @@ import android.util.Log
 import co.intentservice.chatui.ChatView
 import co.intentservice.chatui.models.ChatMessage
 import com.kseniabl.cardstasks.db.MapOfChatModels
-import com.kseniabl.cardtasks.ui.base.BasePresenter
+import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
-import org.reactivestreams.Subscriber
-import org.reactivestreams.Subscription
 import javax.inject.Inject
 
 class ChatScreenPresenter<V: ChatScreenView, I: ChatScreenInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(),
     ChatScreenPresenterInterface<V> {
 
-    override fun sentMessageWithServer(senderId: String, id: String, title: String, body: String) {
-        interactor.sendMessage(senderId, id, title, body)
+    override fun sentMessageWithServer(senderId: String, id: String, title: String, body: String, cardId: String, cardTitle: String, cardCost: String) {
+        interactor.sendMessage(senderId, id, title, body, cardId, cardTitle, cardCost)
     }
 
-    override fun setAllMessages(id: String, chatView: ChatView) {
+    override fun setAllMessages(id: String, cardId: String, chatView: ChatView) {
         interactor.loadMsg(id).subscribe(object : SingleObserver<MapOfChatModels> {
             override fun onSubscribe(d: Disposable?) {
             }
 
             override fun onSuccess(mocm: MapOfChatModels) {
                 Log.e("qqq", "update messages")
-                for (el in mocm.chatModelList) {
-                    chatView.addMessage(ChatMessage(el.message, el.timestamp, el.type))
+                for (card in mocm.cardChatModelList) {
+                    if (card.cardId == cardId) {
+                        for (el in card.chatList) {
+                            chatView.addMessage(ChatMessage(el.message, el.timestamp, el.type))
+                        }
+                    }
                 }
             }
 
@@ -40,11 +40,11 @@ class ChatScreenPresenter<V: ChatScreenView, I: ChatScreenInteractorInterface> @
         })
     }
 
-    override fun loadReceived(id: String, chatView: ChatView, activity: ChatScreenActivity) {
-        interactor.loadReceivedMsg(id, chatView, activity)
+    override fun loadReceived(id: String, cardId: String, chatView: ChatView, activity: ChatScreenActivity) {
+        interactor.loadReceivedMsg(id, cardId, chatView, activity)
     }
 
-    override fun insertMessage(id: String, msg: ChatMessage, chatView: ChatView) {
-        interactor.insertMsg(id, msg)
+    override fun insertMessage(id: String, cardId: String, msg: ChatMessage, chatView: ChatView, cardTitle: String, cardCost: String) {
+        interactor.insertMsg(id, cardId, msg, cardTitle, cardCost)
     }
 }

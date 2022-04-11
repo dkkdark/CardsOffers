@@ -11,6 +11,7 @@ import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import javax.inject.Inject
 
 import com.kseniabl.cardstasks.ui.base.MessagesContainer
+import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -28,6 +29,9 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     lateinit var currentUserClass: CurrentUserClass
 
     private var id: String? = null
+    private var card_id: String? = null
+    private var card_title: String? = null
+    private var card_cost: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,14 +39,17 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
         presenter.attachView(this)
 
         id = intent.extras?.getString("id")
+        card_id = intent.extras?.getString("card_id")
+        card_title = intent.extras?.getString("card_title")
+        card_cost = intent.extras?.getString("card_cost")
 
-        setPreviousMessages()
-        setupSendMessageListener()
-        //setObserver()
-        id?.let {
-            presenter.loadReceived(it, chatView, this)
+        if (id != null && card_id != null && card_title != null && card_cost != null) {
+            CardTasksUtils.setCardId(card_id!!)
+            setPreviousMessagesAndData()
+            setupSendMessageListener()
+            presenter.loadReceived(id!!, card_id!!, chatView, this)
         }
-        Log.e("qqq", "id = $id")
+        Log.e("qqq", "id = $id  card_id = $card_id")
     }
 
     companion object {
@@ -54,15 +61,17 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
         super.onDestroy()
     }
 
-    private fun setPreviousMessages() {
-        id?.let { presenter.setAllMessages(it, chatView) }
+    private fun setPreviousMessagesAndData() {
+        cardTitleChatScreen.text = card_title
+        cardCostChatScreen.text = "$card_cost $"
+        presenter.setAllMessages(id!!, card_id!!, chatView)
     }
 
     private fun setupSendMessageListener() {
         chatView.setOnSentMessageListener {
-            if (id != null && currentUserClass.readSharedPref() != null) {
-                presenter.sentMessageWithServer(currentUserClass.readSharedPref()!!.id, id!!, currentUserClass.readSharedPref()!!.username, it.message)
-                presenter.insertMessage(id!!, it, chatView)
+            if (currentUserClass.readSharedPref() != null) {
+                presenter.sentMessageWithServer(currentUserClass.readSharedPref()!!.id, id!!, currentUserClass.readSharedPref()!!.username, it.message, card_id!!, card_title!!, card_cost!!)
+                presenter.insertMessage(id!!, card_id!!, it!!, chatView, card_title!!, card_cost!!)
                 true
             }
 

@@ -1,10 +1,11 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import androidx.cardview.widget.CardView
+import com.kseniabl.cardstasks.ui.add_prod.AddProdView
+import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.base.UsersCards
-import com.kseniabl.cardtasks.ui.base.*
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import javax.inject.Inject
 
 class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), AddProdPresenterCardModelInterface<V> {

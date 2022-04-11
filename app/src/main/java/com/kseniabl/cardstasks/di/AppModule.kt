@@ -2,10 +2,7 @@ package com.kseniabl.cardstasks.di
 
 import android.app.Application
 import android.content.Context
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardstasks.ui.base.MessageSaveAndLoadInterface
-import com.kseniabl.cardstasks.ui.base.MessagesSaveAndLoad
+import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService
 import dagger.Module
 import dagger.Provides
@@ -35,4 +32,7 @@ class AppModule {
 
     @Provides
     fun provideCurrentUserClass(context: Context): CurrentUserClassInterface = CurrentUserClass(context)
+
+    @Provides
+    fun provideChatListSaving(context: Context): ChatListSavingInterface = ChatListSaving(context)
 }

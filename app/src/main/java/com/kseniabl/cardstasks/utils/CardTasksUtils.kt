@@ -1,23 +1,22 @@
 package com.kseniabl.cardstasks.utils
 
 import android.app.Activity
-import android.graphics.LinearGradient
-import android.graphics.Shader
-import com.kseniabl.cardtasks.R
-import java.util.*
-import android.content.ComponentName
-
 import android.app.ActivityManager
 import android.app.ActivityManager.RunningAppProcessInfo
-import android.app.ActivityManager.RunningTaskInfo
 import android.content.Context
-
-import android.os.Build
-
-
+import android.graphics.LinearGradient
+import android.graphics.Shader
+import android.util.Log
+import androidx.core.content.ContextCompat.getSystemService
+import com.kseniabl.cardtasks.R
+import java.util.*
 
 
 object CardTasksUtils {
+
+    private var activityName = ""
+    private var cardId = ""
+
     fun generateRandomKey(): String {
         val uuid = UUID.randomUUID()
         return uuid.toString()
@@ -47,5 +46,21 @@ object CardTasksUtils {
             }
         }
         return isInBackground
+    }
+
+    fun specifyActivityRun(activityRun: String) {
+        activityName = activityRun
+    }
+
+    fun setCardId(card_id: String) {
+        cardId = card_id
+    }
+
+    fun getActivityRun(): Boolean {
+        return activityName == "ChatScreenActivity"
+    }
+
+    fun getCardId(card_id: String): Boolean {
+        return cardId == card_id
     }
 }

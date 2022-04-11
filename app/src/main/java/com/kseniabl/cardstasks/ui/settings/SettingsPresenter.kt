@@ -8,11 +8,8 @@ import co.lujun.androidtagview.TagContainerLayout
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.idlestar.ratingstar.RatingStarView
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardstasks.ui.base.MessagesSaveAndLoad
-import com.kseniabl.cardstasks.ui.base.UserCardInteractor
-import com.kseniabl.cardtasks.ui.base.BasePresenter
-import com.kseniabl.cardstasks.ui.base.UsersCards
+import com.kseniabl.cardstasks.ui.base.*
+import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.Profession
 import com.kseniabl.cardtasks.ui.models.BaseProfileInfoModel
@@ -22,7 +19,9 @@ import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I, var currentUserClass: CurrentUserClass, val messagesSaveAndLoad: MessagesSaveAndLoad):
+class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I,
+                                                                                             var currentUserClass: CurrentUserClassInterface,
+                                                                                             val messagesSaveAndLoad: MessagesSaveAndLoad, val chatListSaving: ChatListSavingInterface):
     BasePresenter<V>(), SettingsPresenterInterface<V> {
 
     override fun logoutUser() {
@@ -34,6 +33,7 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
 
         UsersCards.clearCards()
         messagesSaveAndLoad.dellAll()
+        chatListSaving.saveChatList(arrayListOf())
         clearTokenFromServer()
         getView()?.openLoginActivity()
     }

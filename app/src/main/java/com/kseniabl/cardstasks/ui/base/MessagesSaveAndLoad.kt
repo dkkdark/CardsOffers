@@ -2,24 +2,13 @@ package com.kseniabl.cardstasks.ui.base
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.LiveData
-import co.intentservice.chatui.models.ChatMessage
 import com.kseniabl.cardstasks.db.ChatModel
 import com.kseniabl.cardstasks.db.ChatRepository
 import com.kseniabl.cardstasks.db.MapOfChatModels
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.processors.BehaviorProcessor
-import io.reactivex.rxjava3.processors.PublishProcessor
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.lang.NullPointerException
 import javax.inject.Inject
 
 class MessagesSaveAndLoad @Inject constructor(var context: Context): MessageSaveAndLoadInterface {
@@ -42,14 +31,29 @@ class MessagesSaveAndLoad @Inject constructor(var context: Context): MessageSave
         return chatRepo.getAllMsg(id)
     }
 
-    override fun setNewList(id: String, el: ChatModel) {
+    override fun setNewList(id: String, cardId: String, el: ChatModel) {
         GlobalScope.launch {
             val model = loadAllById(id)
             val list = arrayListOf<ChatModel>()
-            if (model?.chatModelList?.isNullOrEmpty() == false)
-                list.addAll(model.chatModelList)
-            list.add(el)
-            chatRepo.insertMsg(MapOfChatModels(id, list))
+            if (model != null) {
+                val cardChatList = model.cardChatModelList
+                val listForDelete = arrayListOf<CardChatModel>()
+
+                for (card in model.cardChatModelList) {
+                    if (card.cardId == cardId) {
+                        list.addAll(card.chatList)
+                        listForDelete.add(card)
+                    }
+                }
+                cardChatList.removeAll(listForDelete)
+                list.add(el)
+                cardChatList.add(CardChatModel(cardId, list))
+
+                chatRepo.insertMsg(MapOfChatModels(id, cardChatList))
+            }
+            else {
+                chatRepo.insertMsg(MapOfChatModels(id, mutableListOf(CardChatModel(cardId, mutableListOf(el)))))
+            }
         }
     }
 
@@ -62,5 +66,9 @@ class MessagesSaveAndLoad @Inject constructor(var context: Context): MessageSave
             for (el in chatRepo.loadAll())
                 chatRepo.deleteMsg(el)
         }
+    }
+
+    override fun setList(id: String, list: MutableList<CardChatModel>): Single<Int> {
+        return chatRepo.setList(id, list)
     }
 }

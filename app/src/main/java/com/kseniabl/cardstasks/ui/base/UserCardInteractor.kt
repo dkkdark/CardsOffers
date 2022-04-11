@@ -1,7 +1,7 @@
 package com.kseniabl.cardstasks.ui.base
 
 import android.util.Log
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

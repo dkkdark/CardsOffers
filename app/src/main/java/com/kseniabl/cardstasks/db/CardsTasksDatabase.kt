@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [MapOfChatModels::class], version = 3)
-@TypeConverters(ConverterEnum::class, ConvertersMutableList::class)
+@Database(entities = [MapOfChatModels::class], version = 4)
+@TypeConverters(ConverterEnum::class, ConvertersMutableList::class, ConvertersMutableListCardChatModel::class)
 abstract class CardsTasksDatabase : RoomDatabase() {
     abstract fun chatDao(): ChatDao
 

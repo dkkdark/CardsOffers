@@ -4,10 +4,7 @@ import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.JsonObject
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardstasks.ui.base.UserCardInteractor
-import com.kseniabl.cardstasks.ui.base.UsersCards
+import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardstasks.utils.CardTasksUtils.generateRandomKey
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -15,7 +12,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class LoginInteractor @Inject constructor(val retrofit: Retrofit, val currentUserClass: CurrentUserClass): LoginInteractorInterface, UserCardInteractor() {
+class LoginInteractor @Inject constructor(val retrofit: Retrofit, val currentUserClass: CurrentUserClassInterface): LoginInteractorInterface, UserCardInteractor() {
 
     override fun registrationApiCall(name: String, email: String, password: String): Observable<JsonObject> {
         val userId = generateRandomKey()

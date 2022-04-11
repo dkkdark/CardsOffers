@@ -31,7 +31,6 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
 
         freelancer = arguments?.getSerializable("item") as FreelancerModel
 
-        setOnClickListeners()
         setTextFields()
         setGradient()
     }
@@ -50,7 +49,6 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
             val shader = CardTasksUtils.getTextGradient(it)
             professionTextFreelancerDetails.paint.shader = shader
             additionalInfoTextFreelancerDetails.paint.shader = shader
-            writeToFreelancerButton.paint.shader = shader
         }
     }
 
@@ -81,12 +79,6 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
                 typeOfWorkChangeTextFreelancerDetails.text = freelancer!!.additionalInfo.typeOfWork
             else
                 typeOfWorkChangeTextFreelancerDetails.text = "—"
-        }
-    }
-
-    private fun setOnClickListeners() {
-        writeToFreelancerButton.setOnClickListener {
-            (activity as FreelancerDetailsActivity).openChatScreenActivity()
         }
     }
 }

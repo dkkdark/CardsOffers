@@ -57,7 +57,7 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
     private fun setDataToDialog(title: String, description: String, date: String, cost: Int?, active: Boolean, agreement: Boolean) {
         dialogTaskTitleText.setText(title)
         dialogTaskDescriptionText.setText(description)
-        if (cost != null)
+        if (cost != null || cost != 0)
             dialogTaskCostText.setText(cost.toString())
         dialogChooseDate.text = date
         dialogCheckBox.isChecked = active
@@ -134,7 +134,7 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
 
     private fun setDate() {
         context?.let {
-            val datePickerDialog = DatePickerDialog(context!!, this, Calendar.getInstance()[Calendar.YEAR],
+            val datePickerDialog = DatePickerDialog(requireContext(), this, Calendar.getInstance()[Calendar.YEAR],
                 Calendar.getInstance()[Calendar.MONTH], Calendar.getInstance()[Calendar.DAY_OF_MONTH])
             datePickerDialog.show()
         }

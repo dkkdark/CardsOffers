@@ -1,8 +1,10 @@
-package com.kseniabl.cardtasks.di
+package com.kseniabl.cardstasks.di
 
 import android.content.Context
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
+import com.kseniabl.cardstasks.ui.add_prod.AddProdInteractor
+import com.kseniabl.cardstasks.ui.add_prod.AddProdView
 import com.kseniabl.cardtasks.di.scope.AddProdFragmentScope
 import com.kseniabl.cardtasks.ui.add_prod.*
 import dagger.Module

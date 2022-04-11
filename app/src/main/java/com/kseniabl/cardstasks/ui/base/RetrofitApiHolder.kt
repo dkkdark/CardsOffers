@@ -2,6 +2,7 @@ package com.kseniabl.cardstasks.ui.base
 
 import com.google.gson.JsonObject
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.models.Profession
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.models.*
@@ -136,5 +137,8 @@ interface RetrofitApiHolder {
     fun sendMessage(@Field("sender_id") sender_id: String,
                     @Field("user_id") user_id: String,
                     @Field("title") title: String,
-                    @Field("body") body: String): Observable<MessageModel>
+                    @Field("body") body: String,
+                    @Field("card_id") card_id: String,
+                    @Field("card_title") card_title: String,
+                    @Field("card_cost") card_cost: String): Observable<MessageModel>
 }

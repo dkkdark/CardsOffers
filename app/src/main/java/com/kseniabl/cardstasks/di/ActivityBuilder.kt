@@ -6,7 +6,7 @@ import com.kseniabl.cardstasks.ui.freelancer_details.FreelancerDetailsActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardtasks.di.*
 import com.kseniabl.cardstasks.ui.login.LoginActivity
-import com.kseniabl.cardtasks.ui.show_item.ShowItemActivity
+import com.kseniabl.cardstasks.ui.show_item.ShowItemActivity
 import com.kseniabl.cardstasks.ui.splash.SplashScreenActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

@@ -2,6 +2,7 @@ package com.kseniabl.cardstasks.db
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.kseniabl.cardstasks.ui.base.CardChatModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
@@ -39,5 +40,11 @@ class ChatRepository(context: Context) {
 
     fun loadAll(): List<MapOfChatModels> {
         return chatDao.loadAll()
+    }
+
+    fun setList(id: String, list: MutableList<CardChatModel>): Single<Int> {
+        return chatDao.setList(id, list)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }

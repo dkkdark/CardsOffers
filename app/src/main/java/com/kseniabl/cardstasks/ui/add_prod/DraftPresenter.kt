@@ -1,9 +1,9 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import androidx.cardview.widget.CardView
-import com.kseniabl.cardtasks.ui.base.BasePresenter
+import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import javax.inject.Inject
 
 class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), DraftPresenterInterface<V> {

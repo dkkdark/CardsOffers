@@ -4,14 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.22447916666666667" />
+        <entry key="app/src/main/res/drawable/bottom_line.xml" value="0.126" />
+        <entry key="app/src/main/res/drawable/circle_background.xml" value="0.126" />
+        <entry key="app/src/main/res/drawable/circular_background.xml" value="0.11" />
+        <entry key="app/src/main/res/layout/activity_card_details.xml" value="0.1925925925925926" />
         <entry key="app/src/main/res/layout/activity_details_freelancer.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1712962962962963" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/all_prods_item.xml" value="0.1925925925925926" />
         <entry key="app/src/main/res/layout/chat_list_item.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/dialog_create_new_task.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_add_card.xml" value="0.22135416666666666" />
         <entry key="app/src/main/res/layout/fragment_cards_freelancer.xml" value="0.23333333333333334" />
         <entry key="app/src/main/res/layout/fragment_chat_list.xml" value="0.23333333333333334" />
-        <entry key="app/src/main/res/layout/fragment_chat_screen.xml" value="0.18020833333333333" />
+        <entry key="app/src/main/res/layout/fragment_chat_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_freelance_details_info.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/fragment_freelancers.xml" value="0.17777777777777778" />
         <entry key="app/src/main/res/layout/fragmnet_all_offers.xml" value="0.20260416666666667" />

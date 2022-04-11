@@ -4,7 +4,7 @@ import android.util.Log
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import com.kseniabl.cardstasks.utils.CardTasksUtils.generateRandomKey
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

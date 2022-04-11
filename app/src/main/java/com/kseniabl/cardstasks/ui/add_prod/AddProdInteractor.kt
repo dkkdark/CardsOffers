@@ -1,25 +1,27 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.util.Log
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardstasks.ui.base.UserCardInteractor
-import com.kseniabl.cardstasks.ui.base.UsersCards
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.base.*
+import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardtasks.ui.add_prod.AddProdInteractorInterface
+import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.FlowableSubscriber
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.reactivestreams.Subscription
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentUserClass: CurrentUserClass): AddProdInteractorInterface, UserCardInteractor() {
+class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentUserClass: CurrentUserClassInterface): AddProdInteractorInterface, UserCardInteractor() {
 
     override fun observeCards(recyclerAdapter: AddProdsAdapter) {
         observeChangeCards()
-            .subscribe(object : Observer<CardModel> {
-                override fun onSubscribe(d: Disposable?) {
+            .subscribe(object : FlowableSubscriber<CardModel> {
+                override fun onSubscribe(s: Subscription) {
+                    s.request(Long.MAX_VALUE)
                 }
 
                 override fun onNext(card: CardModel) {
@@ -43,12 +45,12 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
 
             })
 
-        observeAddCards().subscribe(object : Observer<CardModel> {
-            override fun onSubscribe(d: Disposable?) {
+        observeAddCards().subscribe(object : FlowableSubscriber<CardModel> {
+            override fun onSubscribe(s: Subscription) {
+                s.request(Long.MAX_VALUE)
             }
 
             override fun onNext(card: CardModel) {
-                val elements = recyclerAdapter.getElements()
                 if (currentUserClass.readSharedPref()?.id != null)
                     loadCards(currentUserClass.readSharedPref()!!.id, recyclerAdapter)
             }
@@ -65,7 +67,9 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
 
 
     override fun loadCards(id: String, recyclerAdapter: AddProdsAdapter) {
+        Log.e("qqq", "1 loadAdded")
         loadAddedCards(id).subscribe { data ->
+            Log.e("qqq", "2 loadAdded $data")
             if (data != null) {
                 for (card in data) {
                         addCardsToAddProdsRecycler(card, recyclerAdapter, 0)

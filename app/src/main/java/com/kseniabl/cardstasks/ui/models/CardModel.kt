@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.models
+package com.kseniabl.cardstasks.ui.models
 
 import java.io.Serializable
 

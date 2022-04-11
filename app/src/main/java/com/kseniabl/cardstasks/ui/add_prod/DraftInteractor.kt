@@ -7,12 +7,14 @@ import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardtasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardtasks.ui.add_prod.DraftInteractorInterface
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.FlowableSubscriber
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.reactivestreams.Subscription
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -20,8 +22,9 @@ class DraftInteractor @Inject constructor(var retrofit: Retrofit, var currentUse
 
     override fun observeCards(recyclerAdapter: DraftAdapter) {
         observeChangeCards()
-            .subscribe(object : Observer<CardModel> {
-                override fun onSubscribe(d: Disposable?) {
+            .subscribe(object : FlowableSubscriber<CardModel> {
+                override fun onSubscribe(s: Subscription) {
+                    s.request(Long.MAX_VALUE)
                 }
 
                 override fun onNext(card: CardModel) {
@@ -45,8 +48,9 @@ class DraftInteractor @Inject constructor(var retrofit: Retrofit, var currentUse
 
             })
 
-        observeAddCards().subscribe(object : Observer<CardModel> {
-            override fun onSubscribe(d: Disposable?) {
+        observeAddCards().subscribe(object : FlowableSubscriber<CardModel> {
+            override fun onSubscribe(s: Subscription) {
+                s.request(Long.MAX_VALUE)
             }
 
             override fun onNext(card: CardModel) {

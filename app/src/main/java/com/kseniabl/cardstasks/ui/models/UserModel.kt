@@ -20,7 +20,7 @@ data class UserModel(
     @SerializedName("token")
     var token: String,
     @SerializedName("messagingToken")
-    var messagingToken: String,
+    var messagingToken: String = "",
 
     @SerializedName("additionalInfo")
     var additionalInfo: AdditionalInfo,

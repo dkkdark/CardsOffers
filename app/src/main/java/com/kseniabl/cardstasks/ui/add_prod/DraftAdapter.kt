@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardstasks.ui.add_prod.DraftFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import java.util.*
 import javax.inject.Inject
 

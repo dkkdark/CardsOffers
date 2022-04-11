@@ -3,6 +3,7 @@ package com.kseniabl.cardstasks.ui.settings
 import android.content.Context
 import android.util.Log
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
@@ -21,7 +22,7 @@ import javax.inject.Inject
 import retrofit2.Retrofit
 
 
-class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context: Context, var currentUserClass: CurrentUserClass): SettingsInteractorInterface, UserCardInteractor() {
+class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context: Context, var currentUserClass: CurrentUserClassInterface): SettingsInteractorInterface, UserCardInteractor() {
 
     override fun getUserProfession(id: String): Observable<Profession> {
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUserProfession(id)

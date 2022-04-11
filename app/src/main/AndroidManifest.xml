@@ -50,7 +50,7 @@
             android:exported="false"
             android:theme="@style/Theme.CardTasks" />
         <activity
-            android:name=".ui.show_item.ShowItemActivity"
+            android:name="com.kseniabl.cardstasks.ui.show_item.ShowItemActivity"
             android:exported="false"
             android:theme="@style/Theme.CardTasks"/>
         <activity

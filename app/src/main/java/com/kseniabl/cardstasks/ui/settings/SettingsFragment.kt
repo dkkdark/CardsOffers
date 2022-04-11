@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
+import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardtasks.ui.dialogs.ChangeAdditionalInfoDialog
 import com.kseniabl.cardtasks.ui.dialogs.ChangeNameDialogFragment
 import com.kseniabl.cardtasks.ui.dialogs.ChangeProfessionDialogFragment
@@ -23,7 +24,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
     @Inject
     lateinit var presenter: SettingsPresenterInterface<SettingsView>
     @Inject
-    lateinit var currentUserClass: CurrentUserClass
+    lateinit var currentUserClass: CurrentUserClassInterface
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.activity_profile, container, false)

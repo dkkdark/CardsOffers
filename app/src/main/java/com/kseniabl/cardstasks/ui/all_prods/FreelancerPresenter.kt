@@ -3,7 +3,7 @@ package com.kseniabl.cardstasks.ui.all_prods
 import androidx.cardview.widget.CardView
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardstasks.ui.base.FreelancerModel
-import com.kseniabl.cardtasks.ui.base.BasePresenter
+import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewFreelancerModel
 import javax.inject.Inject
 

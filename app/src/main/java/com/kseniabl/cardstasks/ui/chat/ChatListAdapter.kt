@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.chat.ChatListView
 import com.mikhaellopez.circularimageview.CircularImageView
 import javax.inject.Inject
 
@@ -20,6 +19,10 @@ class ChatListAdapter @Inject constructor(var presenter: ChatListPresenter<ChatL
 
     fun getElements(): List<ChatWithModel> {
         return presenter.getAllElements()
+    }
+
+    fun removeAllInList(list: List<ChatWithModel>) {
+        presenter.removeAll(list)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatListHolder {
@@ -41,21 +44,32 @@ class ChatListAdapter @Inject constructor(var presenter: ChatListPresenter<ChatL
     }
 
     inner class ChatListHolder(view: View): RecyclerView.ViewHolder(view), ItemViewChatWithModel {
-        private val profileImage: CircularImageView = view.findViewById(R.id.profileImage)
-        private val profileName: TextView = view.findViewById(R.id.profileName)
-        private val profileLastMessage: TextView = view.findViewById(R.id.profileLastMessage)
+        private val profileImage: CircularImageView = view.findViewById(R.id.profileImageChatList)
+        private val profileName: TextView = view.findViewById(R.id.profileNameChatList)
+        private val profileLastMessage: TextView = view.findViewById(R.id.profileLastMessageChatList)
+        private val notSeenMsgs: TextView = view.findViewById(R.id.notSeenMessagesChatList)
+        private val specializationChatText: TextView = view.findViewById(R.id.specializationChatText)
+        private val costChatText: TextView = view.findViewById(R.id.costChatText)
 
         init {
             view.setOnClickListener {
+                notSeenMsgs.text = "0"
+                notSeenMsgs.visibility = View.GONE
                 presenter.onItemClicked(adapterPosition)
             }
         }
 
         override fun bindItem(item: ChatWithModel) {
-            //profileImage
-
             profileName.text = item.username
             profileLastMessage.text = item.lastMessage
+            specializationChatText.text = item.card_title
+            costChatText.text = "${item.card_cost} $"
+            if (item.notSeenMessages != 0) {
+                notSeenMsgs.text = item.notSeenMessages.toString()
+                notSeenMsgs.visibility = View.VISIBLE
+            }
+            else
+                notSeenMsgs.visibility = View.GONE
         }
     }
 }

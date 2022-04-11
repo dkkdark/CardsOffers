@@ -11,8 +11,8 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
 interface ChatScreenInteractorInterface: BaseInteractor {
-    fun sendMessage(senderId: String, id: String, title: String, body: String)
+    fun sendMessage(senderId: String, id: String, title: String, body: String, cardId: String, cardTitle: String, cardCost: String)
     fun loadMsg(id: String): Single<MapOfChatModels>
-    fun insertMsg(id: String, msg: ChatMessage)
-    fun loadReceivedMsg(id: String, chatView: ChatView, activity: ChatScreenActivity)
+    fun insertMsg(id: String, cardId: String, msg: ChatMessage, cardTitle: String, cardCost: String)
+    fun loadReceivedMsg(id: String, cardId: String, chatView: ChatView, activity: ChatScreenActivity)
 }

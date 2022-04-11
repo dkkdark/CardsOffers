@@ -1,15 +1,16 @@
 package com.kseniabl.cardstasks.ui.base
 
-import com.kseniabl.cardtasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.models.CardModel
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.processors.PublishProcessor
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlin.collections.ArrayList
 
 
 object UsersCards {
     private val cards = arrayListOf<CardModel>()
-    private val changeObservable: PublishSubject<CardModel> = PublishSubject.create()
-    private val addObservable: PublishSubject<CardModel> = PublishSubject.create()
+    private val changeObservable: PublishProcessor<CardModel> = PublishProcessor.create()
+    private val addObservable: PublishProcessor<CardModel> = PublishProcessor.create()
 
     fun setCards(allCards: List<CardModel>) {
         clearCards()
@@ -36,11 +37,11 @@ object UsersCards {
         cards.clear()
     }
 
-    fun createChangeObservableModelChange(): Observable<CardModel> {
+    fun createChangeObservableModelChange(): PublishProcessor<CardModel> {
         return changeObservable
     }
 
-    fun createAddObservableModelChange(): Observable<CardModel> {
+    fun createAddObservableModelChange(): PublishProcessor<CardModel> {
         return addObservable
     }
 }

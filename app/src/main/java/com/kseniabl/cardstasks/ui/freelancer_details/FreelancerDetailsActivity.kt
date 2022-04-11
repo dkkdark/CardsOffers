@@ -2,16 +2,17 @@ package com.kseniabl.cardstasks.ui.freelancer_details
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.base.FreelancerModel
-import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
-import com.kseniabl.cardstasks.ui.models.UserModel
+import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardstasks.ui.show_item.ShowItemActivity
 import com.kseniabl.cardtasks.ui.freelancer_details.FreelancerDetailsPresenterInterface
-import com.kseniabl.cardtasks.ui.freelancer_details.FreelancerDetailsView
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -63,8 +64,10 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
     }
 
     private fun openCardsFreelancer() {
+        val bundle = Bundle()
+        bundle.putString("id", freelancer?.id)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_details_activity) as NavHostFragment
-        navHostFragment.navController.navigate(R.id.cardsFreelancerFragment)
+        navHostFragment.navController.navigate(R.id.cardsFreelancerFragment, bundle)
     }
 
     private fun addListeners() {
@@ -72,9 +75,9 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
         cardsButton.setOnClickListener { openCardsFreelancer() }
     }
 
-    override fun openChatScreenActivity() {
-        val intent = Intent(this, ChatScreenActivity::class.java)
-        intent.putExtra("id", freelancer?.id)
+    fun openShowItemActivity(card: CardModel) {
+        val intent = Intent(this, ShowItemActivity::class.java)
+        intent.putExtra("card", card)
         startActivity(intent)
     }
 }
