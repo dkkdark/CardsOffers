@@ -32,6 +32,12 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
         return presenter.getAllElements()
     }
 
+    fun clearElements() {
+        val list = presenter.getAllElements()
+        for (el in list)
+            presenter.removeElementFromList(el)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllProdsHolder {
         presenter.attachView(fragment)
         return AllProdsHolder(LayoutInflater.from(parent.context).inflate(R.layout.all_prods_item, parent, false))

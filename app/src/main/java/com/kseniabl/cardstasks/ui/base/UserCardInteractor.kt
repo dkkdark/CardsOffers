@@ -22,6 +22,9 @@ abstract class UserCardInteractor: UserCardInteractorInterface {
     override fun observeAddCards() =
         UsersCards.createAddObservableModelChange()
 
+    override fun observeDeleteCards() =
+        UsersCards.createDeleteObservableModelChange()
+
     override fun loadAddedCards(id: String): Observable<List<CardModel>> {
         val retrofit = createRetrofit()
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUsersCards(id)

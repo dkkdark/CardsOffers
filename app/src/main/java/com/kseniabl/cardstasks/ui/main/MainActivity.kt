@@ -72,22 +72,6 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
             }
     }
 
-    private fun setBottomNavigationBar() {
-        setSupportActionBar(toolbar)
-        drawerToggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
-        drawerToggle.syncState()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        drawerLayout.addDrawerListener(drawerToggle)
-        drawerLayout.setScrimColor(Color.TRANSPARENT)
-
-        toolbar.setNavigationOnClickListener {
-            drawerLayout.open()
-        }
-
-        //changeToolbarUpOrHamburger()
-        setUpToolbarNavigation()
-    }
-
     override fun openShowItemActivity(card: CardModel, cardView: CardView) {
         val intent = Intent(this, ShowItemActivity::class.java)
         intent.putExtra("card", card)

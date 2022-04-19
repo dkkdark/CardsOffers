@@ -3,7 +3,6 @@ package com.kseniabl.cardstasks.di
 import android.app.Application
 import android.content.Context
 import com.kseniabl.cardstasks.ui.base.*
-import com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService
 import dagger.Module
 import dagger.Provides
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory

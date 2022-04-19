@@ -1,7 +1,8 @@
-package com.kseniabl.cardtasks.ui.dialogs
+package com.kseniabl.cardstasks.ui.dialogs
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,12 +13,19 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.R
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.dialog_create_new_task.*
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
+    @Inject
+    lateinit var presenter: CreateNewTaskPresenterInterface
 
     private var calendar = Calendar.getInstance()
 
@@ -29,6 +37,12 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
     var active = false
     var agreement = false
     var createTime: Long = 0
+    var userId = ""
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -41,6 +55,7 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
         active = arguments?.getBoolean("active") ?: false
         agreement = arguments?.getBoolean("agreement") ?: false
         createTime = arguments?.getLong("createTime") ?: 0
+        userId = arguments?.getString("userId") ?: ""
 
         return inflater.inflate(R.layout.dialog_create_new_task, container, false)
     }
@@ -48,10 +63,16 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.let {
+            val shader = CardTasksUtils.getTextGradient(it)
+            crateChangeTask.paint.shader = shader
+        }
+
         setDataToDialog(title, description, date, cost, active, agreement)
         showInitialDate()
         clickOnButtonsListeners()
         setListener()
+        deleteTask()
     }
 
     private fun setDataToDialog(title: String, description: String, date: String, cost: Int?, active: Boolean, agreement: Boolean) {
@@ -157,5 +178,25 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
         var time = sdf.format(calendar.time.time)
 
         dialogChooseDate.text = "$date $time"
+    }
+
+    private fun deleteTask() {
+        dialogDeleteButton.setOnClickListener {
+            setAlertDialog()
+        }
+    }
+
+    private fun setAlertDialog() {
+        context?.let {
+            MaterialAlertDialogBuilder(it)
+                .setTitle(getString(R.string.do_you_want_to_delete))
+                .setPositiveButton(getString(R.string.delete)) { d, w ->
+                    presenter.deleteTask(this, d, userId, id)
+                }
+                .setNegativeButton(getString(R.string.cancel)) { d, w ->
+                    d.dismiss()
+                }
+                .show()
+        }
     }
 }

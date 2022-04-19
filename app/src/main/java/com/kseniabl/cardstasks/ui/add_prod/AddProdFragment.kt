@@ -12,9 +12,8 @@ import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardtasks.ui.add_prod.AddProdPresenterCardModelInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
-import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
+import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardstasks.ui.models.CardModel
 import kotlinx.android.synthetic.main.fragment_active.*
 import javax.inject.Inject
@@ -37,6 +36,7 @@ class AddProdFragment: BaseFragment(), AddProdView {
 
     override fun onResume() {
         super.onResume()
+        Log.e("qqq", "RESULT")
         currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, adapter) }
     }
 
@@ -79,6 +79,13 @@ class AddProdFragment: BaseFragment(), AddProdView {
                 currentUserClass.readSharedPref()?.id?.let { presenter.changeUserCard(it, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue) }
             }
         }
+
+        childFragmentManager.setFragmentResultListener("deleteResultCreateTask", this) { _, bundle ->
+            val userId = bundle.getString("userId")
+            val cardId = bundle.getString("cardId")
+            if (userId != null && cardId != null)
+                presenter.deleteCard(userId, cardId)
+        }
     }
 
     override fun startTransition() {
@@ -105,6 +112,7 @@ class AddProdFragment: BaseFragment(), AddProdView {
         args.putBoolean("active", item.active)
         args.putBoolean("agreement", item.agreement)
         args.putLong("createTime", item.createTime)
+        args.putString("userId", item.user_id)
         val dialog = CreateNewTaskDialog()
         dialog.arguments = args
         dialog.show(childFragmentManager, "CreateNewTaskDialog")

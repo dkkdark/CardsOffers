@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.dialogs
+package com.kseniabl.cardstasks.ui.dialogs
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

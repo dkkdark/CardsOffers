@@ -5,19 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardtasks.ui.dialogs.ChangeAdditionalInfoDialog
-import com.kseniabl.cardtasks.ui.dialogs.ChangeNameDialogFragment
-import com.kseniabl.cardtasks.ui.dialogs.ChangeProfessionDialogFragment
+import com.kseniabl.cardstasks.ui.dialogs.ChangeAdditionalInfoDialog
+import com.kseniabl.cardstasks.ui.dialogs.ChangeNameDialogFragment
 import com.kseniabl.cardstasks.ui.login.LoginActivity
-import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.fragment_settings.logoutButton
-import javax.inject.Inject
 import com.kseniabl.cardstasks.utils.CardTasksUtils
+import com.kseniabl.cardtasks.R
+import com.kseniabl.cardtasks.ui.dialogs.ChangeProfessionDialogFragment
 import com.kseniabl.cardtasks.ui.settings.SettingsPresenterInterface
+import kotlinx.android.synthetic.main.activity_profile.*
+import javax.inject.Inject
+
 
 class SettingsFragment: BaseFragment(), SettingsView {
 
@@ -145,4 +144,8 @@ class SettingsFragment: BaseFragment(), SettingsView {
         fun newInstance(): SettingsFragment = SettingsFragment()
     }
 
+
+    private fun chooseImg() {
+
+    }
 }

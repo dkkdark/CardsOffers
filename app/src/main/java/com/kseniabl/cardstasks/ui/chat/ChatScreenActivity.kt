@@ -5,12 +5,10 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import co.intentservice.chatui.models.ChatMessage
+import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardtasks.R
-import com.kseniabl.cardstasks.ui.base.BaseActivity
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import javax.inject.Inject
 
-import com.kseniabl.cardstasks.ui.base.MessagesContainer
 import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
 import io.reactivex.rxjava3.core.Observer
@@ -28,6 +26,8 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     @Inject
     lateinit var currentUserClass: CurrentUserClass
 
+    private var isCardExist = true
+
     private var id: String? = null
     private var card_id: String? = null
     private var card_title: String? = null
@@ -43,13 +43,15 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
         card_title = intent.extras?.getString("card_title")
         card_cost = intent.extras?.getString("card_cost")
 
+        checkIfTaskDeleted()
+
         if (id != null && card_id != null && card_title != null && card_cost != null) {
             CardTasksUtils.setCardId(card_id!!)
             setPreviousMessagesAndData()
             setupSendMessageListener()
             presenter.loadReceived(id!!, card_id!!, chatView, this)
         }
-        Log.e("qqq", "id = $id  card_id = $card_id")
+
     }
 
     companion object {
@@ -61,6 +63,22 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
         super.onDestroy()
     }
 
+    private fun checkIfTaskDeleted() {
+        val cards = UsersCards.getAllCards()
+        for (card in cards) {
+            if (card.id == card_id)
+                isCardExist = false
+        }
+        Log.e("qqq", "$id ${currentUserClass.readSharedPref()?.id}")
+        if (currentUserClass.readSharedPref()?.id != id) {
+            val allCards = AllCardsContainer.getAllCards()
+            for (card in allCards) {
+                if (card.id == card_id)
+                    isCardExist = false
+            }
+        }
+    }
+
     private fun setPreviousMessagesAndData() {
         cardTitleChatScreen.text = card_title
         cardCostChatScreen.text = "$card_cost $"
@@ -69,15 +87,22 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
 
     private fun setupSendMessageListener() {
         chatView.setOnSentMessageListener {
-            if (currentUserClass.readSharedPref() != null) {
-                presenter.sentMessageWithServer(currentUserClass.readSharedPref()!!.id, id!!, currentUserClass.readSharedPref()!!.username, it.message, card_id!!, card_title!!, card_cost!!)
-                presenter.insertMessage(id!!, card_id!!, it!!, chatView, card_title!!, card_cost!!)
-                true
-            }
-
-            else {
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+            if (isCardExist) {
+                Toast.makeText(this, "You couldn't text to this user anymore, because this task was deleted", Toast.LENGTH_SHORT)
+                    .show()
                 false
+            }
+            else {
+                if (currentUserClass.readSharedPref() != null) {
+                    presenter.sentMessageWithServer(currentUserClass.readSharedPref()!!.id, id!!, currentUserClass.readSharedPref()!!.username, it.message, card_id!!, card_title!!, card_cost!!)
+                    presenter.insertMessage(id!!, card_id!!, it!!, chatView, card_title!!, card_cost!!)
+                    true
+                }
+
+                else {
+                    Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+                    false
+                }
             }
         }
     }

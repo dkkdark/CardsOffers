@@ -1,20 +1,16 @@
 package com.kseniabl.cardstasks.ui.add_prod
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.commit
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddTasksPresenterInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddTasksView
-import com.kseniabl.cardtasks.ui.dialogs.CreateNewTaskDialog
+import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
 import kotlinx.android.synthetic.main.fragment_add_card.*
 import java.util.*
 import javax.inject.Inject

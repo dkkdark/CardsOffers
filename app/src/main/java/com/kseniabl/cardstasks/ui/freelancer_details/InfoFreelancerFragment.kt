@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
@@ -55,30 +56,19 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
     private fun setTextFields() {
         if (freelancer != null) {
             tagContainerLayoutFreelancerDetails.tag = freelancer!!.profession.tags
-            if (freelancer!!.profession.specialization != "")
-                specializationChangeTextFreelancerDetails.text = freelancer!!.profession.specialization
-            else
-                specializationChangeTextFreelancerDetails.text = "—"
-            if (freelancer!!.profession.description != "")
-                descriptionSpecializationChangeTextFreelancerDetails.text = freelancer!!.profession.description
-            else
-                descriptionSpecializationChangeTextFreelancerDetails.text = "—"
-            if (freelancer!!.additionalInfo.description != "")
-                descriptionAddInfoChangeTextFreelancerDetails.text = freelancer!!.additionalInfo.description
-            else
-                descriptionAddInfoChangeTextFreelancerDetails.text = "—"
-            if (freelancer!!.additionalInfo.country != "")
-                countryChangeTextFreelancerDetails.text = freelancer!!.additionalInfo.country
-            else
-                countryChangeTextFreelancerDetails.text = "—"
-            if (freelancer!!.additionalInfo.city != "")
-                cityChangeTextFreelancerDetails.text = freelancer!!.additionalInfo.city
-            else
-                cityChangeTextFreelancerDetails.text = "—"
-            if (freelancer!!.additionalInfo.typeOfWork != "")
-                typeOfWorkChangeTextFreelancerDetails.text = freelancer!!.additionalInfo.typeOfWork
-            else
-                typeOfWorkChangeTextFreelancerDetails.text = "—"
+            checkIsEmpty(specializationChangeTextFreelancerDetails, freelancer!!.profession.specialization)
+            checkIsEmpty(descriptionSpecializationChangeTextFreelancerDetails, freelancer!!.profession.description)
+            checkIsEmpty(descriptionAddInfoChangeTextFreelancerDetails, freelancer!!.additionalInfo.description)
+            checkIsEmpty(countryChangeTextFreelancerDetails, freelancer!!.additionalInfo.country)
+            checkIsEmpty(cityChangeTextFreelancerDetails, freelancer!!.additionalInfo.city)
+            checkIsEmpty(typeOfWorkChangeTextFreelancerDetails, freelancer!!.additionalInfo.typeOfWork)
         }
+    }
+
+    private fun checkIsEmpty(textView: TextView, value: String) {
+        if (value.isNotEmpty())
+            textView.text = value
+        else
+            textView.text = "—"
     }
 }

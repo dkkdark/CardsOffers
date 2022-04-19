@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/cardDetailsConstraintLayout"
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/cardDetailsConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="20dp">
 
     <View
         android:id="@+id/additionalSpace"
@@ -33,7 +38,7 @@
         android:text="Title"
         android:textColor="@color/white"
         android:fontFamily="@font/montserrat_bold"
-        android:textSize="24dp"/>
+        android:textSize="22dp"/>
 
     <TextView
         android:id="@+id/feeTitle"
@@ -120,7 +125,7 @@
             android:textColor="@color/black"
             android:layout_below="@id/descriptionTitle"
             android:layout_marginTop="10dp"
-            android:text="Some description text text gdfg sdgdfg dfg dsgsdg dsfgsdgs dfgdsfgd sfgsd gdsjnfgjknsd fjkgnsdkgdnkf gnsdkjfngkk gndfskngklndknsl fgnkdsfngklsn kgldsnflkgnlsdkgn klngdklfngkldsnfglkdsnflgk  lngdslkfg kgld"/>
+            android:textSize="12dp" />
 
     </RelativeLayout>
 
@@ -184,7 +189,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/specializationText"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="12dp"/>
 
                 <TextView
                     android:id="@+id/specializationText"
@@ -194,7 +200,8 @@
                     app:layout_constraintTop_toBottomOf="@id/nameText"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="12dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -235,6 +242,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:textSize="12dp"
         android:backgroundTint="@color/white"
         android:text="Respond to task"
         android:textColor="@color/purple"
@@ -242,3 +250,4 @@
         app:cornerRadius="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -3,10 +3,10 @@ package com.kseniabl.cardstasks.ui.add_prod
 import android.util.Log
 import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardstasks.ui.models.CardModel
-import com.kseniabl.cardtasks.ui.add_prod.AddProdInteractorInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.FlowableSubscriber
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -32,7 +32,6 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
                         recyclerAdapter.deleteElement(cardForDelete)
                         addCardsToAddProdsRecycler(card, recyclerAdapter, pos)
                     } catch (e: IndexOutOfBoundsException) {
-
                     }
                 }
 
@@ -63,20 +62,36 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
             }
 
         })
+
+        observeDeleteCards().subscribe(object : FlowableSubscriber<CardModel> {
+            override fun onSubscribe(s: Subscription) {
+                s.request(Long.MAX_VALUE)
+            }
+
+            override fun onNext(card: CardModel) {
+                recyclerAdapter.deleteElement(card)
+            }
+
+            override fun onError(t: Throwable) {
+                Log.e("qqq", "observeDeleteCards onError ${t.message}")
+            }
+
+            override fun onComplete() {
+            }
+
+        })
+
     }
 
 
     override fun loadCards(id: String, recyclerAdapter: AddProdsAdapter) {
-        Log.e("qqq", "1 loadAdded")
         loadAddedCards(id).subscribe { data ->
-            Log.e("qqq", "2 loadAdded $data")
-            if (data != null) {
-                for (card in data) {
-                        addCardsToAddProdsRecycler(card, recyclerAdapter, 0)
+            Log.e("qqq", "loadAdded $data")
+            for (card in data) {
+                    addCardsToAddProdsRecycler(card, recyclerAdapter, 0)
 
-                    if (!UsersCards.getAllCards().contains(card))
-                        UsersCards.addCard(card)
-                }
+                if (!UsersCards.getAllCards().contains(card))
+                    UsersCards.addCard(card)
             }
         }
     }
@@ -86,24 +101,30 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<MessageModel> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(data: MessageModel?) {
-                    if (data?.message == "success") {
+                override fun onNext(data: MessageModel) {
+                    if (data.message == "success") {
                         val card = CardModel(cardId, title, descr, date, createTime, cost, active, agreement, id)
                         UsersCards.changeCard(card)
                     }
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "changeCard error ${e?.message}")
+                override fun onError(e: Throwable) {
+                    Log.e("qqq", "changeCard error ${e.message}")
                 }
 
                 override fun onComplete() {
                 }
 
             })
+    }
+
+    override fun deleteCard(userId: String, cardId: String): Flowable<MessageModel> {
+        return retrofit.create(RetrofitApiHolder::class.java).deleteCard(userId, cardId)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     private fun addCardsToAddProdsRecycler(card: CardModel, addProdsAdapter: AddProdsAdapter, pos: Int) {

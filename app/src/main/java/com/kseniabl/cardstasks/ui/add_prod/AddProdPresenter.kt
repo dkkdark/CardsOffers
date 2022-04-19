@@ -1,14 +1,21 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
+import android.util.Log
 import androidx.cardview.widget.CardView
+import com.kseniabl.cardstasks.ui.add_prod.AddProdInteractorInterface
+import com.kseniabl.cardstasks.ui.add_prod.AddProdPresenterCardModelInterface
 import com.kseniabl.cardstasks.ui.add_prod.AddProdView
 import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardtasks.ui.models.MessageModel
+import io.reactivex.rxjava3.core.FlowableSubscriber
+import org.reactivestreams.Subscription
 import javax.inject.Inject
 
-class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), AddProdPresenterCardModelInterface<V> {
+class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(),
+    AddProdPresenterCardModelInterface<V> {
 
     private val items = mutableListOf<CardModel>()
 
@@ -66,5 +73,28 @@ class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject co
 
     override fun changeUserCard(id: String, cardId: String, title: String, descr: String, date: String, currentTime: Long, cost: Int, active: Boolean, agreement: Boolean) {
         interactor.changeCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
+    }
+
+    override fun deleteCard(userId: String, cardId: String) {
+        interactor.deleteCard(userId, cardId)
+            .subscribe(object : FlowableSubscriber<MessageModel> {
+                override fun onSubscribe(s: Subscription) {
+                    s.request(Long.MAX_VALUE)
+                }
+
+                override fun onNext(data: MessageModel) {
+                    if (data.message == "success") {
+                        UsersCards.deleteCard(cardId)
+                    }
+                }
+
+                override fun onError(e: Throwable?) {
+                    Log.e("qqq", "changeCard error ${e?.message}")
+                }
+
+                override fun onComplete() {
+                }
+
+            })
     }
 }

@@ -23,6 +23,30 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="30dp">
 
+            <TextView
+                android:id="@+id/crateChangeTask"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Create/change task"
+                android:fontFamily="@font/opensans_extrabold"
+                android:textSize="20dp"
+                android:textColor="@color/purple"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/dialogDeleteButton"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:ellipsize="end"/>
+
+            <ImageView
+                android:id="@+id/dialogDeleteButton"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/crateChangeTask"
+                app:layout_constraintBottom_toBottomOf="@id/crateChangeTask"
+                android:src="@drawable/delete"/>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dialogTaskTitle"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -30,13 +54,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
                 app:boxCornerRadiusBottomEnd="20dp"
                 app:boxCornerRadiusBottomStart="20dp"
                 app:boxCornerRadiusTopEnd="20dp"
                 app:boxCornerRadiusTopStart="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/crateChangeTask">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dialogTaskTitleText"
@@ -47,7 +72,6 @@
                     android:gravity="start"
                     android:hint="Your title"
                     android:inputType="textMultiLine|textCapSentences"
-                    android:maxLines="1"
                     android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +99,6 @@
                     android:gravity="start"
                     android:hint="Describe your task"
                     android:inputType="textMultiLine|textCapSentences"
-                    android:maxLines="1"
                     android:textColor="@color/black" />
 
             </com.google.android.material.textfield.TextInputLayout>

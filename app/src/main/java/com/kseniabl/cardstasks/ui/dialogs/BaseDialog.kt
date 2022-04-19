@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.dialogs
+package com.kseniabl.cardstasks.ui.dialogs
 
 import android.content.Context
 import android.graphics.Point
@@ -7,6 +7,8 @@ import android.view.Gravity
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import com.kseniabl.cardstasks.ui.base.BaseFragment
+import dagger.android.support.AndroidSupportInjection
 
 abstract class BaseDialog: DialogFragment() {
 

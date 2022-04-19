@@ -34,7 +34,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:text="Card text"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 app:layout_constraintEnd_toStartOf="@id/cardTime"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +49,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:text="2 hours ago"
                 android:textColor="@color/green"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cardText"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +61,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Card description"
+                android:text="Card description пвапв выап ывп вапыв пыв ывапаыв ывапы"
+                android:textSize="12dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardText"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +76,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/opensans_bold"
                 android:text="6 p.m Monday"
+                android:textSize="12dp"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toStartOf="@id/cardCost"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -89,10 +91,28 @@
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/opensans_bold"
                 android:text="10$ per hour"
+                android:textSize="12dp"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cardDate"
                 app:layout_constraintTop_toBottomOf="@id/cardDescr" />
+
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flowLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/cardDescr"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:constraint_referenced_ids="cardDate, cardCost"
+                app:flow_horizontalBias="0"
+                app:flow_horizontalGap="10dp"
+                app:flow_horizontalStyle="spread_inside"
+                app:flow_verticalBias="0"
+                app:flow_wrapMode="chain"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

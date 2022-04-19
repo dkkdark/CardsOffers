@@ -42,20 +42,18 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
         currentUserClass.readSharedPref()?.let {
             interactor.getUserName(it.id)
             .subscribe(object : Observer<BaseProfileInfoModel> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(data: BaseProfileInfoModel?) {
-                    if (data != null) {
-                        name.text = data.username
-                        ratingStarView.rating = data.rating
-                        checkBox.isChecked = data.isFreelancer
-                        email.text = data.email
-                    }
+                override fun onNext(data: BaseProfileInfoModel) {
+                    name.text = data.username
+                    ratingStarView.rating = data.rating
+                    checkBox.isChecked = data.isFreelancer
+                    email.text = data.email
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "baseInfo show onError ${e?.message}")
+                override fun onError(e: Throwable) {
+                    Log.e("qqq", "baseInfo show onError ${e.message}")
                 }
 
                 override fun onComplete() {
@@ -67,25 +65,17 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
     override fun setupUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView) {
         currentUserClass.readSharedPref()?.let {
             interactor.getUserProfession(it.id).subscribe(object : Observer<Profession> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(data: Profession?) {
-                    if (data != null) {
-                        tags.tags = data.tags
-                        if (data.specialization != "")
-                            spec.text = data.specialization
-                        else
-                            spec.text = "—"
-                        if (data.description != "")
-                            descr.text = data.description
-                        else
-                            descr.text = "—"
-                    }
+                override fun onNext(data: Profession) {
+                    tags.tags = data.tags
+                    checkIsEmpty(spec, data.specialization)
+                    checkIsEmpty(descr, data.description)
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "profession show onError ${e?.message}")
+                override fun onError(e: Throwable) {
+                    Log.e("qqq", "profession show onError ${e.message}")
                 }
 
                 override fun onComplete() {
@@ -97,32 +87,18 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
     override fun setupUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView) {
         currentUserClass.readSharedPref()?.let {
             interactor.getUserAdditionalInfo(it.id).subscribe(object : Observer<AdditionalInfo> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(data: AdditionalInfo?) {
-                    if (data != null) {
-                        if (data.description != "")
-                            descr.text = data.description
-                        else
-                            descr.text = "—"
-                        if (data.country != "")
-                            country.text = data.country
-                        else
-                            country.text = "—"
-                        if (data.city != "")
-                            city.text = data.city
-                        else
-                            city.text = "—"
-                        if (data.typeOfWork != "")
-                            type.text = data.typeOfWork
-                        else
-                            type.text = "—"
-                    }
+                override fun onNext(data: AdditionalInfo) {
+                    checkIsEmpty(descr, data.description)
+                    checkIsEmpty(country, data.country)
+                    checkIsEmpty(city, data.city)
+                    checkIsEmpty(type, data.typeOfWork)
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "additional show onError ${e?.message}")
+                override fun onError(e: Throwable) {
+                    Log.e("qqq", "additional show onError ${e.message}")
                 }
 
                 override fun onComplete() {
@@ -136,16 +112,23 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
     }
 
     override fun showUserProfession(tagsLayout: TagContainerLayout, specText: TextView, descrText: TextView, spec: String, descr: String, tags: List<String>) {
-        specText.text = spec
-        descrText.text = descr
+        checkIsEmpty(specText, spec)
+        checkIsEmpty(descrText, descr)
         tagsLayout.tags = tags
     }
 
     override fun showUserAdditionalInfo(descrText: TextView, countryText: TextView, cityText: TextView, typeText: TextView, descr: String, country: String, city: String, type: String) {
-        descrText.text = descr
-        countryText.text = country
-        cityText.text = city
-        typeText.text = type
+        checkIsEmpty(descrText, descr)
+        checkIsEmpty(countryText, country)
+        checkIsEmpty(cityText, city)
+        checkIsEmpty(typeText, type)
+    }
+
+    private fun checkIsEmpty(textView: TextView, value: String) {
+        if (value.isNotEmpty())
+            textView.text = value
+        else
+            textView.text = "—"
     }
 
     override fun changeName(id: String, name: String) {

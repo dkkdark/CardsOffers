@@ -25,15 +25,18 @@
 
             <TextView
                 android:id="@+id/additionalInfoText"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Additional Information"
                 android:fontFamily="@font/opensans_extrabold"
-                android:textSize="24dp"
+                android:textSize="20dp"
                 android:textColor="@color/purple"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="20dp"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="20dp"
+                android:ellipsize="end" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/dialogAdditionalDescriptionField"
@@ -58,7 +61,7 @@
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine|textCapSentences"
                     android:gravity="start"
-                    android:hint="Write here additional information"/>
+                    android:hint="Additional information"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +88,7 @@
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine|textCapSentences"
                     android:gravity="start"
-                    android:hint="Write here your country"/>
+                    android:hint="Your country"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,36 +115,23 @@
                     android:background="@android:color/transparent"
                     android:inputType="textMultiLine|textCapSentences"
                     android:gravity="start"
-                    android:hint="Write here your city"/>
+                    android:hint="Your city"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
+            <Spinner
                 android:id="@+id/dialogTypeOfWorkField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dialogCityField"
                 app:layout_constraintEnd_toEndOf="parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                app:boxCornerRadiusBottomEnd="20dp"
-                app:boxCornerRadiusBottomStart="20dp"
-                app:boxCornerRadiusTopEnd="20dp"
-                app:boxCornerRadiusTopStart="20dp"
-                android:layout_marginStart="6dp"
+                app:layout_constraintBottom_toTopOf="@id/dialogAdditionalChangeButton"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dialogTypeOfWorkText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:gravity="start"
-                    android:hint="Write here online or offline"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/button_outline"
+                android:popupBackground="@drawable/button_outline" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/dialogAdditionalCloseButton"

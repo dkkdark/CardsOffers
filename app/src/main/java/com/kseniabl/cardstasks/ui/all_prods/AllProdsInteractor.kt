@@ -1,6 +1,7 @@
 package com.kseniabl.cardstasks.ui.all_prods
 
 import android.util.Log
+import com.kseniabl.cardstasks.ui.base.AllCardsContainer
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.all_prods.AllProdsInteractorInterface
@@ -18,7 +19,7 @@ class AllProdsInteractor @Inject constructor(var retrofit: Retrofit): AllProdsIn
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<List<List<CardModel>>> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
                 override fun onNext(data: List<List<CardModel>>) {
@@ -34,10 +35,14 @@ class AllProdsInteractor @Inject constructor(var retrofit: Retrofit): AllProdsIn
                             }
                         }
                     }
+                    val allCards = adapter.getElements()
+                    AllCardsContainer.setCards(allCards)
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "loadCards error ${e?.message}")
+                override fun onError(e: Throwable) {
+                    Log.e("qqq", "loadCards error ${e.message}")
+                    adapter.clearElements()
+                    adapter.addElements(AllCardsContainer.getAllCards())
                 }
 
                 override fun onComplete() {

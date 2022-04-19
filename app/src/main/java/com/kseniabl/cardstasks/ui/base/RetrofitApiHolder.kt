@@ -92,6 +92,11 @@ interface RetrofitApiHolder {
     fun getAllCards(): Observable<List<List<CardModel>>>
 
     @FormUrlEncoded
+    @POST("delete_card")
+    fun deleteCard(@Field("user_id") user_id: String,
+                   @Field("card_id") card_id: String): Flowable<MessageModel>
+
+    @FormUrlEncoded
     @POST("change_card")
     fun changeCard(@Field("id") user_id: String,
                    @Field("cardId") cardId: String,

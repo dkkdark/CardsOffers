@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:layout_below="@id/imageViewProfile"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/white"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans_extrabold"
                 android:text="Profession"
-                android:textSize="24dp"
+                android:textSize="20dp"
                 android:textColor="@color/purple"/>
 
             <ImageView
@@ -95,7 +95,7 @@
                 app:tag_border_width="0dp"
                 app:tag_cross_color="@color/white"
                 app:tag_theme="none"
-                app:tag_text_size="14dp"
+                app:tag_text_size="12dp"
                 app:tag_background_color="@color/light_purple"
                 app:tag_text_color="@color/white"/>
 
@@ -107,7 +107,7 @@
                 android:layout_below="@id/tagContainerLayout"
                 android:fontFamily="@font/opensans_bold"
                 android:layout_marginTop="10dp"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/specializationChangeText"
@@ -118,7 +118,7 @@
                 android:layout_alignTop="@id/specializationText"
                 android:layout_marginStart="10dp"
                 android:text="—"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/descriptionSpecializationText"
@@ -128,7 +128,7 @@
                 android:layout_below="@id/specializationText"
                 android:fontFamily="@font/opensans_bold"
                 android:layout_marginTop="10dp"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/descriptionSpecializationChangeText"
@@ -139,7 +139,7 @@
                 android:layout_alignTop="@id/descriptionSpecializationText"
                 android:layout_marginStart="10dp"
                 android:text="—"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
         </RelativeLayout>
 
@@ -170,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:text="Additional Information"
                 android:fontFamily="@font/opensans_extrabold"
-                android:textSize="24dp"
+                android:textSize="20dp"
                 android:textColor="@color/purple"/>
 
             <ImageView
@@ -191,7 +191,7 @@
                 android:layout_below="@id/editAdditionalInfoImage"
                 android:fontFamily="@font/opensans_bold"
                 android:layout_marginTop="20dp"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/descriptionAddInfoChangeText"
@@ -202,7 +202,7 @@
                 android:layout_alignTop="@id/descriptionAddInfoText"
                 android:layout_marginStart="10dp"
                 android:text="—"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/countryText"
@@ -212,7 +212,7 @@
                 android:layout_below="@id/descriptionAddInfoText"
                 android:fontFamily="@font/opensans_bold"
                 android:layout_marginTop="10dp"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/countryChangeText"
@@ -223,7 +223,7 @@
                 android:layout_alignTop="@id/countryText"
                 android:layout_marginStart="10dp"
                 android:text="—"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/cityText"
@@ -233,7 +233,7 @@
                 android:layout_below="@id/countryText"
                 android:fontFamily="@font/opensans_bold"
                 android:layout_marginTop="10dp"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/cityChangeText"
@@ -244,7 +244,7 @@
                 android:layout_alignTop="@id/cityText"
                 android:layout_marginStart="10dp"
                 android:text="—"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/typeOfWorkText"
@@ -254,7 +254,7 @@
                 android:layout_below="@id/cityText"
                 android:fontFamily="@font/opensans_bold"
                 android:layout_marginTop="10dp"
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/typeOfWorkChangeText"
@@ -265,7 +265,7 @@
                 android:layout_alignTop="@id/typeOfWorkText"
                 android:layout_marginStart="10dp"
                 android:text="—"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
         </RelativeLayout>
 
@@ -298,7 +298,7 @@
                 android:fontFamily="@font/opensans_extrabold"
                 android:text="Other"
                 android:textColor="@color/purple"
-                android:textSize="24dp" />
+                android:textSize="20dp" />
 
             <com.idlestar.ratingstar.RatingStarView
                 android:id="@+id/ratingBarSettings"
@@ -329,7 +329,7 @@
                 android:fontFamily="@font/opensans_bold"
                 android:textColor="@color/black"
                 android:text="Email:"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/emailChangeText"
@@ -340,7 +340,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/emailText"
                 android:text=""
-                android:textSize="16dp"/>
+                android:textSize="14dp"/>
 
             <TextView
                 android:id="@+id/beFreelancerText"
@@ -349,7 +349,7 @@
                 android:layout_below="@id/emailText"
                 android:layout_marginTop="10dp"
                 android:text="Be an Freelancer"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:fontFamily="@font/opensans_bold"
                 android:textColor="@color/black"/>
 

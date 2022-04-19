@@ -1,48 +1,20 @@
-package com.kseniabl.cardtasks.ui.dialogs
+package com.kseniabl.cardstasks.ui.dialogs
 
-import android.content.Context
 import android.graphics.Color
-import android.graphics.Point
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.os.bundleOf
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
+import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.R
 import kotlinx.android.synthetic.main.dialog_change_additional_info.*
 
-class ChangeAdditionalInfoDialog: DialogFragment() {
+class ChangeAdditionalInfoDialog: BaseDialog() {
 
-    override fun onResume() {
-        val wm = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        val window = dialog!!.window
-        var width = 0
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val windowMetrics = wm.currentWindowMetrics
-            val windowInsets: WindowInsets = windowMetrics.windowInsets
-
-            val insets = windowInsets.getInsetsIgnoringVisibility(
-                WindowInsets.Type.navigationBars() or WindowInsets.Type.displayCutout()
-            )
-            val insetsWidth = insets.right + insets.left
-            val b = windowMetrics.bounds
-            width = b.width() - insetsWidth
-        } else {
-            val size = Point()
-            @Suppress("DEPRECATION")
-            val display = window!!.windowManager.defaultDisplay
-            @Suppress("DEPRECATION")
-            display.getSize(size)
-            width = size.x
-        }
-
-        window?.setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT)
-        window?.setGravity(Gravity.CENTER)
-        super.onResume()
-    }
+    private val listForSpinner = arrayListOf("—", "Online", "Offline")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -53,10 +25,19 @@ class ChangeAdditionalInfoDialog: DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        activity?.let {
+            val shader = CardTasksUtils.getTextGradient(it)
+            additionalInfoText.paint.shader = shader
+        }
+
+        setTypeOfWWorkSpinner()
+        setButtonsClickListeners()
+
         val description = arguments?.getString("description")
         val country = arguments?.getString("country")
         val city = arguments?.getString("city")
         val typeOfWork = arguments?.getString("typeOfWork")
+
         if (description != "—")
             dialogAdditionalDescriptionText.setText(description)
         if (country != "—")
@@ -64,9 +45,7 @@ class ChangeAdditionalInfoDialog: DialogFragment() {
         if (city != "—")
             dialogCityText.setText(city)
         if (typeOfWork != "—")
-            dialogTypeOfWorkText.setText(typeOfWork)
-
-        setButtonsClickListeners()
+            dialogTypeOfWorkField.setSelection(listForSpinner.indexOf(typeOfWork))
     }
 
     private fun setButtonsClickListeners() {
@@ -75,13 +54,33 @@ class ChangeAdditionalInfoDialog: DialogFragment() {
                 "resDescription" to dialogAdditionalDescriptionText.text.toString(),
                 "resCountry" to dialogCountryText.text.toString(),
                 "resCity" to dialogCityText.text.toString(),
-                "resTypeOfWork" to dialogTypeOfWorkText.text.toString())
+                "resTypeOfWork" to dialogTypeOfWorkField.selectedItem.toString())
             )
             dialog?.cancel()
             dialog?.dismiss()
         }
         dialogAdditionalCloseButton.setOnClickListener {
             dialog?.dismiss()
+        }
+    }
+
+    private fun setTypeOfWWorkSpinner() {
+        val adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, listForSpinner) {}
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        dialogTypeOfWorkField?.adapter = adapter
+
+        dialogTypeOfWorkField?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, itemSelected: View?, selectedItemPos: Int, selectedId: Long) {
+                when (listForSpinner[selectedItemPos]) {
+                    "—" -> {}
+                    "Online" -> {}
+                    "Offline" -> {}
+                }
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
         }
     }
 }

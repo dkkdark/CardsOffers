@@ -9,6 +9,8 @@ import com.kseniabl.cardtasks.R
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import co.lujun.androidtagview.TagView
+import com.kseniabl.cardstasks.ui.dialogs.BaseDialog
+import com.kseniabl.cardstasks.utils.CardTasksUtils
 
 import kotlinx.android.synthetic.main.dialog_change_profession.*
 
@@ -23,6 +25,11 @@ class ChangeProfessionDialogFragment: BaseDialog() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        activity?.let {
+            val shader = CardTasksUtils.getTextGradient(it)
+            dialogProfessionText.paint.shader = shader
+        }
 
         val specialization = arguments?.getString("specialization").toString()
         val description = arguments?.getString("description").toString()
