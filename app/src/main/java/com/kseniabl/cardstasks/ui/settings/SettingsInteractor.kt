@@ -2,24 +2,31 @@ package com.kseniabl.cardstasks.ui.settings
 
 import android.content.Context
 import android.util.Log
-import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
-import com.kseniabl.cardstasks.ui.base.UserCardInteractor
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.Profession
 import com.kseniabl.cardtasks.ui.models.BaseProfileInfoModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.Response
+import okhttp3.ResponseBody
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import javax.inject.Inject
 
 import retrofit2.Retrofit
+import java.io.File
+import java.io.InputStream
+import java.nio.ByteBuffer
 
 
 class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context: Context, var currentUserClass: CurrentUserClassInterface): SettingsInteractorInterface, UserCardInteractor() {
@@ -40,6 +47,13 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
 
     override fun getUserAdditionalInfo(id: String): Observable<AdditionalInfo> {
         val observable = retrofit.create(RetrofitApiHolder::class.java).getUserAdditionalInfo(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
+    }
+
+    override fun getProfileImage(id: String): Flowable<ImageModel> {
+        val observable = retrofit.create(RetrofitApiHolder::class.java).getImg(id)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         return observable
@@ -166,5 +180,11 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
                 }
 
             })
+    }
+
+    override fun uploadImgToServer(id: String, requestBody: MultipartBody.Part): Flowable<MessageModel> {
+        return retrofit.create(RetrofitApiHolder::class.java).uploadImg(id, requestBody)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }

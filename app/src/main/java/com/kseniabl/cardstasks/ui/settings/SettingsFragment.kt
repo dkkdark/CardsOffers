@@ -1,10 +1,13 @@
 package com.kseniabl.cardstasks.ui.settings
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import com.github.drjacky.imagepicker.ImagePicker
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardstasks.ui.dialogs.ChangeAdditionalInfoDialog
@@ -13,8 +16,12 @@ import com.kseniabl.cardstasks.ui.login.LoginActivity
 import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardtasks.ui.dialogs.ChangeProfessionDialogFragment
-import com.kseniabl.cardtasks.ui.settings.SettingsPresenterInterface
 import kotlinx.android.synthetic.main.activity_profile.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
+import java.io.File
 import javax.inject.Inject
 
 
@@ -36,6 +43,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
         presenter.setupUserBaseInfo(profileNameText, ratingBarSettings, beFreelancerCheckBox, emailChangeText)
         presenter.setupUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
         presenter.setupUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
+        presenter.setupProfileImage(imageViewProfile)
 
         changeNameImage.setOnClickListener { showChangeNameDialog() }
         editProfessionImage.setOnClickListener { showChangeProfessionDialog() }
@@ -44,6 +52,8 @@ class SettingsFragment: BaseFragment(), SettingsView {
         logoutButton.setOnClickListener { presenter.logoutUser() }
 
         changePasswordButton.setOnClickListener {  }
+
+        imageViewProfile.setOnClickListener { chooseImg() }
 
         setGradient()
     }
@@ -145,7 +155,29 @@ class SettingsFragment: BaseFragment(), SettingsView {
     }
 
 
-    private fun chooseImg() {
+    private val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        if (it.resultCode == Activity.RESULT_OK) {
+            val uri = it.data?.data!!
+            if (currentUserClass.readSharedPref()?.id != null && uri.path != null) {
+                val file = File(uri.path!!)
+                val part = MultipartBody.Part.createFormData("pic", file.name, RequestBody.create(MediaType.parse("image/*"), file))
+                presenter.uploadImage(currentUserClass.readSharedPref()!!.id, part, imageViewProfile, uri)
+            }
+        }
+    }
 
+    private fun chooseImg() {
+        ImagePicker.with(requireActivity())
+            .crop(1F, 1F)
+            .cropOval()
+            .cropFreeStyle()
+            .galleryMimeTypes(
+                mimeTypes = arrayOf(
+                    "image/png",
+                    "image/jpg",
+                    "image/jpeg"
+                )
+            )
+            .createIntentFromDialog { launcher.launch(it) }
     }
 }

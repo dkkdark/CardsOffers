@@ -116,4 +116,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
 
     implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'com.github.Drjacky:ImagePicker:2.1.14'
 }

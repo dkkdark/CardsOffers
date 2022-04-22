@@ -31,10 +31,10 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
 
     private fun registrationWithServer(name: String, email: String, password: String) {
         interactor.registrationApiCall(name, email, password).subscribe(object : Observer<JsonObject> {
-            override fun onSubscribe(d: Disposable?) {
+            override fun onSubscribe(d: Disposable) {
             }
 
-            override fun onNext(data: JsonObject?) {
+            override fun onNext(data: JsonObject) {
                 if (data != null) {
                     val gson = Gson()
                     val parser = JsonParser()
@@ -54,8 +54,8 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                 }
             }
 
-            override fun onError(e: Throwable?) {
-                Log.e("qqq", "registration onError ${e?.message}")
+            override fun onError(e: Throwable) {
+                Log.e("qqq", "registration onError ${e.message}")
                 Toast.makeText(context, "Server is not accessible. Try later", Toast.LENGTH_SHORT).show()
             }
 

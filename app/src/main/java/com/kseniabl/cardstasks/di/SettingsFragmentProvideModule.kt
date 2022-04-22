@@ -2,7 +2,6 @@ package com.kseniabl.cardtasks.di
 
 import com.kseniabl.cardstasks.ui.settings.*
 import com.kseniabl.cardtasks.di.scope.SettingsFragmentScope
-import com.kseniabl.cardtasks.ui.settings.*
 import dagger.Module
 import dagger.Provides
 

@@ -1,4 +1,4 @@
-package com.kseniabl.cardtasks.ui.base
+package com.kseniabl.cardstasks.ui.base
 
 import android.provider.MediaStore
 
@@ -18,9 +18,7 @@ import android.os.Environment
 object GetRealPath {
 
     fun getRealPath(context: Context, fileUri: Uri): String? {
-        val realPath: String?
-        // SDK < API11
-        realPath = if (Build.VERSION.SDK_INT < 11) {
+        val realPath: String? = if (Build.VERSION.SDK_INT < 11) {
             getRealPathFromURI_BelowAPI11(context, fileUri)
         } else if (Build.VERSION.SDK_INT < 19) {
             getRealPathFromURI_API11to18(context, fileUri)
@@ -31,7 +29,7 @@ object GetRealPath {
     }
 
     @SuppressLint("NewApi")
-    fun getRealPathFromURI_API11to18(context: Context?, contentUri: Uri?): String? {
+    private fun getRealPathFromURI_API11to18(context: Context?, contentUri: Uri?): String? {
         val proj = arrayOf(MediaStore.Images.Media.DATA)
         var result: String? = null
         val cursorLoader = CursorLoader(context, contentUri, proj, null, null, null)
@@ -45,7 +43,7 @@ object GetRealPath {
         return result
     }
 
-    fun getRealPathFromURI_BelowAPI11(context: Context, contentUri: Uri?): String {
+    private fun getRealPathFromURI_BelowAPI11(context: Context, contentUri: Uri?): String {
         val proj = arrayOf(MediaStore.Images.Media.DATA)
         val cursor: Cursor? =
             contentUri?.let { context.getContentResolver().query(it, proj, null, null, null) }
@@ -62,7 +60,7 @@ object GetRealPath {
     }
 
     @SuppressLint("NewApi")
-    fun getRealPathFromURI_API19(context: Context, uri: Uri): String? {
+    private fun getRealPathFromURI_API19(context: Context, uri: Uri): String? {
         val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 
         // DocumentProvider
@@ -116,10 +114,7 @@ object GetRealPath {
         return null
     }
 
-    fun getDataColumn(
-        context: Context, uri: Uri?, selection: String?,
-        selectionArgs: Array<String>?
-    ): String? {
+    private fun getDataColumn(context: Context, uri: Uri?, selection: String?, selectionArgs: Array<String>?): String? {
         var cursor: Cursor? = null
         val column = "_data"
         val projection = arrayOf(
@@ -137,26 +132,27 @@ object GetRealPath {
                 return cursor.getString(index)
             }
         } finally {
-            if (cursor != null) cursor.close()
+            if(cursor != null)
+                cursor.close()
         }
         return null
     }
 
-    fun isExternalStorageDocument(uri: Uri): Boolean {
+    private fun isExternalStorageDocument(uri: Uri): Boolean {
         return "com.android.externalstorage.documents" == uri.getAuthority()
     }
 
-    fun isDownloadsDocument(uri: Uri): Boolean {
+    private fun isDownloadsDocument(uri: Uri): Boolean {
         return "com.android.providers.downloads.documents" == uri.getAuthority()
     }
 
 
-    fun isMediaDocument(uri: Uri): Boolean {
+    private fun isMediaDocument(uri: Uri): Boolean {
         return "com.android.providers.media.documents" == uri.getAuthority()
     }
 
 
-    fun isGooglePhotosUri(uri: Uri): Boolean {
+    private fun isGooglePhotosUri(uri: Uri): Boolean {
         return "com.google.android.apps.photos.content" == uri.getAuthority()
     }
 }

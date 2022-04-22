@@ -1,6 +1,8 @@
 package com.kseniabl.cardstasks.ui.base
 
+import android.net.Uri
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.models.Profession
@@ -8,7 +10,14 @@ import com.kseniabl.cardstasks.ui.models.UserModel
 import com.kseniabl.cardtasks.ui.models.*
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.Response
+import okhttp3.ResponseBody
 import retrofit2.http.*
+import java.io.File
+import java.io.InputStream
+import java.nio.ByteBuffer
 
 interface RetrofitApiHolder {
 
@@ -146,4 +155,13 @@ interface RetrofitApiHolder {
                     @Field("card_id") card_id: String,
                     @Field("card_title") card_title: String,
                     @Field("card_cost") card_cost: String): Observable<MessageModel>
+
+    @Multipart
+    @POST("upload_img")
+    fun uploadImg(
+        @Part("user_id") user_id: String,
+        @Part pic: MultipartBody.Part): Flowable<MessageModel>
+
+    @GET("get_img/{user_id}")
+    fun getImg (@Path("user_id") user_id: String): Flowable<ImageModel>
 }
