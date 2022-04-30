@@ -15,7 +15,8 @@ import com.kseniabl.cardtasks.ui.add_prod.DraftPresenterInterface
 import com.kseniabl.cardtasks.ui.add_prod.DraftView
 import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardstasks.ui.models.CardModel
-import kotlinx.android.synthetic.main.fragment_draft.*
+import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
+import com.kseniabl.cardtasks.databinding.FragmentDraftBinding
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -30,8 +31,12 @@ class DraftFragment: BaseFragment(), DraftView {
     @Inject
     lateinit var currentUserClass: CurrentUserClass
 
+    private var _binding: FragmentDraftBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_draft, container, false)
+        _binding = FragmentDraftBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onResume() {
@@ -74,11 +79,12 @@ class DraftFragment: BaseFragment(), DraftView {
         flexlayoutManager.flexDirection = FlexDirection.ROW;
         flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND;
 
-        draftRecyclerView.layoutManager = flexlayoutManager
-        draftRecyclerView.adapter = adapter
-        draftRecyclerView.setHasFixedSize(true)
-        draftRecyclerView.setItemViewCacheSize(20)
-
+        binding.apply {
+            draftRecyclerView.layoutManager = flexlayoutManager
+            draftRecyclerView.adapter = adapter
+            draftRecyclerView.setHasFixedSize(true)
+            draftRecyclerView.setItemViewCacheSize(20)
+        }
     }
 
     override fun showCreateTaskDialog(item: CardModel) {
@@ -100,6 +106,7 @@ class DraftFragment: BaseFragment(), DraftView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     override fun provideAdapter(): DraftAdapter {

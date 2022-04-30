@@ -17,7 +17,9 @@ abstract class ActivityBuilder {
     @ContributesAndroidInjector(modules = [(LoginActivityModule::class)])
     abstract fun bindLoginActivity(): LoginActivity
 
-    @ContributesAndroidInjector(modules = [(MainActivityModule::class), (AddProdFragmentModule::class), (AllOffersFragmentModule::class), (SettingsFragmentModule::class), (AllProdsFragmentModule::class), (FreelancerFragmentModule::class), (AddTasksFragmentModule::class), (DraftFragmentModule::class), (ChatListFragmentModule::class), (CreateNewTaskModule::class)])
+    @ContributesAndroidInjector(modules = [(MainActivityModule::class), (AddProdFragmentModule::class), (AllOffersFragmentModule::class),
+        (SettingsFragmentModule::class), (AllProdsFragmentModule::class), (FreelancerFragmentModule::class), (AddTasksFragmentModule::class),
+        (DraftFragmentModule::class), (ChatListFragmentModule::class), (CreateNewTaskModule::class)])
     abstract fun bindMainActivity(): MainActivity
 
     @ContributesAndroidInjector(modules = [(SplashScreenModule::class)])
@@ -34,4 +36,5 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract fun fcmMessaging(): FirebaseInstanceIDService
+
 }

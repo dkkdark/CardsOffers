@@ -42,6 +42,10 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
         return items.indexOf(el)
     }
 
+    override fun removeAllElements(list: List<CardModel>) {
+        items.removeAll(list)
+    }
+
     override fun loadUserCards(id: String, recyclerAdapter: DraftAdapter) {
         interactor.loadCards(id, recyclerAdapter)
     }

@@ -12,11 +12,12 @@ import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.show_item.ShowItemActivity
+import com.kseniabl.cardtasks.databinding.ActivityDetailsFreelancerBinding
+import com.kseniabl.cardtasks.databinding.ActivityMainBinding
 import com.kseniabl.cardtasks.ui.freelancer_details.FreelancerDetailsPresenterInterface
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.synthetic.main.activity_details_freelancer.*
 import javax.inject.Inject
 
 class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndroidInjector {
@@ -27,14 +28,16 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private var freelancer: FreelancerModel? = null
+    private lateinit var binding: ActivityDetailsFreelancerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details_freelancer)
+        binding = ActivityDetailsFreelancerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
 
         freelancer = intent.extras?.getSerializable("item") as FreelancerModel
-        freelancerNameText.text = freelancer?.username
+        binding.freelancerNameText.text = freelancer?.username
 
         addListeners()
         openInfoFreelancer()
@@ -71,8 +74,10 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
     }
 
     private fun addListeners() {
-        infoButton.setOnClickListener { openInfoFreelancer() }
-        cardsButton.setOnClickListener { openCardsFreelancer() }
+        binding.apply {
+            infoButton.setOnClickListener { openInfoFreelancer() }
+            cardsButton.setOnClickListener { openCardsFreelancer() }
+        }
     }
 
     fun openShowItemActivity(card: CardModel) {

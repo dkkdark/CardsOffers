@@ -37,6 +37,10 @@ class AllProdsPresenter<V: AllProdsView, I: AllProdsInteractorInterface> @Inject
         items.remove(el)
     }
 
+    override fun removeAllElements(list: List<CardModel>) {
+        items.removeAll(list)
+    }
+
     override fun getAllElements(): MutableList<CardModel> {
         return items
     }

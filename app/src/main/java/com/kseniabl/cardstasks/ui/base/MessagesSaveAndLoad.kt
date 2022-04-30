@@ -1,19 +1,16 @@
 package com.kseniabl.cardstasks.ui.base
 
 import android.content.Context
-import android.util.Log
-import com.kseniabl.cardstasks.db.ChatModel
+import com.kseniabl.cardstasks.db.db_models.ChatModel
 import com.kseniabl.cardstasks.db.ChatRepository
-import com.kseniabl.cardstasks.db.MapOfChatModels
+import com.kseniabl.cardstasks.db.db_models.MapOfChatModels
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MessagesSaveAndLoad @Inject constructor(var context: Context): MessageSaveAndLoadInterface {
-
-    private var chatRepo: ChatRepository = ChatRepository(context)
+class MessagesSaveAndLoad @Inject constructor(var context: Context, private val chatRepo: ChatRepository): MessageSaveAndLoadInterface {
 
     override fun insertData(msg: MapOfChatModels) {
         GlobalScope.launch {

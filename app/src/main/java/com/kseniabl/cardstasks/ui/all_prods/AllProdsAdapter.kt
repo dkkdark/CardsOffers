@@ -1,12 +1,15 @@
 package com.kseniabl.cardstasks.ui.all_prods
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardtasks.ui.all_prods.AllProdsInteractorInterface
@@ -16,11 +19,20 @@ import javax.inject.Inject
 import com.kseniabl.cardstasks.ui.models.CardModel
 import java.util.*
 
-class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllProdsView, AllProdsInteractorInterface>, var context: Context, var fragment: AllProdsFragment): RecyclerView.Adapter<AllProdsAdapter.AllProdsHolder>() {
+class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllProdsView, AllProdsInteractorInterface>, var context: Context, var fragment: AllProdsFragment)
+    : RecyclerView.Adapter<AllProdsAdapter.AllProdsHolder>() {
 
-    fun addElements(list: List<CardModel>) {
-        presenter.addElementsToList(list)
-        notifyDataSetChanged()
+    var list = mutableListOf<CardModel>()
+
+    fun addElements(newList: List<CardModel>) {
+        if (list != newList) {
+            clearElements()
+            presenter.addElementsToList(newList)
+            notifyDataSetChanged()
+
+            list.clear()
+            list.addAll(newList)
+        }
     }
 
     fun addElement(el: CardModel, pos: Int) {
@@ -34,8 +46,11 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
 
     fun clearElements() {
         val list = presenter.getAllElements()
+        val listToDel = arrayListOf<CardModel>()
         for (el in list)
-            presenter.removeElementFromList(el)
+            listToDel.add(el)
+        Log.e("qqq", "444")
+        presenter.removeAllElements(listToDel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllProdsHolder {

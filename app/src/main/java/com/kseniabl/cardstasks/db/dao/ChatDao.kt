@@ -1,12 +1,10 @@
-package com.kseniabl.cardstasks.db
+package com.kseniabl.cardstasks.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import androidx.room.OnConflictStrategy.IGNORE
 import androidx.room.OnConflictStrategy.REPLACE
+import com.kseniabl.cardstasks.db.db_models.MapOfChatModels
 import com.kseniabl.cardstasks.ui.base.CardChatModel
 import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
 @Dao

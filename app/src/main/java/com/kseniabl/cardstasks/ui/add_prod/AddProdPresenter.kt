@@ -1,14 +1,12 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.util.Log
 import androidx.cardview.widget.CardView
-import com.kseniabl.cardstasks.ui.add_prod.AddProdInteractorInterface
-import com.kseniabl.cardstasks.ui.add_prod.AddProdPresenterCardModelInterface
-import com.kseniabl.cardstasks.ui.add_prod.AddProdView
 import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.base.UsersCards
 import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.core.FlowableSubscriber
 import org.reactivestreams.Subscription
@@ -51,22 +49,16 @@ class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject co
         return items.indexOf(el)
     }
 
-    override fun loadBaseCards() {
-        val recyclerAdapter = getView()?.provideAdapter()
-
-        val cards = UsersCards.getAllCards()
-        if (cards.isNotEmpty()) {
-            for (card in cards) {
-                if (recyclerAdapter?.getElements()?.contains(card) == false) {
-                    recyclerAdapter.addElement(card, 0)
-                    //loadAddedCards()
-                }
-            }
-        }
+    override fun removeAllElements(list: List<CardModel>) {
+        items.removeAll(list)
     }
 
     override fun loadUserCards(id: String, recyclerAdapter: AddProdsAdapter) {
         interactor.loadCards(id, recyclerAdapter)
+    }
+
+    override fun listToDB(list: List<CardModel>) {
+        interactor.updateListInDB(list)
     }
 
     override fun observeDataChange(recyclerAdapter: AddProdsAdapter) = interactor.observeCards(recyclerAdapter)

@@ -12,7 +12,8 @@ import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.CardModel
-import kotlinx.android.synthetic.main.fragment_cards_freelancer.*
+import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
+import com.kseniabl.cardtasks.databinding.FragmentCardsFreelancerBinding
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -26,9 +27,12 @@ class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {
     lateinit var adapter: CardsFreelancerAdapter
 
     private var id: String? = null
+    private var _binding: FragmentCardsFreelancerBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_cards_freelancer, container, false)
+        _binding = FragmentCardsFreelancerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,6 +51,7 @@ class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -59,10 +64,12 @@ class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {
         flexlayoutManager.flexDirection = FlexDirection.ROW;
         flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND;
 
-        cardsFreelancerRecyclerView.layoutManager = flexlayoutManager
-        cardsFreelancerRecyclerView.adapter = adapter
-        cardsFreelancerRecyclerView.setHasFixedSize(true)
-        cardsFreelancerRecyclerView.setItemViewCacheSize(20)
+        binding.cardsFreelancerRecyclerView.apply {
+            layoutManager = flexlayoutManager
+            adapter = adapter
+            setHasFixedSize(true)
+            setItemViewCacheSize(20)
+        }
     }
 
     override fun openShowItemFragment(item: CardModel) {

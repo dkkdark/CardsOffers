@@ -1,4 +1,4 @@
-package com.kseniabl.cardstasks.db
+package com.kseniabl.cardstasks.db.db_models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

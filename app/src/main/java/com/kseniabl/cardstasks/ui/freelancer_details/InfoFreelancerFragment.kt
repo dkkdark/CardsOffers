@@ -12,7 +12,8 @@ import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardtasks.ui.freelancer_details.InfoFreelancePresenterInterface
 import com.kseniabl.cardtasks.ui.freelancer_details.InfoFreelanceView
 import com.kseniabl.cardstasks.utils.CardTasksUtils
-import kotlinx.android.synthetic.main.fragment_freelance_details_info.*
+import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
+import com.kseniabl.cardtasks.databinding.FragmentFreelanceDetailsInfoBinding
 import javax.inject.Inject
 
 class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
@@ -22,8 +23,12 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
 
     private var freelancer: FreelancerModel? = null
 
+    private var _binding: FragmentFreelanceDetailsInfoBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_freelance_details_info, container, false)
+        _binding = FragmentFreelanceDetailsInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,25 +48,30 @@ class InfoFreelancerFragment: BaseFragment(), InfoFreelanceView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     private fun setGradient() {
         activity?.let {
-            val shader = CardTasksUtils.getTextGradient(it)
-            professionTextFreelancerDetails.paint.shader = shader
-            additionalInfoTextFreelancerDetails.paint.shader = shader
+            binding.apply {
+                val shader = CardTasksUtils.getTextGradient(it)
+                professionTextFreelancerDetails.paint.shader = shader
+                additionalInfoTextFreelancerDetails.paint.shader = shader
+            }
         }
     }
 
     private fun setTextFields() {
         if (freelancer != null) {
-            tagContainerLayoutFreelancerDetails.tag = freelancer!!.profession.tags
-            checkIsEmpty(specializationChangeTextFreelancerDetails, freelancer!!.profession.specialization)
-            checkIsEmpty(descriptionSpecializationChangeTextFreelancerDetails, freelancer!!.profession.description)
-            checkIsEmpty(descriptionAddInfoChangeTextFreelancerDetails, freelancer!!.additionalInfo.description)
-            checkIsEmpty(countryChangeTextFreelancerDetails, freelancer!!.additionalInfo.country)
-            checkIsEmpty(cityChangeTextFreelancerDetails, freelancer!!.additionalInfo.city)
-            checkIsEmpty(typeOfWorkChangeTextFreelancerDetails, freelancer!!.additionalInfo.typeOfWork)
+            binding.apply {
+                tagContainerLayoutFreelancerDetails.tag = freelancer!!.profession.tags
+                checkIsEmpty(specializationChangeTextFreelancerDetails, freelancer!!.profession.specialization)
+                checkIsEmpty(descriptionSpecializationChangeTextFreelancerDetails, freelancer!!.profession.description)
+                checkIsEmpty(descriptionAddInfoChangeTextFreelancerDetails, freelancer!!.additionalInfo.description)
+                checkIsEmpty(countryChangeTextFreelancerDetails, freelancer!!.additionalInfo.country)
+                checkIsEmpty(cityChangeTextFreelancerDetails, freelancer!!.additionalInfo.city)
+                checkIsEmpty(typeOfWorkChangeTextFreelancerDetails, freelancer!!.additionalInfo.typeOfWork)
+            }
         }
     }
 

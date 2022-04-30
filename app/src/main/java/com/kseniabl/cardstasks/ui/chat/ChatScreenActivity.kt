@@ -10,13 +10,9 @@ import com.kseniabl.cardtasks.R
 import javax.inject.Inject
 
 import com.kseniabl.cardstasks.utils.CardTasksUtils
+import com.kseniabl.cardtasks.databinding.ActivityMainBinding
+import com.kseniabl.cardtasks.databinding.FragmentChatScreenBinding
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_chat_screen.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class ChatScreenActivity: BaseActivity(), ChatScreenView {
@@ -33,9 +29,12 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     private var card_title: String? = null
     private var card_cost: String? = null
 
+    private lateinit var binding: FragmentChatScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_chat_screen)
+        binding = FragmentChatScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
 
         id = intent.extras?.getString("id")
@@ -49,7 +48,7 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
             CardTasksUtils.setCardId(card_id!!)
             setPreviousMessagesAndData()
             setupSendMessageListener()
-            presenter.loadReceived(id!!, card_id!!, chatView, this)
+            presenter.loadReceived(id!!, card_id!!, binding.chatView, this)
         }
 
     }
@@ -80,13 +79,15 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     }
 
     private fun setPreviousMessagesAndData() {
-        cardTitleChatScreen.text = card_title
-        cardCostChatScreen.text = "$card_cost $"
-        presenter.setAllMessages(id!!, card_id!!, chatView)
+        binding.apply {
+            cardTitleChatScreen.text = card_title
+            cardCostChatScreen.text = "$card_cost $"
+            presenter.setAllMessages(id!!, card_id!!, chatView)
+        }
     }
 
     private fun setupSendMessageListener() {
-        chatView.setOnSentMessageListener {
+        binding.chatView.setOnSentMessageListener {
             if (isCardExist) {
                 Toast.makeText(this, "You couldn't text to this user anymore, because this task was deleted", Toast.LENGTH_SHORT)
                     .show()
@@ -95,7 +96,7 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
             else {
                 if (currentUserClass.readSharedPref() != null) {
                     presenter.sentMessageWithServer(currentUserClass.readSharedPref()!!.id, id!!, currentUserClass.readSharedPref()!!.username, it.message, card_id!!, card_title!!, card_cost!!)
-                    presenter.insertMessage(id!!, card_id!!, it!!, chatView, card_title!!, card_cost!!)
+                    presenter.insertMessage(id!!, card_id!!, it!!, binding.chatView, card_title!!, card_cost!!)
                     true
                 }
 

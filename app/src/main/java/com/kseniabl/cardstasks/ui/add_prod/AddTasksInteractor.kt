@@ -1,6 +1,7 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.util.Log
+import com.kseniabl.cardstasks.db.RepositoryInterface
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
@@ -14,11 +15,14 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class AddTasksInteractor @Inject constructor(var retrofit: Retrofit): AddTasksInteractorInterface, UserCardInteractor() {
+class AddTasksInteractor @Inject constructor(var retrofit: Retrofit, val repository: RepositoryInterface): AddTasksInteractorInterface, UserCardInteractor() {
 
-    override fun addNewCard(id: String, title: String, descr: String, active: Boolean, date: String, cost: Int, agreement: Boolean, currentTime: Long) {
-        val cardId = generateRandomKey()
-        retrofit.create(RetrofitApiHolder::class.java).addNewCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
+    override fun addCardToDB(card: CardModel) {
+        repository.insertAddProdCard(card)
+    }
+
+    override fun addNewCard(cardId: String, id: String, title: String, descr: String, active: Boolean, date: String, cost: Int, agreement: Boolean, currentTime: Long) {
+        /*retrofit.create(RetrofitApiHolder::class.java).addNewCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<MessageModel> {
@@ -39,6 +43,6 @@ class AddTasksInteractor @Inject constructor(var retrofit: Retrofit): AddTasksIn
 
                 override fun onComplete() {
                 }
-            })
+            })*/
     }
 }

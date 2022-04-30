@@ -11,7 +11,6 @@ import com.kseniabl.cardstasks.ui.base.BaseActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 import com.kseniabl.cardstasks.ui.show_item.ShowItemActivity
 import androidx.core.app.ActivityOptionsCompat
@@ -20,6 +19,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.freelancer_details.FreelancerDetailsActivity
+import com.kseniabl.cardtasks.databinding.ActivityMainBinding
 import com.kseniabl.cardtasks.ui.main.MainPresenterInterface
 
 class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
@@ -30,11 +30,12 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    lateinit var drawerToggle: ActionBarDrawerToggle
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val whatFragment = intent.extras?.getString("whatFragment")
 
@@ -61,7 +62,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
     }
 
     private fun setUpToolbarNavigation() {
-        bottom_navigation.setOnItemSelectedListener { item ->
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
                 when(item.itemId) {
                     R.id.all_prods -> setAllProdFragment(null)
                     R.id.add_prod -> setAddProdFragment()

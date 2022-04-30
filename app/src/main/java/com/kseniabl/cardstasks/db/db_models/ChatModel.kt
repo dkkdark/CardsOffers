@@ -1,4 +1,4 @@
-package com.kseniabl.cardstasks.db
+package com.kseniabl.cardstasks.db.db_models
 
 import android.os.Parcelable
 import androidx.room.Entity

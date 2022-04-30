@@ -1,13 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "androidx.navigation.safeargs.kotlin"
-
-androidExtensions {
-    experimental = true
-}
 
 android {
     compileSdk 31
@@ -37,7 +32,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 
@@ -55,6 +50,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation "androidx.fragment:fragment-ktx:1.4.1"
+
+    // lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
 
     //dagger2
     implementation 'com.google.dagger:dagger-android:2.+'
@@ -105,8 +104,8 @@ dependencies {
     implementation 'com.github.timigod:android-chat-ui:v0.1.4'
 
     // navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
 
     // room
     implementation("androidx.room:room-runtime:2.4.2")
@@ -114,6 +113,10 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.4.2")
     kapt("androidx.room:room-compiler:2.4.2")
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
+    implementation "androidx.room:room-ktx:2.4.2"
+
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
 
     implementation 'com.google.code.gson:gson:2.8.8'
     implementation 'com.github.Drjacky:ImagePicker:2.1.14'

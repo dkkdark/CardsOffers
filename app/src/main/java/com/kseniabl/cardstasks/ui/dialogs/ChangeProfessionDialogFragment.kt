@@ -1,26 +1,27 @@
-package com.kseniabl.cardtasks.ui.dialogs
+package com.kseniabl.cardstasks.ui.dialogs
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import com.kseniabl.cardtasks.R
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import co.lujun.androidtagview.TagView
-import com.kseniabl.cardstasks.ui.dialogs.BaseDialog
 import com.kseniabl.cardstasks.utils.CardTasksUtils
-
-import kotlinx.android.synthetic.main.dialog_change_profession.*
+import com.kseniabl.cardtasks.databinding.DialogChangeProfessionBinding
 
 
 class ChangeProfessionDialogFragment: BaseDialog() {
 
+    private var _binding: DialogChangeProfessionBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        return inflater.inflate(R.layout.dialog_change_profession, container, false)
+        _binding = DialogChangeProfessionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class ChangeProfessionDialogFragment: BaseDialog() {
 
         activity?.let {
             val shader = CardTasksUtils.getTextGradient(it)
-            dialogProfessionText.paint.shader = shader
+            binding.dialogProfessionText.paint.shader = shader
         }
 
         val specialization = arguments?.getString("specialization").toString()
@@ -36,17 +37,22 @@ class ChangeProfessionDialogFragment: BaseDialog() {
         val tagsList = arguments?.getStringArrayList("tagList") as ArrayList<String>
 
         if (specialization != "—")
-            dialogSpecializationText.setText(specialization)
+            binding.dialogSpecializationText.setText(specialization)
         if (description != "—")
-            dialogDescriptionText.setText(description)
-        dialogTagContainer.tags = tagsList
+            binding.dialogDescriptionText.setText(description)
+        binding.dialogTagContainer.tags = tagsList
 
         setTagsListeners()
         setButtonsClickListeners()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun setTagsListeners() {
-        dialogTagContainer.setOnTagClickListener(object : TagView.OnTagClickListener {
+        binding.dialogTagContainer.setOnTagClickListener(object : TagView.OnTagClickListener {
             override fun onSelectedTagDrag(position: Int, text: String?) {
                 TODO("Not yet implemented")
             }
@@ -56,7 +62,7 @@ class ChangeProfessionDialogFragment: BaseDialog() {
             }
 
             override fun onTagCrossClick(position: Int) {
-                dialogTagContainer.removeTag(position)
+                binding.dialogTagContainer.removeTag(position)
             }
 
             override fun onTagLongClick(position: Int, text: String?) {
@@ -64,23 +70,30 @@ class ChangeProfessionDialogFragment: BaseDialog() {
             }
         })
 
-        dialogAddTagButton.setOnClickListener {
-            dialogTagContainer.addTag(dialogTagAddText.text.toString())
-            dialogTagAddText.setText("")
+        binding.apply {
+            dialogAddTagButton.setOnClickListener {
+                dialogTagContainer.addTag(dialogTagAddText.text.toString())
+                dialogTagAddText.setText("")
+            }
         }
     }
 
     private fun setButtonsClickListeners() {
-        dialogProfChangeButton.setOnClickListener {
-            val tagsArray = arrayListOf<String>()
-            tagsArray.addAll(dialogTagContainer.tags)
-            setFragmentResult("ChangeProfessionDialogFragment", bundleOf(
-                "resSpecialization" to dialogSpecializationText.text.toString(),
-                "resDescription" to dialogDescriptionText.text.toString(),
-                "resTagList" to tagsArray))
-            dialog?.cancel()
+        binding.apply {
+            dialogProfChangeButton.setOnClickListener {
+                val tagsArray = arrayListOf<String>()
+                tagsArray.addAll(dialogTagContainer.tags)
+                setFragmentResult(
+                    "ChangeProfessionDialogFragment", bundleOf(
+                        "resSpecialization" to dialogSpecializationText.text.toString(),
+                        "resDescription" to dialogDescriptionText.text.toString(),
+                        "resTagList" to tagsArray
+                    )
+                )
+                dialog?.cancel()
+            }
+            dialogProfCloseButton.setOnClickListener { dialog?.cancel() }
         }
-        dialogProfCloseButton.setOnClickListener { dialog?.cancel() }
     }
 
 }

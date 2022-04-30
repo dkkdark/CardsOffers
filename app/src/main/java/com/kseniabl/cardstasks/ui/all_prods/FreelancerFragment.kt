@@ -12,8 +12,8 @@ import com.kseniabl.cardtasks.ui.all_prods.FreelancersAdapter
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.FreelancerModel
 import com.kseniabl.cardstasks.ui.main.MainActivity
-import com.kseniabl.cardstasks.ui.models.UserModel
-import kotlinx.android.synthetic.main.fragment_freelancers.*
+import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
+import com.kseniabl.cardtasks.databinding.FragmentFreelancersBinding
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -26,8 +26,12 @@ class FreelancerFragment: BaseFragment(), FreelancerView {
     @Inject
     lateinit var adapter: FreelancersAdapter
 
+    private var _binding: FragmentFreelancersBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_freelancers, container, false)
+        _binding = FragmentFreelancersBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +44,7 @@ class FreelancerFragment: BaseFragment(), FreelancerView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     override fun onResume() {
@@ -52,10 +57,12 @@ class FreelancerFragment: BaseFragment(), FreelancerView {
         flexlayoutManager.flexDirection = FlexDirection.ROW;
         flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND;
 
-        Freelancers_recycler_view.layoutManager = flexlayoutManager
-        Freelancers_recycler_view.adapter = adapter
-        Freelancers_recycler_view.setHasFixedSize(true)
-        Freelancers_recycler_view.setItemViewCacheSize(20)
+        binding.apply {
+            freelancersRecyclerView.layoutManager = flexlayoutManager
+            freelancersRecyclerView.adapter = adapter
+            freelancersRecyclerView.setHasFixedSize(true)
+            freelancersRecyclerView.setItemViewCacheSize(20)
+        }
     }
 
     override fun provideAdapter(): FreelancersAdapter {

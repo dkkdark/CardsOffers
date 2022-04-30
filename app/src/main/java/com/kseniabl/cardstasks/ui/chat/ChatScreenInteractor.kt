@@ -4,11 +4,9 @@ import android.content.Context
 import android.util.Log
 import co.intentservice.chatui.ChatView
 import co.intentservice.chatui.models.ChatMessage
-import com.kseniabl.cardstasks.db.ChatModel
-import com.kseniabl.cardstasks.db.MapOfChatModels
+import com.kseniabl.cardstasks.db.db_models.ChatModel
+import com.kseniabl.cardstasks.db.db_models.MapOfChatModels
 import com.kseniabl.cardstasks.ui.base.*
-import com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService
-import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.FlowableSubscriber
@@ -19,7 +17,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import retrofit2.Retrofit
 import javax.inject.Inject

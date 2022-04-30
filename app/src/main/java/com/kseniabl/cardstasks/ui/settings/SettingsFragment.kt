@@ -14,13 +14,11 @@ import com.kseniabl.cardstasks.ui.dialogs.ChangeAdditionalInfoDialog
 import com.kseniabl.cardstasks.ui.dialogs.ChangeNameDialogFragment
 import com.kseniabl.cardstasks.ui.login.LoginActivity
 import com.kseniabl.cardstasks.utils.CardTasksUtils
-import com.kseniabl.cardtasks.R
-import com.kseniabl.cardtasks.ui.dialogs.ChangeProfessionDialogFragment
-import kotlinx.android.synthetic.main.activity_profile.*
+import com.kseniabl.cardtasks.databinding.ActivityProfileBinding
+import com.kseniabl.cardstasks.ui.dialogs.ChangeProfessionDialogFragment
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 import javax.inject.Inject
 
@@ -32,34 +30,40 @@ class SettingsFragment: BaseFragment(), SettingsView {
     @Inject
     lateinit var currentUserClass: CurrentUserClassInterface
 
+    private var _binding: ActivityProfileBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.activity_profile, container, false)
+        _binding = ActivityProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.attachView(this)
         super.onViewCreated(view, savedInstanceState)
 
-        presenter.setupUserBaseInfo(profileNameText, ratingBarSettings, beFreelancerCheckBox, emailChangeText)
-        presenter.setupUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
-        presenter.setupUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
-        presenter.setupProfileImage(imageViewProfile)
+        binding.apply {
+            presenter.setupUserBaseInfo(profileNameText, ratingBarSettings, beFreelancerCheckBox, emailChangeText)
+            presenter.setupUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText)
+            presenter.setupUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
+            presenter.setupProfileImage(imageViewProfile)
 
-        changeNameImage.setOnClickListener { showChangeNameDialog() }
-        editProfessionImage.setOnClickListener { showChangeProfessionDialog() }
-        editAdditionalInfoImage.setOnClickListener { showChangeAdditionalInfoDialog() }
+            changeNameImage.setOnClickListener { showChangeNameDialog() }
+            editProfessionImage.setOnClickListener { showChangeProfessionDialog() }
+            editAdditionalInfoImage.setOnClickListener { showChangeAdditionalInfoDialog() }
 
-        logoutButton.setOnClickListener { presenter.logoutUser() }
+            logoutButton.setOnClickListener { presenter.logoutUser() }
 
-        changePasswordButton.setOnClickListener {  }
+            changePasswordButton.setOnClickListener {  }
 
-        imageViewProfile.setOnClickListener { chooseImg() }
+            imageViewProfile.setOnClickListener { chooseImg() }
 
-        setGradient()
+            setGradient()
+        }
     }
 
     override fun onPause() {
-        currentUserClass.readSharedPref()?.id?.let { presenter.changeIsFreelancerState(it, beFreelancerCheckBox.isChecked) }
+        currentUserClass.readSharedPref()?.id?.let { presenter.changeIsFreelancerState(it, binding.beFreelancerCheckBox.isChecked) }
         super.onPause()
     }
 
@@ -70,7 +74,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val result = bundle.getString("resName")
             if (result != null && currentUserClass.readSharedPref() != null) {
                 presenter.changeName(currentUserClass.readSharedPref()!!.id, result)
-                presenter.showUserName(profileNameText, result)
+                presenter.showUserName(binding.profileNameText, result)
             }
         }
 
@@ -80,7 +84,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val resTagList = bundle.getStringArrayList("resTagList")
             if (resSpecialization != null && resDescription != null && resTagList != null && currentUserClass.readSharedPref() != null) {
                 presenter.changeProfessionField(currentUserClass.readSharedPref()!!.id, resSpecialization, resDescription, resTagList)
-                presenter.showUserProfession(tagContainerLayout, specializationChangeText, descriptionSpecializationChangeText, resSpecialization, resDescription, resTagList)
+                presenter.showUserProfession(binding.tagContainerLayout, binding.specializationChangeText, binding.descriptionSpecializationChangeText, resSpecialization, resDescription, resTagList)
             }
         }
 
@@ -91,25 +95,28 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val resTypeOfWork = bundle.getString("resTypeOfWork")
             if (resDescription != null && resCountry != null && resCity != null && resTypeOfWork != null && currentUserClass.readSharedPref() != null) {
                 presenter.changeAdditionalInfo(currentUserClass.readSharedPref()!!.id, resDescription, resCountry, resCity, resTypeOfWork)
-                presenter.showUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText, resDescription, resCountry, resCity, resTypeOfWork)
+                presenter.showUserAdditionalInfo(binding.descriptionAddInfoChangeText, binding.countryChangeText, binding.cityChangeText, binding.typeOfWorkChangeText, resDescription, resCountry, resCity, resTypeOfWork)
             }
         }
     }
 
     private fun setGradient() {
         activity?.let {
-            val shader = CardTasksUtils.getTextGradient(it)
-            professionText.paint.shader = shader
-            additionalInfoText.paint.shader = shader
-            otherInfoText.paint.shader = shader
-            changePasswordButton.paint.shader = shader
-            logoutButton.paint.shader = shader
+            binding.apply {
+                val shader = CardTasksUtils.getTextGradient(it)
+                professionText.paint.shader = shader
+                additionalInfoText.paint.shader = shader
+                otherInfoText.paint.shader = shader
+                changePasswordButton.paint.shader = shader
+                logoutButton.paint.shader = shader
+            }
         }
     }
 
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     override fun openLoginActivity() {
@@ -119,7 +126,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
 
     private fun showChangeNameDialog() {
         val args = Bundle()
-        args.putString("name", profileNameText.text.toString())
+        args.putString("name", binding.profileNameText.text.toString())
         val dialog = ChangeNameDialogFragment()
         dialog.arguments = args
         dialog.show(childFragmentManager, "ChangeNameDialogFragment")
@@ -127,10 +134,10 @@ class SettingsFragment: BaseFragment(), SettingsView {
 
     private fun showChangeProfessionDialog() {
         val args = Bundle()
-        args.putString("specialization", specializationChangeText.text.toString())
-        args.putString("description", descriptionSpecializationChangeText.text.toString())
+        args.putString("specialization", binding.specializationChangeText.text.toString())
+        args.putString("description", binding.descriptionSpecializationChangeText.text.toString())
         val tagsArray = arrayListOf<String>()
-        tagsArray.addAll(tagContainerLayout.tags)
+        tagsArray.addAll(binding.tagContainerLayout.tags)
         args.putStringArrayList("tagList", tagsArray)
 
         val dialog = ChangeProfessionDialogFragment()
@@ -140,10 +147,10 @@ class SettingsFragment: BaseFragment(), SettingsView {
 
     private fun showChangeAdditionalInfoDialog() {
         val args = Bundle()
-        args.putString("description", descriptionAddInfoChangeText.text.toString())
-        args.putString("country", countryChangeText.text.toString())
-        args.putString("city", cityChangeText.text.toString())
-        args.putString("typeOfWork", typeOfWorkChangeText.text.toString())
+        args.putString("description", binding.descriptionAddInfoChangeText.text.toString())
+        args.putString("country", binding.countryChangeText.text.toString())
+        args.putString("city", binding.cityChangeText.text.toString())
+        args.putString("typeOfWork", binding.typeOfWorkChangeText.text.toString())
 
         val dialog = ChangeAdditionalInfoDialog()
         dialog.arguments = args
@@ -161,7 +168,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
             if (currentUserClass.readSharedPref()?.id != null && uri.path != null) {
                 val file = File(uri.path!!)
                 val part = MultipartBody.Part.createFormData("pic", file.name, RequestBody.create(MediaType.parse("image/*"), file))
-                presenter.uploadImage(currentUserClass.readSharedPref()!!.id, part, imageViewProfile, uri)
+                presenter.uploadImage(currentUserClass.readSharedPref()!!.id, part, binding.imageViewProfile, uri)
             }
         }
     }

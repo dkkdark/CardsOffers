@@ -16,8 +16,9 @@ import androidx.fragment.app.setFragmentResult
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.R
+import com.kseniabl.cardtasks.databinding.DialogChangeProfessionBinding
+import com.kseniabl.cardtasks.databinding.DialogCreateNewTaskBinding
 import dagger.android.support.AndroidSupportInjection
-import kotlinx.android.synthetic.main.dialog_create_new_task.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -28,6 +29,9 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
     lateinit var presenter: CreateNewTaskPresenterInterface
 
     private var calendar = Calendar.getInstance()
+
+    private var _binding: DialogCreateNewTaskBinding? = null
+    private val binding get() = _binding!!
 
     var id = ""
     var title = ""
@@ -57,7 +61,8 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
         createTime = arguments?.getLong("createTime") ?: 0
         userId = arguments?.getString("userId") ?: ""
 
-        return inflater.inflate(R.layout.dialog_create_new_task, container, false)
+        _binding = DialogCreateNewTaskBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,7 +70,7 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
 
         activity?.let {
             val shader = CardTasksUtils.getTextGradient(it)
-            crateChangeTask.paint.shader = shader
+            binding.crateChangeTask.paint.shader = shader
         }
 
         setDataToDialog(title, description, date, cost, active, agreement)
@@ -76,13 +81,15 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
     }
 
     private fun setDataToDialog(title: String, description: String, date: String, cost: Int?, active: Boolean, agreement: Boolean) {
-        dialogTaskTitleText.setText(title)
-        dialogTaskDescriptionText.setText(description)
-        if (cost != null || cost != 0)
-            dialogTaskCostText.setText(cost.toString())
-        dialogChooseDate.text = date
-        dialogCheckBox.isChecked = active
-        dialogByAgreementCheckBox.isChecked = agreement
+        binding.apply {
+            dialogTaskTitleText.setText(title)
+            dialogTaskDescriptionText.setText(description)
+            if (cost != null || cost != 0)
+                dialogTaskCostText.setText(cost.toString())
+            dialogChooseDate.text = date
+            dialogCheckBox.isChecked = active
+            dialogByAgreementCheckBox.isChecked = agreement
+        }
     }
 
     private fun showInitialDate() {
@@ -94,48 +101,59 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
         val sdfTime = SimpleDateFormat("hh:mm a", Locale.getDefault())
         val formattedDate = sdfDate.format(dateToFormat)
         val formattedTime = sdfTime.format(time)
-        dialogChooseDate.text = "$formattedDate $formattedTime"
+        binding.dialogChooseDate.text = "$formattedDate $formattedTime"
     }
 
     private fun clickOnButtonsListeners() {
-        dialogCreateChangeButton.setOnClickListener {
-            dialogTaskTitleText.error = null
-            dialogTaskCostText.error = null
-            var returnOrNot = false
+        binding.apply {
+            dialogCreateChangeButton.setOnClickListener {
+                dialogTaskTitleText.error = null
+                dialogTaskCostText.error = null
+                var returnOrNot = false
 
-            if (dialogTaskTitleText.text?.isEmpty() == true) {
-                dialogTaskTitleText.error = "You didn't specify title"
-                returnOrNot = true
+                if (dialogTaskTitleText.text?.isEmpty() == true) {
+                    dialogTaskTitleText.error = "You didn't specify title"
+                    returnOrNot = true
+                }
+                if (dialogTaskCostText.text?.isEmpty() == true && !dialogByAgreementCheckBox.isChecked) {
+                    dialogTaskCostText.error = "You didn't specify cost"
+                    returnOrNot = true
+                }
+                if (!returnOrNot) {
+                    setFragmentResult(
+                        "CreateNewTaskDialog", bundleOf(
+                            "resId" to id,
+                            "resTitle" to dialogTaskTitleText.text.toString(),
+                            "resDescription" to dialogTaskDescriptionText.text.toString(),
+                            "resActive" to dialogCheckBox.isChecked,
+                            "resDate" to dialogChooseDate.text.toString(),
+                            "resCost" to dialogTaskCostText.text.toString(),
+                            "resByAgreementValue" to dialogByAgreementCheckBox.isChecked,
+                            "resCreateTime" to createTime
+                        )
+                    )
+                    dialog?.cancel()
+                }
             }
-            if (dialogTaskCostText.text?.isEmpty() == true && !dialogByAgreementCheckBox.isChecked) {
-                dialogTaskCostText.error = "You didn't specify cost"
-                returnOrNot = true
-            }
-            if (!returnOrNot) {
-                setFragmentResult("CreateNewTaskDialog", bundleOf(
-                    "resId" to id, "resTitle" to dialogTaskTitleText.text.toString(), "resDescription" to dialogTaskDescriptionText.text.toString(),
-                    "resActive" to dialogCheckBox.isChecked, "resDate" to dialogChooseDate.text.toString(), "resCost" to dialogTaskCostText.text.toString(),
-                    "resByAgreementValue" to dialogByAgreementCheckBox.isChecked, "resCreateTime" to createTime))
-                dialog?.cancel()
-            }
+            dialogCreateCloseButton.setOnClickListener { dialog?.cancel() }
         }
-        dialogCreateCloseButton.setOnClickListener { dialog?.cancel() }
     }
 
     private fun setListener() {
-        dialogByAgreementCheckBox.setOnClickListener {
-            if (dialogByAgreementCheckBox.isChecked) {
-                dialogTaskCostField.visibility = View.GONE
-                dollarText.visibility = View.GONE
+        binding.apply {
+            dialogByAgreementCheckBox.setOnClickListener {
+                if (dialogByAgreementCheckBox.isChecked) {
+                    dialogTaskCostField.visibility = View.GONE
+                    dollarText.visibility = View.GONE
+                } else {
+                    dialogTaskCostField.visibility = View.VISIBLE
+                    dollarText.visibility = View.VISIBLE
+                }
             }
-            else {
-                dialogTaskCostField.visibility = View.VISIBLE
-                dollarText.visibility = View.VISIBLE
-            }
-        }
 
-        dialogChangeDateIcon.setOnClickListener {
-            setDate()
+            dialogChangeDateIcon.setOnClickListener {
+                setDate()
+            }
         }
     }
 
@@ -177,11 +195,11 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
         val sdf = SimpleDateFormat("hh:mm a", Locale.getDefault())
         var time = sdf.format(calendar.time.time)
 
-        dialogChooseDate.text = "$date $time"
+        binding.dialogChooseDate.text = "$date $time"
     }
 
     private fun deleteTask() {
-        dialogDeleteButton.setOnClickListener {
+        binding.dialogDeleteButton.setOnClickListener {
             setAlertDialog()
         }
     }
@@ -198,5 +216,10 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
                 }
                 .show()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

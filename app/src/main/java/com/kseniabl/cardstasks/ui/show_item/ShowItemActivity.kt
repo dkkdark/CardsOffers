@@ -8,9 +8,10 @@ import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardtasks.databinding.ActivityCardDetailsBinding
+import com.kseniabl.cardtasks.databinding.ActivityMainBinding
 import com.kseniabl.cardtasks.ui.show_item.ShowItemPresenterInterface
 import com.kseniabl.cardtasks.ui.show_item.ShowItemView
-import kotlinx.android.synthetic.main.activity_card_details.*
 import javax.inject.Inject
 
 class ShowItemActivity: BaseActivity(), ShowItemView {
@@ -19,14 +20,16 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
     lateinit var presenter: ShowItemPresenterInterface<ShowItemView>
 
     private var card: CardModel? = null
+    private lateinit var binding: ActivityCardDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_card_details)
+        binding = ActivityCardDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
 
         val transName = intent.extras?.getString("transName")
-        ViewCompat.setTransitionName(headerLayout, transName)
+        ViewCompat.setTransitionName(binding.headerLayout, transName)
 
         card = intent.extras?.getSerializable("card") as CardModel
         card?.let {
@@ -48,19 +51,22 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
     }
 
     private fun setData() {
-        detailTitle.text = card!!.title
-        if (card!!.agreement)
-            feeText.text = "By agreement"
-        else
-            feeText.text = card!!.cost.toString()
-        untilText.text = card!!.date
-        descriptionText.text = card!!.description
+        binding.apply {
+            detailTitle.text = card!!.title
+            if (card!!.agreement)
+                feeText.text = "By agreement"
+            else
+                feeText.text = card!!.cost.toString()
+            untilText.text = card!!.date
+            descriptionText.text = card!!.description
 
-        presenter.loadFreelancer(card!!.user_id, nameText, specializationText, itemExeRating)
+            presenter.loadFreelancer(card!!.user_id, nameText, specializationText, itemExeRating)
+
+        }
     }
 
     private fun setListener() {
-        respondToTask.setOnClickListener { openChatScreenActivity() }
+        binding.respondToTask.setOnClickListener { openChatScreenActivity() }
     }
 
     private fun openChatScreenActivity() {

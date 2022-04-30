@@ -1,8 +1,6 @@
 package com.kseniabl.cardstasks.ui.base
 
-import android.net.Uri
 import com.google.gson.JsonObject
-import com.google.gson.JsonPrimitive
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardstasks.ui.models.Profession
@@ -11,13 +9,7 @@ import com.kseniabl.cardtasks.ui.models.*
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.Response
-import okhttp3.ResponseBody
 import retrofit2.http.*
-import java.io.File
-import java.io.InputStream
-import java.nio.ByteBuffer
 
 interface RetrofitApiHolder {
 
@@ -98,7 +90,7 @@ interface RetrofitApiHolder {
 
 
     @GET("get_all_cards")
-    fun getAllCards(): Observable<List<List<CardModel>>>
+    fun getAllCards(): Flowable<List<List<CardModel>>>
 
     @FormUrlEncoded
     @POST("delete_card")
@@ -115,6 +107,10 @@ interface RetrofitApiHolder {
                    @Field("cost") cost: Int,
                    @Field("active") active: Boolean,
                    @Field("agreement") agreement: Boolean): Observable<MessageModel>
+
+    @FormUrlEncoded
+    @POST("update_cards")
+    fun updateCards(@Field("cards") json: String): Flowable<MessageModel>
 
      /*
         Freelancer methods

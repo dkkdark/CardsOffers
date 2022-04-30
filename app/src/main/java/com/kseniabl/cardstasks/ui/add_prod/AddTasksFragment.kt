@@ -8,10 +8,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardtasks.ui.add_prod.AddTasksPresenterInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddTasksView
 import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
-import kotlinx.android.synthetic.main.fragment_add_card.*
+import com.kseniabl.cardtasks.databinding.FragmentAddCardBinding
 import java.util.*
 import javax.inject.Inject
 
@@ -22,8 +21,12 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
     @Inject
     lateinit var currentUserClass: CurrentUserClassInterface
 
+    private var _binding: FragmentAddCardBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_add_card, container, false)
+        _binding = FragmentAddCardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,6 +67,7 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     private fun openActiveFragment() {
@@ -84,9 +88,11 @@ class AddTasksFragment: BaseFragment(), AddTasksView {
     }
 
     private fun setButtonsClickListener() {
-        activeButton.setOnClickListener { openActiveFragment() }
-        draftButton.setOnClickListener { openDraftFragment() }
-        addCardFab.setOnClickListener { showCreateTaskDialog() }
+        binding.apply {
+            activeButton.setOnClickListener { openActiveFragment() }
+            draftButton.setOnClickListener { openDraftFragment() }
+            addCardFab.setOnClickListener { showCreateTaskDialog() }
+        }
     }
 
     companion object {

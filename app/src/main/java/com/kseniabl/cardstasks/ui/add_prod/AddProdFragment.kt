@@ -6,16 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.kseniabl.cardtasks.R
+import com.kseniabl.cardstasks.db.view_models.AddProdViewModel
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
 import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardstasks.ui.models.CardModel
-import kotlinx.android.synthetic.main.fragment_active.*
+import com.kseniabl.cardtasks.databinding.FragmentActiveBinding
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -24,20 +25,27 @@ class AddProdFragment: BaseFragment(), AddProdView {
     @Inject
     lateinit var presenter: AddProdPresenterCardModelInterface<AddProdView>
     @Inject
-    lateinit var adapter: AddProdsAdapter
+    lateinit var addProdsAdapter: AddProdsAdapter
     @Inject
     lateinit var layoutManager: Provider<FlexboxLayoutManager>
     @Inject
     lateinit var currentUserClass: CurrentUserClassInterface
 
+    private var _binding: FragmentActiveBinding? = null
+    private val binding get() = _binding!!
+
+    @Inject
+    lateinit var viewModelProviderFactory: ViewModelProvider.Factory
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_active, container, false)
+        _binding = FragmentActiveBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        Log.e("qqq", "RESULT")
-        currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, adapter) }
+
+        //currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, addProdsAdapter) }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,19 +53,27 @@ class AddProdFragment: BaseFragment(), AddProdView {
         super.onViewCreated(view, savedInstanceState)
 
         val flexlayoutManager = layoutManager.get()
-        flexlayoutManager.flexDirection = FlexDirection.ROW;
-        flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND;
+        flexlayoutManager.flexDirection = FlexDirection.ROW
+        flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND
 
-        addCardRecyclerView.layoutManager = flexlayoutManager
-        addCardRecyclerView.adapter = adapter
-        addCardRecyclerView.setHasFixedSize(true)
-        addCardRecyclerView.setItemViewCacheSize(20)
+        binding.apply {
+            addCardRecyclerView.layoutManager = flexlayoutManager
+            addCardRecyclerView.adapter = addProdsAdapter
+            addCardRecyclerView.setHasFixedSize(true)
+            addCardRecyclerView.setItemViewCacheSize(20)
+        }
+
+        val viewModel = ViewModelProvider(this, viewModelProviderFactory)[AddProdViewModel::class.java]
+        viewModel.allCards.observe(viewLifecycleOwner) {
+            presenter.listToDB(it)
+            addProdsAdapter.addElements(it.reversed())
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter.observeDataChange(adapter)
+        //presenter.observeDataChange(addProdsAdapter)
 
         childFragmentManager.setFragmentResultListener("CreateNewTaskDialog", this) { _, bundle ->
             val resId = bundle.getString("resId")
@@ -96,10 +112,11 @@ class AddProdFragment: BaseFragment(), AddProdView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     override fun provideAdapter(): AddProdsAdapter {
-        return adapter
+        return addProdsAdapter
     }
 
     override fun showCreateTaskDialog(item: CardModel) {

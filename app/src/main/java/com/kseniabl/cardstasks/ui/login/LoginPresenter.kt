@@ -66,33 +66,31 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
 
     private fun loginWithServer(email: String, password: String) {
         interactor.loginApiCall(email, password).subscribe(object : Observer<JsonObject> {
-            override fun onSubscribe(d: Disposable?) {
+            override fun onSubscribe(d: Disposable) {
             }
 
-            override fun onNext(data: JsonObject?) {
-                if (data != null) {
-                    val gson = Gson()
-                    val parser = JsonParser()
-                    val mJson = parser.parse(data.toString())
-                    if (data.toString().contains("error")) {
-                        val errorModel = gson.fromJson(mJson, ErrorModel::class.java)
-                        Toast.makeText(context, errorModel.error, Toast.LENGTH_SHORT).show()
-                    }
-                    else {
-                        val userModel = gson.fromJson(mJson, UserModel::class.java)
-                        currentUserClass.saveCurrentUser(userModel)
-                        Log.e("qqq", "3 current user = ${currentUserClass.readSharedPref()}")
-                        Toast.makeText(context, "You login successfully", Toast.LENGTH_SHORT).show()
-                        loadAndSaveUsersCards(currentUserClass.readSharedPref()!!.id)
-                        interactor.setToken()
+            override fun onNext(data: JsonObject) {
+                val gson = Gson()
+                val parser = JsonParser()
+                val mJson = parser.parse(data.toString())
+                if (data.toString().contains("error")) {
+                    val errorModel = gson.fromJson(mJson, ErrorModel::class.java)
+                    Toast.makeText(context, errorModel.error, Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    val userModel = gson.fromJson(mJson, UserModel::class.java)
+                    currentUserClass.saveCurrentUser(userModel)
+                    Log.e("qqq", "3 current user = ${currentUserClass.readSharedPref()}")
+                    Toast.makeText(context, "You login successfully", Toast.LENGTH_SHORT).show()
+                    loadAndSaveUsersCards(currentUserClass.readSharedPref()!!.id)
+                    interactor.setToken()
 
-                        getView()?.startMainActivity()
-                    }
+                    getView()?.startMainActivity()
                 }
             }
 
-            override fun onError(e: Throwable?) {
-                Log.e("qqq", "login onError ${e?.message}")
+            override fun onError(e: Throwable) {
+                Log.e("qqq", "login onError ${e.message}")
                 Toast.makeText(context, "Server is not accessible. Try later", Toast.LENGTH_SHORT).show()
             }
 

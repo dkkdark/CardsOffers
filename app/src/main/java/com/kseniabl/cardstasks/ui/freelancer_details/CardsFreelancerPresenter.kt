@@ -42,6 +42,10 @@ class CardsFreelancerPresenter<V: CardsFreelancerView, I: CardsFreelancerInterac
         return items.indexOf(el)
     }
 
+    override fun removeAllElements(list: List<CardModel>) {
+        items.removeAll(list)
+    }
+
     override fun loadCardsToRecycler(id: String, adapter: CardsFreelancerAdapter) {
         interactor.loadCards(id, adapter)
     }

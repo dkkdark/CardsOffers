@@ -17,6 +17,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 import com.idlestar.ratingstar.RatingStarView
+import com.kseniabl.cardstasks.db.RepositoryInterface
 import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.models.AdditionalInfo
@@ -29,7 +30,6 @@ import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.FlowableSubscriber
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_profile.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.Response
@@ -40,7 +40,7 @@ import java.io.InputStream
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I,
+class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject constructor(var context: Context, var interactor: I, val repository: RepositoryInterface,
                                                                                              var currentUserClass: CurrentUserClassInterface,
                                                                                              val messagesSaveAndLoad: MessagesSaveAndLoad, val chatListSaving: ChatListSavingInterface):
     BasePresenter<V>(), SettingsPresenterInterface<V> {
@@ -52,7 +52,7 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
             currentUserClass.saveCurrentUser(currentUser)
         }
 
-        UsersCards.clearCards()
+        repository.deleteAddProdCardsList()
         messagesSaveAndLoad.dellAll()
         chatListSaving.saveChatList(arrayListOf())
         clearTokenFromServer()
@@ -138,7 +138,7 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
                 override fun onNext(data: ImageModel) {
                     val img = data.img
                     val bytes = Base64.decode(img, Base64.DEFAULT)
-                    Glide.with(context).load(bytes).into(imageViewProfile)
+                    Glide.with(context).load(bytes).placeholder(R.drawable.user).into(imageViewProfile)
                 }
 
                 override fun onError(m: Throwable) {
@@ -207,11 +207,12 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
         interactor.uploadImgToServer(id, requestBody)
             .subscribe(object : FlowableSubscriber<MessageModel> {
                 override fun onSubscribe(s: Subscription) {
+                    s.request(Long.MAX_VALUE)
                 }
 
                 override fun onNext(data: MessageModel) {
                     if (data.message == "success") {
-                        imageViewProfile.setImageURI(uri)
+                        Glide.with(context).load(uri).placeholder(R.drawable.user).into(imageViewProfile)
                     }
                 }
 

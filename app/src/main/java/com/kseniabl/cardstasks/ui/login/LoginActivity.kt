@@ -10,12 +10,14 @@ import android.widget.Button
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
-import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
 import android.widget.TextView
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.scene_login.*
 import android.graphics.Shader.TileMode
+import com.kseniabl.cardtasks.databinding.ActivityLoginBinding
+import com.kseniabl.cardtasks.databinding.ActivityMainBinding
+import com.kseniabl.cardtasks.databinding.SceneLoginBinding
+import com.kseniabl.cardtasks.databinding.SceneRegistrationBinding
 import com.kseniabl.cardtasks.ui.login.LoginPresenterInterface
 
 
@@ -24,20 +26,26 @@ class LoginActivity : BaseActivity(), LoginView {
     @Inject
     lateinit var presenter: LoginPresenterInterface<LoginView>
 
+    private lateinit var binding: ActivityLoginBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         presenter.attachView(this)
 
         // для доступа при запуске
-        val loginScene = Scene.getSceneForLayout(scene_root, R.layout.scene_login, this)
+        val loginScene = Scene.getSceneForLayout(binding.sceneRoot, R.layout.scene_login, this)
         loginScene.enter()
+
+        val enterButton = loginScene.sceneRoot.findViewById<Button>(R.id.enterButton)
+        val registerButton = loginScene.sceneRoot.findViewById<TextView>(R.id.registerButton)
 
         val shader = getTextGradient()
         enterButton.paint.shader = shader
         registerButton.paint.shader = shader
 
-        setupClickListeners()
+        setupClickListeners(loginScene)
     }
 
     private fun getTextGradient(): Shader {
@@ -67,7 +75,12 @@ class LoginActivity : BaseActivity(), LoginView {
         finish()
     }
 
-    private fun setupClickListeners() {
+    private fun setupClickListeners(loginScene: Scene) {
+        val enterButton = loginScene.sceneRoot.findViewById<Button>(R.id.enterButton)
+        val registerButton = loginScene.sceneRoot.findViewById<TextView>(R.id.registerButton)
+        val loginText = loginScene.sceneRoot.findViewById<TextView>(R.id.loginText)
+        val passwordText = loginScene.sceneRoot.findViewById<TextView>(R.id.passwordText)
+
         enterButton.setOnClickListener {
             presenter.singIn(loginText.text.toString(), passwordText.text.toString())
         }
@@ -75,11 +88,10 @@ class LoginActivity : BaseActivity(), LoginView {
         registerButton.setOnClickListener {
             changeScene()
         }
-
     }
 
     private fun changeScene() {
-        val registrationScene = Scene.getSceneForLayout(scene_root, R.layout.scene_registration, this)
+        val registrationScene = Scene.getSceneForLayout(binding.sceneRoot, R.layout.scene_registration, this)
 
         val trSet = TransitionSet()
         trSet.addTransition(Slide(Gravity.TOP).addTarget(R.id.relLayLog))
@@ -109,7 +121,7 @@ class LoginActivity : BaseActivity(), LoginView {
     }
 
     private fun changeSceneToLogin() {
-        val loginScene = Scene.getSceneForLayout(scene_root, R.layout.scene_login, this)
+        val loginScene = Scene.getSceneForLayout(binding.sceneRoot, R.layout.scene_login, this)
 
         val trSet = TransitionSet()
         trSet.addTransition(Slide(Gravity.TOP).addTarget(R.id.relLayReg))

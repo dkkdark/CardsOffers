@@ -64,16 +64,16 @@ class SettingsInteractor @Inject constructor(val retrofit: Retrofit, var context
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<MessageModel> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
-                override fun onNext(data: MessageModel?) {
-                    if (data?.message == "success" && currentUserClass.readSharedPref() != null) {
+                override fun onNext(data: MessageModel) {
+                    if (data.message == "success" && currentUserClass.readSharedPref() != null) {
                         currentUserClass.readSharedPref()!!.username = name
                     }
                 }
 
-                override fun onError(e: Throwable?) {
+                override fun onError(e: Throwable) {
                     Log.e("qqq", "onError ${e?.message}")
                 }
 

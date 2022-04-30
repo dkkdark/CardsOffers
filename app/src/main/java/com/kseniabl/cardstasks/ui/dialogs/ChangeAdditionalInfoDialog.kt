@@ -10,16 +10,20 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.R
-import kotlinx.android.synthetic.main.dialog_change_additional_info.*
+import com.kseniabl.cardtasks.databinding.DialogChangeAdditionalInfoBinding
+import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
 
 class ChangeAdditionalInfoDialog: BaseDialog() {
 
     private val listForSpinner = arrayListOf("—", "Online", "Offline")
 
+    private var _binding: DialogChangeAdditionalInfoBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        return inflater.inflate(R.layout.dialog_change_additional_info, container, false)
+        _binding = DialogChangeAdditionalInfoBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -27,7 +31,7 @@ class ChangeAdditionalInfoDialog: BaseDialog() {
 
         activity?.let {
             val shader = CardTasksUtils.getTextGradient(it)
-            additionalInfoText.paint.shader = shader
+            binding.additionalInfoText.paint.shader = shader
         }
 
         setTypeOfWWorkSpinner()
@@ -39,37 +43,46 @@ class ChangeAdditionalInfoDialog: BaseDialog() {
         val typeOfWork = arguments?.getString("typeOfWork")
 
         if (description != "—")
-            dialogAdditionalDescriptionText.setText(description)
+            binding.dialogAdditionalDescriptionText.setText(description)
         if (country != "—")
-            dialogCountryText.setText(country)
+            binding.dialogCountryText.setText(country)
         if (city != "—")
-            dialogCityText.setText(city)
+            binding.dialogCityText.setText(city)
         if (typeOfWork != "—")
-            dialogTypeOfWorkField.setSelection(listForSpinner.indexOf(typeOfWork))
+            binding.dialogTypeOfWorkField.setSelection(listForSpinner.indexOf(typeOfWork))
     }
 
     private fun setButtonsClickListeners() {
-        dialogAdditionalChangeButton.setOnClickListener {
-            setFragmentResult("ChangeAdditionalInfoDialog", bundleOf(
-                "resDescription" to dialogAdditionalDescriptionText.text.toString(),
-                "resCountry" to dialogCountryText.text.toString(),
-                "resCity" to dialogCityText.text.toString(),
-                "resTypeOfWork" to dialogTypeOfWorkField.selectedItem.toString())
-            )
-            dialog?.cancel()
-            dialog?.dismiss()
+        binding.apply {
+            dialogAdditionalChangeButton.setOnClickListener {
+                setFragmentResult(
+                    "ChangeAdditionalInfoDialog", bundleOf(
+                        "resDescription" to dialogAdditionalDescriptionText.text.toString(),
+                        "resCountry" to dialogCountryText.text.toString(),
+                        "resCity" to dialogCityText.text.toString(),
+                        "resTypeOfWork" to dialogTypeOfWorkField.selectedItem.toString()
+                    )
+                )
+                dialog?.cancel()
+                dialog?.dismiss()
+            }
+            dialogAdditionalCloseButton.setOnClickListener {
+                dialog?.dismiss()
+            }
         }
-        dialogAdditionalCloseButton.setOnClickListener {
-            dialog?.dismiss()
-        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun setTypeOfWWorkSpinner() {
         val adapter = object : ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, listForSpinner) {}
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        dialogTypeOfWorkField?.adapter = adapter
+        binding.dialogTypeOfWorkField.adapter = adapter
 
-        dialogTypeOfWorkField?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.dialogTypeOfWorkField.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, itemSelected: View?, selectedItemPos: Int, selectedId: Long) {
                 when (listForSpinner[selectedItemPos]) {
                     "—" -> {}

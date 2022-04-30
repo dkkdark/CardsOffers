@@ -1,7 +1,9 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.base.BaseInteractor
 
 interface AddTasksInteractorInterface: BaseInteractor {
-    fun addNewCard(id: String, title: String, descr: String, active: Boolean, date: String, cost: Int, agreement: Boolean, currentTime: Long)
+    fun addCardToDB(card: CardModel)
+    fun addNewCard(cardId: String, id: String, title: String, descr: String, active: Boolean, date: String, cost: Int, agreement: Boolean, currentTime: Long)
 }

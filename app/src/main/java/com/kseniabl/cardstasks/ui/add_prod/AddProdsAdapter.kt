@@ -1,6 +1,7 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
 import com.kseniabl.cardstasks.ui.add_prod.AddProdInteractorInterface
+import com.kseniabl.cardstasks.ui.add_prod.AddProdPresenter
 import com.kseniabl.cardstasks.ui.add_prod.AddProdView
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
@@ -18,6 +20,8 @@ import javax.inject.Inject
 
 class AddProdsAdapter @Inject constructor(var presenter: AddProdPresenter<AddProdView, AddProdInteractorInterface>, var context: Context, var fragment: AddProdFragment): RecyclerView.Adapter<AddProdsAdapter.AddProdsHolder>() {
 
+    val oldList = arrayListOf<CardModel>()
+
     fun deleteElement(el: CardModel) {
         presenter.removeElementFromList(el)
         notifyDataSetChanged()
@@ -26,6 +30,32 @@ class AddProdsAdapter @Inject constructor(var presenter: AddProdPresenter<AddPro
     fun addElement(el: CardModel, pos: Int) {
         presenter.addElementToList(el, pos)
         notifyDataSetChanged()
+    }
+
+    fun addElements(newList: List<CardModel>) {
+        val listToAdd = arrayListOf<CardModel>()
+        for (el in newList) {
+            if (el.active)
+                listToAdd.add(el)
+        }
+
+        if (oldList != listToAdd) {
+            clearElements()
+            presenter.addElementsToList(listToAdd)
+            notifyDataSetChanged()
+
+            oldList.clear()
+            oldList.addAll(listToAdd)
+        }
+    }
+
+    fun clearElements() {
+        val list = presenter.getAllElements()
+        val listToDel = arrayListOf<CardModel>()
+        for (el in list)
+            listToDel.add(el)
+        Log.e("qqq", "444")
+        presenter.removeAllElements(listToDel)
     }
 
     fun getElements(): List<CardModel> {

@@ -15,7 +15,7 @@ import javax.inject.Inject
 class AllProdsInteractor @Inject constructor(var retrofit: Retrofit): AllProdsInteractorInterface {
 
     override fun loadCards(adapter: AllProdsAdapter) {
-        retrofit.create(RetrofitApiHolder::class.java).getAllCards()
+        /*retrofit.create(RetrofitApiHolder::class.java).getAllCards()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<List<List<CardModel>>> {
@@ -48,6 +48,6 @@ class AllProdsInteractor @Inject constructor(var retrofit: Retrofit): AllProdsIn
                 override fun onComplete() {
                 }
 
-            })
+            })*/
     }
 }

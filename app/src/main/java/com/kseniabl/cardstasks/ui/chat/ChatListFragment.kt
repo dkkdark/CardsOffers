@@ -14,7 +14,8 @@ import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.ChatListSavingInterface
 import com.kseniabl.cardstasks.ui.base.NotificationHandler
 import com.kseniabl.cardstasks.ui.firebase_cloud_messaging.FirebaseInstanceIDService
-import kotlinx.android.synthetic.main.fragment_chat_list.*
+import com.kseniabl.cardtasks.databinding.DialogChangeProfessionBinding
+import com.kseniabl.cardtasks.databinding.FragmentChatListBinding
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -29,8 +30,12 @@ class ChatListFragment: BaseFragment(), ChatListView {
     @Inject
     lateinit var chatListSaving: ChatListSavingInterface
 
+    private var _binding: FragmentChatListBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_chat_list, container, false)
+        _binding = FragmentChatListBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,6 +50,7 @@ class ChatListFragment: BaseFragment(), ChatListView {
     override fun onDestroyView() {
         presenter.detachView()
         super.onDestroyView()
+        _binding = null
     }
 
     private fun setupRecyclerView() {
@@ -52,10 +58,12 @@ class ChatListFragment: BaseFragment(), ChatListView {
         flexlayoutManager.flexDirection = FlexDirection.ROW;
         flexlayoutManager.justifyContent = JustifyContent.SPACE_AROUND;
 
-        chatListRecyclerView.layoutManager = flexlayoutManager
-        chatListRecyclerView.adapter = adapter
-        chatListRecyclerView.setHasFixedSize(true)
-        chatListRecyclerView.setItemViewCacheSize(20)
+        binding.apply {
+            chatListRecyclerView.layoutManager = flexlayoutManager
+            chatListRecyclerView.adapter = adapter
+            chatListRecyclerView.setHasFixedSize(true)
+            chatListRecyclerView.setItemViewCacheSize(20)
+        }
     }
 
     override fun provideAdapter(): ChatListAdapter {

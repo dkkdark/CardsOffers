@@ -12,5 +12,6 @@ interface AdapterFunctionsCardModelInterface {
     fun addElementToList(el: CardModel, pos: Int)
     fun getAllElements(): MutableList<CardModel>
     fun removeElementFromList(el: CardModel)
+    fun removeAllElements(list: List<CardModel>)
     fun getPos(el: CardModel): Int
 }

@@ -3,7 +3,7 @@ package com.kseniabl.cardstasks.ui.chat
 import android.util.Log
 import co.intentservice.chatui.ChatView
 import co.intentservice.chatui.models.ChatMessage
-import com.kseniabl.cardstasks.db.MapOfChatModels
+import com.kseniabl.cardstasks.db.db_models.MapOfChatModels
 import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
 import io.reactivex.rxjava3.core.SingleObserver
