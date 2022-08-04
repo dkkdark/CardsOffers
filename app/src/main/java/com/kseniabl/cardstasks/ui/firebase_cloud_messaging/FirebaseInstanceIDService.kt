@@ -47,7 +47,8 @@ class FirebaseInstanceIDService: FirebaseMessagingService() {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .baseUrl("http:///192.168.1.64/")
+            .baseUrl("http://kseniadk.pythonanywhere.com/")
+            //.baseUrl("http:///192.168.1.67/")
             .build()
     }
 

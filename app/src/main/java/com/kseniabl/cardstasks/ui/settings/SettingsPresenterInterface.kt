@@ -27,5 +27,7 @@ interface SettingsPresenterInterface<V: SettingsView>: PresenterInterface<V> {
     fun changeProfessionField(id: String, spec: String, descr: String, tags: ArrayList<String>)
     fun changeAdditionalInfo(id: String, descr: String, country: String, city: String, type: String)
 
-    fun uploadImage(id: String, requestBody: MultipartBody.Part, imageViewProfile: CircularImageView, uri: Uri)
+    fun sendProfileInfoToServer()
+
+    fun uploadImage(id: String, requestBody: MultipartBody.Part, imageViewProfile: CircularImageView, uri: Uri, byteArray: ByteArray)
 }

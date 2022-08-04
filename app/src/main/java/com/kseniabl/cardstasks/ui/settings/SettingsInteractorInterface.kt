@@ -25,11 +25,13 @@ interface SettingsInteractorInterface: BaseInteractor {
     fun setAdditionalInfoField(id: String, descr: String, country: String, city: String, type: String)
     fun getProfileImage(id: String): Flowable<ImageModel>
 
+    fun sendProfileInfoToServer()
+
     fun getUserProfession(id: String): Observable<Profession>
     fun getUserName(id: String): Observable<BaseProfileInfoModel>
     fun getUserAdditionalInfo(id: String): Observable<AdditionalInfo>
 
     fun clearToken(id: String, token: String)
 
-    fun uploadImgToServer(id: String, requestBody: MultipartBody.Part): Flowable<MessageModel>
+    fun uploadImgToServer(id: String, requestBody: MultipartBody.Part): Flowable<ImageModel>
 }

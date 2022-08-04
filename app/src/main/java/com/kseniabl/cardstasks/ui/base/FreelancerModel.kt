@@ -10,5 +10,6 @@ data class FreelancerModel (
     var rating: Float,
     var isFreelancer: Boolean,
     var additionalInfo: AdditionalInfo,
-    var profession: Profession
+    var profession: Profession,
+    var img: ImageModel?,
 ) : Serializable

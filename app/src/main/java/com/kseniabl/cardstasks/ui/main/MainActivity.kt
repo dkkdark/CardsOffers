@@ -40,6 +40,7 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
         val whatFragment = intent.extras?.getString("whatFragment")
 
         setAllProdFragment(whatFragment)
+        binding.toolbar.title = "All Tasks"
         setUpToolbarNavigation()
         presenter.attachView(this)
     }
@@ -64,10 +65,22 @@ class MainActivity: BaseActivity(), MainView, HasAndroidInjector {
     private fun setUpToolbarNavigation() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
                 when(item.itemId) {
-                    R.id.all_prods -> setAllProdFragment(null)
-                    R.id.add_prod -> setAddProdFragment()
-                    R.id.settings -> setSettingsFragment()
-                    R.id.chats -> setChatFragment()
+                    R.id.all_prods -> {
+                        binding.toolbar.title = "All Tasks"
+                        setAllProdFragment(null)
+                    }
+                    R.id.add_prod -> {
+                        binding.toolbar.title = "Add Tasks"
+                        setAddProdFragment()
+                    }
+                    R.id.settings -> {
+                        binding.toolbar.title = "Profile"
+                        setSettingsFragment()
+                    }
+                    R.id.chats -> {
+                        binding.toolbar.title = "Chats"
+                        setChatFragment()
+                    }
                 }
                 true
             }

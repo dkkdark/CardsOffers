@@ -5,7 +5,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import co.intentservice.chatui.models.ChatMessage
+import com.kseniabl.cardstasks.db.RepositoryInterface
 import com.kseniabl.cardstasks.ui.base.*
+import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.R
 import javax.inject.Inject
 
@@ -13,6 +15,8 @@ import com.kseniabl.cardstasks.utils.CardTasksUtils
 import com.kseniabl.cardtasks.databinding.ActivityMainBinding
 import com.kseniabl.cardtasks.databinding.FragmentChatScreenBinding
 import com.kseniabl.cardtasks.ui.chat.ChatScreenView
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class ChatScreenActivity: BaseActivity(), ChatScreenView {
@@ -21,6 +25,9 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     lateinit var presenter: ChatScreenPresenterInterface<ChatScreenView>
     @Inject
     lateinit var currentUserClass: CurrentUserClass
+
+    @Inject
+    lateinit var repository: RepositoryInterface
 
     private var isCardExist = true
 
@@ -63,17 +70,23 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     }
 
     private fun checkIfTaskDeleted() {
-        val cards = UsersCards.getAllCards()
-        for (card in cards) {
-            if (card.id == card_id)
-                isCardExist = false
-        }
-        Log.e("qqq", "$id ${currentUserClass.readSharedPref()?.id}")
-        if (currentUserClass.readSharedPref()?.id != id) {
-            val allCards = AllCardsContainer.getAllCards()
-            for (card in allCards) {
+        GlobalScope.launch {
+            val cards = repository.allAddProdCards()
+            for (card in cards) {
                 if (card.id == card_id)
                     isCardExist = false
+            }
+        }
+
+        if (currentUserClass.readSharedPref()?.id != id) {
+            GlobalScope.launch {
+                val allCards = repository.allCardsAll()
+                for (oneListCards in allCards) {
+                    for (card in oneListCards.cards) {
+                        if (card.id == card_id)
+                            isCardExist = false
+                    }
+                }
             }
         }
     }
@@ -89,7 +102,7 @@ class ChatScreenActivity: BaseActivity(), ChatScreenView {
     private fun setupSendMessageListener() {
         binding.chatView.setOnSentMessageListener {
             if (isCardExist) {
-                Toast.makeText(this, "You couldn't text to this user anymore, because this task was deleted", Toast.LENGTH_SHORT)
+                Toast.makeText(this, "You cannot type to this task", Toast.LENGTH_SHORT)
                     .show()
                 false
             }

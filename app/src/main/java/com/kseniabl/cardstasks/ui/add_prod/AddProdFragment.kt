@@ -1,7 +1,6 @@
 package com.kseniabl.cardstasks.ui.add_prod
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import com.google.android.flexbox.JustifyContent
 import com.kseniabl.cardstasks.db.view_models.AddProdViewModel
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClassInterface
-import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.databinding.FragmentActiveBinding
@@ -42,12 +40,6 @@ class AddProdFragment: BaseFragment(), AddProdView {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        //currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, addProdsAdapter) }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         presenter.attachView(this)
         super.onViewCreated(view, savedInstanceState)
@@ -65,15 +57,13 @@ class AddProdFragment: BaseFragment(), AddProdView {
 
         val viewModel = ViewModelProvider(this, viewModelProviderFactory)[AddProdViewModel::class.java]
         viewModel.allCards.observe(viewLifecycleOwner) {
-            presenter.listToDB(it)
+            presenter.listToServer(it)
             addProdsAdapter.addElements(it.reversed())
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //presenter.observeDataChange(addProdsAdapter)
 
         childFragmentManager.setFragmentResultListener("CreateNewTaskDialog", this) { _, bundle ->
             val resId = bundle.getString("resId")

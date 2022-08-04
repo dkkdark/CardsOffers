@@ -1,5 +1,6 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
+import com.kseniabl.cardstasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardtasks.ui.base.BaseView
 import com.kseniabl.cardstasks.ui.models.CardModel
 

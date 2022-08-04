@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
+    <item android:gravity="center"
         android:drawable="@color/white"/>
+
+    <item android:top="20dp"
+        android:bottom="250dp">
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/target"/>
+    </item>
 
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/name_of_app"/>
+            android:src="@drawable/card_tasks_name"/>
     </item>
 
 </layer-list>

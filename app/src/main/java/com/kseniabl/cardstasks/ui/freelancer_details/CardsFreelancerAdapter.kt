@@ -1,6 +1,7 @@
 package com.kseniabl.cardstasks.ui.freelancer_details
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ class CardsFreelancerAdapter @Inject constructor(var presenter: CardsFreelancerP
 
     fun addElement(el: CardModel, pos: Int) {
         presenter.addElementToList(el, pos)
+        Log.e("qqq", "data = $el")
         notifyDataSetChanged()
     }
 

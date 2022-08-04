@@ -1,6 +1,7 @@
 package com.kseniabl.cardtasks.ui.all_prods
 
 import android.content.Context
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kseniabl.cardtasks.R
 import javax.inject.Inject
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.idlestar.ratingstar.RatingStarView
 import com.kseniabl.cardstasks.ui.all_prods.FreelancerFragment
 import com.kseniabl.cardstasks.ui.all_prods.FreelancerInteractorInterface
@@ -71,6 +73,8 @@ class FreelancersAdapter @Inject constructor(var presenter: FreelancerPresenter<
 
             itemTxt.text = item.username
             itemDescr.text = item.profession.description
+            val bytes = Base64.decode(item.img?.img, Base64.DEFAULT)
+            Glide.with(context).load(bytes).placeholder(R.drawable.user).into(itemImg)
         }
     }
 

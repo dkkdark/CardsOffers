@@ -4,15 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseFragment
-import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.CardModel
-import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
 import com.kseniabl.cardtasks.databinding.FragmentCardsFreelancerBinding
 import javax.inject.Inject
 import javax.inject.Provider
@@ -24,7 +20,7 @@ class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {
     @Inject
     lateinit var layoutManager: Provider<FlexboxLayoutManager>
     @Inject
-    lateinit var adapter: CardsFreelancerAdapter
+    lateinit var cardsFreelancerAdapter: CardsFreelancerAdapter
 
     private var id: String? = null
     private var _binding: FragmentCardsFreelancerBinding? = null
@@ -56,7 +52,7 @@ class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {
 
     override fun onResume() {
         super.onResume()
-        id?.let { presenter.loadCardsToRecycler(it, adapter) }
+        id?.let { presenter.loadCardsToRecycler(it, cardsFreelancerAdapter) }
     }
 
     private fun loadCards() {
@@ -66,7 +62,7 @@ class CardsFreelancerFragment: BaseFragment(), CardsFreelancerView {
 
         binding.cardsFreelancerRecyclerView.apply {
             layoutManager = flexlayoutManager
-            adapter = adapter
+            adapter = cardsFreelancerAdapter
             setHasFixedSize(true)
             setItemViewCacheSize(20)
         }

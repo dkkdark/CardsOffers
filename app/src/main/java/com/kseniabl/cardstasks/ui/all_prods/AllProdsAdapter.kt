@@ -25,13 +25,18 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
     var list = mutableListOf<CardModel>()
 
     fun addElements(newList: List<CardModel>) {
+        val listToAdd = arrayListOf<CardModel>()
         if (list != newList) {
+            for (card in newList) {
+                if (card.active)
+                    listToAdd.add(card)
+            }
             clearElements()
-            presenter.addElementsToList(newList)
+            presenter.addElementsToList(listToAdd)
             notifyDataSetChanged()
 
             list.clear()
-            list.addAll(newList)
+            list.addAll(listToAdd)
         }
     }
 

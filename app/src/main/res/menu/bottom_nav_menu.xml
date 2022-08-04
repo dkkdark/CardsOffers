@@ -6,22 +6,22 @@
             android:id="@+id/all_prods"
             android:enabled="true"
             android:icon="@drawable/cards"
-            android:title="Все продукты"/>
+            android:title="All Tasks"/>
         <item
             android:id="@+id/add_prod"
             android:enabled="true"
             android:icon="@drawable/add_card"
-            android:title="Добавить продукт"/>
+            android:title="Add Tasks"/>
         <item
             android:id="@+id/chats"
             android:enabled="true"
             android:icon="@drawable/chat"
-            android:title="Чаты"/>
+            android:title="Chats"/>
         <item
             android:id="@+id/settings"
             android:enabled="true"
             android:icon="@drawable/setting"
-            android:title="Настройки"/>
+            android:title="Profile"/>
     </group>
 
 

@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import com.kseniabl.cardstasks.db.dao.AddProdsDao
 import com.kseniabl.cardstasks.db.dao.AllProdsDao
 import com.kseniabl.cardstasks.db.dao.ChatDao
-import com.kseniabl.cardstasks.db.db_models.AddProdsModel
 import com.kseniabl.cardstasks.db.db_models.AllProdsModel
-import com.kseniabl.cardstasks.db.db_models.ChatModel
 import com.kseniabl.cardstasks.db.db_models.MapOfChatModels
 import com.kseniabl.cardstasks.ui.base.CardChatModel
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
@@ -42,12 +40,26 @@ class ChatRepository @Inject constructor(val context: Context, val retrofit: Ret
     }
 
     override fun getAddProdCards(): LiveData<List<CardModel>> {
+        return addProdsDao.loadAllCardsLive()
+    }
+
+    override fun allAddProdCards(): List<CardModel> {
         return addProdsDao.loadAllCards()
     }
 
-    override fun deleteAddProdCard(card: CardModel) {
+    override fun deleteAddProdCard(card_id: String) {
         GlobalScope.launch {
-            addProdsDao.deleteCard(card)
+            val cards = addProdsDao.loadAllCards()
+            for (card in cards) {
+                if (card.id == card_id)
+                    addProdsDao.deleteCard(card)
+            }
+        }
+    }
+
+    override fun changeAddProdCard(card: CardModel) {
+        GlobalScope.launch {
+            addProdsDao.updateCards(card)
         }
     }
 
@@ -57,9 +69,13 @@ class ChatRepository @Inject constructor(val context: Context, val retrofit: Ret
         }
     }
 
+    override fun allCardsAll(): List<AllProdsModel> {
+        return allProdsDao.loadAllCards()
+    }
+
     fun getAllCards() = cashAllProds(
         query = {
-            allProdsDao.loadAllCards()
+            allProdsDao.loadAllCardsFlow()
         },
         fetch = {
             apiHolder.getAllCards()

@@ -1,11 +1,11 @@
 package com.kseniabl.cardstasks.ui.add_prod
 
 import android.util.Log
+import com.kseniabl.cardstasks.db.RepositoryInterface
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.base.UserCardInteractor
 import com.kseniabl.cardstasks.ui.base.UsersCards
-import com.kseniabl.cardtasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardtasks.ui.add_prod.DraftInteractorInterface
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
@@ -18,7 +18,7 @@ import org.reactivestreams.Subscription
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class DraftInteractor @Inject constructor(var retrofit: Retrofit, var currentUserClass: CurrentUserClass): DraftInteractorInterface, UserCardInteractor() {
+class DraftInteractor @Inject constructor(var retrofit: Retrofit, var currentUserClass: CurrentUserClass, val repository: RepositoryInterface): DraftInteractorInterface, UserCardInteractor() {
 
     override fun observeCards(recyclerAdapter: DraftAdapter) {
         observeChangeCards()
@@ -118,4 +118,11 @@ class DraftInteractor @Inject constructor(var retrofit: Retrofit, var currentUse
         }
     }
 
+    override fun updateListInServer(list: List<CardModel>) {
+        updateList(list)
+    }
+
+    override fun deleteCard(cardId: String) {
+        repository.deleteAddProdCard(cardId)
+    }
 }

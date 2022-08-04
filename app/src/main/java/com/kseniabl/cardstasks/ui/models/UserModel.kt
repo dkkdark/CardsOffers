@@ -1,5 +1,6 @@
 package com.kseniabl.cardstasks.ui.models
 
+import android.net.Uri
 import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -21,6 +22,8 @@ data class UserModel(
     var token: String,
     @SerializedName("messagingToken")
     var messagingToken: String = "",
+
+    var img: String,
 
     @SerializedName("additionalInfo")
     var additionalInfo: AdditionalInfo,

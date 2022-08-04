@@ -2,6 +2,7 @@ package com.kseniabl.cardtasks.di
 
 import android.content.Context
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.kseniabl.cardstasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardstasks.ui.add_prod.DraftFragment
 import com.kseniabl.cardstasks.ui.add_prod.DraftInteractor
 import com.kseniabl.cardtasks.di.scope.DraftFragmentScope

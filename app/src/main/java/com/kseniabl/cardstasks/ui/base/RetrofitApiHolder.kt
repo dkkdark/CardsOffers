@@ -68,6 +68,9 @@ interface RetrofitApiHolder {
     fun setIsFreelancerState(@Field("id") user_id: String,
                               @Field("isFreelancer") state: Boolean): Observable<MessageModel>
 
+    @FormUrlEncoded
+    @POST("update_profile_info")
+    fun updateProfileInfo(@Field("profileInfo") json: String): Flowable<MessageModel>
 
      /*
         Cards methods
@@ -156,7 +159,7 @@ interface RetrofitApiHolder {
     @POST("upload_img")
     fun uploadImg(
         @Part("user_id") user_id: String,
-        @Part pic: MultipartBody.Part): Flowable<MessageModel>
+        @Part pic: MultipartBody.Part): Flowable<ImageModel>
 
     @GET("get_img/{user_id}")
     fun getImg (@Path("user_id") user_id: String): Flowable<ImageModel>

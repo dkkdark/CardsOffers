@@ -36,7 +36,6 @@ class SplashPresenter<V: SplashView, I: SplashInteractorInterface> @Inject const
                 if (!data?.id.isNullOrEmpty()) {
                     if (currentUserClass.readSharedPref() == null || currentUserClass.readSharedPref()?.id.isNullOrEmpty())
                         currentUserClass.saveCurrentUser(data!!)
-                    //interactor.loadUserCards(currentUserClass.readSharedPref()!!.id)
                 }
                 setMessageToken()
             }

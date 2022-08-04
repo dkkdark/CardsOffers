@@ -61,94 +61,59 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
 
     override fun setupUserBaseInfo(name: TextView, ratingStarView: RatingStarView, checkBox: CheckBox, email: TextView) {
         currentUserClass.readSharedPref()?.let {
-            interactor.getUserName(it.id)
-            .subscribe(object : Observer<BaseProfileInfoModel> {
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onNext(data: BaseProfileInfoModel) {
-                    name.text = data.username
-                    ratingStarView.rating = data.rating
-                    checkBox.isChecked = data.isFreelancer
-                    email.text = data.email
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.e("qqq", "baseInfo show onError ${e.message}")
-                }
-
-                override fun onComplete() {
-                }
-            })
+            name.text = it.username
+            ratingStarView.rating = it.rating
+            checkBox.isChecked = it.isFreelancer
+            email.text = it.email
         }
     }
 
     override fun setupUserProfession(tags: TagContainerLayout, spec: TextView, descr: TextView) {
         currentUserClass.readSharedPref()?.let {
-            interactor.getUserProfession(it.id).subscribe(object : Observer<Profession> {
-                override fun onSubscribe(d: Disposable) {
-                }
+            tags.tags = it.profession.tags
+            checkIsEmpty(spec, it.profession.specialization)
+            checkIsEmpty(descr, it.profession.description)
 
-                override fun onNext(data: Profession) {
-                    tags.tags = data.tags
-                    checkIsEmpty(spec, data.specialization)
-                    checkIsEmpty(descr, data.description)
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.e("qqq", "profession show onError ${e.message}")
-                }
-
-                override fun onComplete() {
-                }
-            })
         }
     }
 
     override fun setupUserAdditionalInfo(descr: TextView, country: TextView, city: TextView, type: TextView) {
         currentUserClass.readSharedPref()?.let {
-            interactor.getUserAdditionalInfo(it.id).subscribe(object : Observer<AdditionalInfo> {
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onNext(data: AdditionalInfo) {
-                    checkIsEmpty(descr, data.description)
-                    checkIsEmpty(country, data.country)
-                    checkIsEmpty(city, data.city)
-                    checkIsEmpty(type, data.typeOfWork)
-                }
-
-                override fun onError(e: Throwable) {
-                    Log.e("qqq", "additional show onError ${e.message}")
-                }
-
-                override fun onComplete() {
-                }
-            })
+            checkIsEmpty(descr, it.additionalInfo.description)
+            checkIsEmpty(country, it.additionalInfo.country)
+            checkIsEmpty(city, it.additionalInfo.city)
+            checkIsEmpty(type, it.additionalInfo.typeOfWork)
         }
+
     }
 
     override fun setupProfileImage(imageViewProfile: CircularImageView) {
         currentUserClass.readSharedPref()?.let {
-            interactor.getProfileImage(it.id).subscribe(object : FlowableSubscriber<ImageModel> {
-                override fun onSubscribe(s: Subscription) {
-                    s.request(Long.MAX_VALUE)
-                }
+            val img = it.img
+            if (!img.isNullOrEmpty()) {
+                val bytes = Base64.decode(img, Base64.DEFAULT)
+                Glide.with(context).load(bytes).placeholder(R.drawable.user).into(imageViewProfile)
+            }
+            else {
+                interactor.getProfileImage(it.id).subscribe(object : FlowableSubscriber<ImageModel> {
+                    override fun onSubscribe(s: Subscription) {
+                        s.request(Long.MAX_VALUE)
+                    }
 
-                override fun onNext(data: ImageModel) {
-                    val img = data.img
-                    val bytes = Base64.decode(img, Base64.DEFAULT)
-                    Glide.with(context).load(bytes).placeholder(R.drawable.user).into(imageViewProfile)
-                }
+                    override fun onNext(data: ImageModel) {
+                        val bytes = Base64.decode(data.img, Base64.DEFAULT)
+                        Glide.with(context).load(bytes).placeholder(R.drawable.user).into(imageViewProfile)
+                    }
 
-                override fun onError(m: Throwable) {
-                    Log.e("qqq", "setupProfileImage onError ${m.message}")
-                }
+                    override fun onError(t: Throwable) {
+                        Log.e("qqq", "setupProfileImage onError ${t.message}")
+                    }
 
-                override fun onComplete() {
-                }
+                    override fun onComplete() {
+                    }
 
-            })
+                })
+            }
         }
     }
 
@@ -192,6 +157,10 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
         interactor.setAdditionalInfoField(id, descr, country, city, type)
     }
 
+    override fun sendProfileInfoToServer() {
+        interactor.sendProfileInfoToServer()
+    }
+
     private fun clearTokenFromServer() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -203,17 +172,19 @@ class SettingsPresenter<V: SettingsView, I: SettingsInteractorInterface> @Inject
         })
     }
 
-    override fun uploadImage(id: String, requestBody: MultipartBody.Part, imageViewProfile: CircularImageView, uri: Uri) {
+    override fun uploadImage(id: String, requestBody: MultipartBody.Part, imageViewProfile: CircularImageView, uri: Uri, byteArray: ByteArray) {
         interactor.uploadImgToServer(id, requestBody)
-            .subscribe(object : FlowableSubscriber<MessageModel> {
+            .subscribe(object : FlowableSubscriber<ImageModel> {
                 override fun onSubscribe(s: Subscription) {
                     s.request(Long.MAX_VALUE)
                 }
 
-                override fun onNext(data: MessageModel) {
-                    if (data.message == "success") {
-                        Glide.with(context).load(uri).placeholder(R.drawable.user).into(imageViewProfile)
-                    }
+                override fun onNext(data: ImageModel) {
+                    val bytes = Base64.decode(data.img, Base64.DEFAULT)
+                    Glide.with(context).load(bytes).placeholder(R.drawable.user).into(imageViewProfile)
+                    val user = currentUserClass.readSharedPref()
+                    user?.img = data.img
+                    user?.let { currentUserClass.saveCurrentUser(it) }
                 }
 
                 override fun onError(t: Throwable) {

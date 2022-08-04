@@ -1,9 +1,10 @@
-package com.kseniabl.cardtasks.ui.show_item
+package com.kseniabl.cardstasks.ui.show_item
 
+import com.kseniabl.cardstasks.ui.base.ImageModel
 import com.kseniabl.cardstasks.ui.base.RetrofitApiHolder
 import com.kseniabl.cardstasks.ui.models.UserModel
-import com.kseniabl.cardstasks.ui.show_item.ShowItemInteractorInterface
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Retrofit
@@ -16,5 +17,12 @@ class ShowItemInteractor @Inject constructor(val retrofit: Retrofit): ShowItemIn
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         return observer
+    }
+
+    override fun getProfileImage(id: String): Flowable<ImageModel> {
+        val observable = retrofit.create(RetrofitApiHolder::class.java).getImg(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        return observable
     }
 }

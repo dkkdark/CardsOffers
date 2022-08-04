@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:elevation="0dp"
-            app:title="Profile"
+            app:title="All Tasks"
             app:titleCentered="true"
             app:titleTextColor="@color/white"
             app:titleTextAppearance="@style/OPSansBoldTextViewStyle"/>

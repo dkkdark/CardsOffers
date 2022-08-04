@@ -22,8 +22,8 @@ class CardsFreelancerInteractor @Inject constructor(val retrofit: Retrofit):
                 }
 
                 override fun onNext(data: List<CardModel>) {
+                    val elements = adapter.getElements()
                     for (card in data) {
-                        val elements = adapter.getElements()
                         if (!elements.contains(card) && card.active) {
                             adapter.addElement(card, 0)
                         }

@@ -1,24 +1,49 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.kseniabl.cardstasks.ui.add_prod.DraftFragment
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.models.CardModel
+import com.kseniabl.cardtasks.ui.add_prod.DraftInteractorInterface
+import com.kseniabl.cardtasks.ui.add_prod.DraftPresenter
+import com.kseniabl.cardtasks.ui.add_prod.DraftView
 import java.util.*
 import javax.inject.Inject
 
 class DraftAdapter @Inject constructor(var presenter: DraftPresenter<DraftView, DraftInteractorInterface>, var context: Context, var fragment: DraftFragment): RecyclerView.Adapter<DraftAdapter.DraftHolder>() {
 
-    fun addElements(list: List<CardModel>) {
-        presenter.addElementsToList(list)
-        notifyDataSetChanged()
+    private val oldList = arrayListOf<CardModel>()
+
+    fun addElements(newList: List<CardModel>) {
+        val listToAdd = arrayListOf<CardModel>()
+        for (el in newList) {
+            if (!el.active)
+                listToAdd.add(el)
+        }
+
+        if (oldList != listToAdd) {
+            clearElements()
+            presenter.addElementsToList(listToAdd)
+            notifyDataSetChanged()
+
+            oldList.clear()
+            oldList.addAll(listToAdd)
+        }
+    }
+
+    private fun clearElements() {
+        val list = presenter.getAllElements()
+        val listToDel = arrayListOf<CardModel>()
+        for (el in list)
+            listToDel.add(el)
+        presenter.removeAllElements(listToDel)
     }
 
     fun getElementPos(el: CardModel): Int {

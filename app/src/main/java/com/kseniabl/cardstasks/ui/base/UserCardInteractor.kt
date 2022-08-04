@@ -1,10 +1,12 @@
 package com.kseniabl.cardstasks.ui.base
 
 import android.util.Log
+import com.google.gson.Gson
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.FlowableSubscriber
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
@@ -66,7 +68,7 @@ abstract class UserCardInteractor: UserCardInteractorInterface {
             .retry(3)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<MessageModel> {
-                override fun onSubscribe(d: Disposable?) {
+                override fun onSubscribe(d: Disposable) {
                 }
 
                 override fun onNext(data: MessageModel) {
@@ -75,8 +77,8 @@ abstract class UserCardInteractor: UserCardInteractorInterface {
                     }
                 }
 
-                override fun onError(e: Throwable?) {
-                    Log.e("qqq", "onNewToken onError ${e?.message}")
+                override fun onError(e: Throwable) {
+                    Log.e("qqq", "onNewToken onError ${e.message}")
                 }
 
                 override fun onComplete() {
@@ -88,9 +90,37 @@ abstract class UserCardInteractor: UserCardInteractorInterface {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .baseUrl("http:///192.168.1.64/")
+            .baseUrl("http://kseniadk.pythonanywhere.com/")
+            //.baseUrl("http:///192.168.1.67/")
             .build()
     }
 
+    override fun updateList(list: List<CardModel>) {
+        if (!list.isNullOrEmpty()) {
+            val json = Gson().toJson(list)
+            val retrofit = createRetrofit()
 
+            retrofit.create(RetrofitApiHolder::class.java).updateCards(json)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : FlowableSubscriber<MessageModel> {
+                    override fun onSubscribe(s: Subscription) {
+                        s.request(Long.MAX_VALUE)
+                    }
+
+                    override fun onNext(t: MessageModel) {
+                        if (t.message == "success")
+                            Log.e("qqq", "updateListInDB OK")
+                    }
+
+                    override fun onError(t: Throwable) {
+                        Log.e("qqq", "updateListInDB onError ${t.message}")
+                    }
+
+                    override fun onComplete() {
+                    }
+
+                })
+        }
+    }
 }

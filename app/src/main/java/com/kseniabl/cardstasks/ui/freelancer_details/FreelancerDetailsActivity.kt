@@ -2,10 +2,13 @@ package com.kseniabl.cardstasks.ui.freelancer_details
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.base.FreelancerModel
@@ -39,6 +42,9 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
         freelancer = intent.extras?.getSerializable("item") as FreelancerModel
         binding.freelancerNameText.text = freelancer?.username
 
+        val bytes = Base64.decode(freelancer?.img?.img, Base64.DEFAULT)
+        Glide.with(this).load(bytes).placeholder(R.drawable.user).into(binding.imageViewFreelancer)
+
         addListeners()
         openInfoFreelancer()
     }
@@ -61,9 +67,12 @@ class FreelancerDetailsActivity: BaseActivity(), FreelancerDetailsView, HasAndro
 
     private fun openInfoFreelancer() {
         val bundle = Bundle()
-        bundle.putSerializable("item", freelancer)
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_details_activity) as NavHostFragment
-        navHostFragment.navController.navigate(R.id.infoFreelancerFragment, bundle)
+        freelancer?.let {
+            val fr = FreelancerModel(it.id, it.username, it.rating, it.isFreelancer, it.additionalInfo, it.profession, null)
+            bundle.putSerializable("item", fr)
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_details_activity) as NavHostFragment
+            navHostFragment.navController.navigate(R.id.infoFreelancerFragment, bundle)
+        }
     }
 
     private fun openCardsFreelancer() {

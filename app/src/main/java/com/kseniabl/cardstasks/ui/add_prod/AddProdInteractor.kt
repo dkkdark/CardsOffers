@@ -2,11 +2,9 @@ package com.kseniabl.cardstasks.ui.add_prod
 
 import android.util.Log
 import com.google.gson.Gson
-import com.kseniabl.cardstasks.db.ChatRepository
 import com.kseniabl.cardstasks.db.RepositoryInterface
 import com.kseniabl.cardstasks.ui.base.*
 import com.kseniabl.cardstasks.ui.models.CardModel
-import com.kseniabl.cardtasks.ui.add_prod.AddProdsAdapter
 import com.kseniabl.cardtasks.ui.models.MessageModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
@@ -90,29 +88,8 @@ class AddProdInteractor @Inject constructor(var retrofit: Retrofit, var currentU
         repository.getAddProdCards()
     }
 
-    override fun updateListInDB(list: List<CardModel>) {
-        val json = Gson().toJson(list)
-
-        retrofit.create(RetrofitApiHolder::class.java).updateCards(json)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : FlowableSubscriber<MessageModel> {
-                override fun onSubscribe(s: Subscription) {
-                }
-
-                override fun onNext(t: MessageModel) {
-                    if (t.message == "success")
-                        Log.e("qqq", "updateListInDB OK")
-                }
-
-                override fun onError(t: Throwable) {
-                    Log.e("qqq", "updateListInDB onError ${t.message}")
-                }
-
-                override fun onComplete() {
-                }
-
-            })
+    override fun updateListInServer(list: List<CardModel>) {
+        updateList(list)
     }
 
     override fun loadCards(id: String, recyclerAdapter: AddProdsAdapter) {

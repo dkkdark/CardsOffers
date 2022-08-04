@@ -24,6 +24,8 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
             Toast.makeText(context, "Please fill al fields", Toast.LENGTH_SHORT).show()
         else if (password != passwordRep)
             Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
+        else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
+            Toast.makeText(context, "Please write correct email", Toast.LENGTH_SHORT).show()
         else {
             registrationWithServer(name, email, password)
         }
@@ -39,7 +41,7 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                     val gson = Gson()
                     val parser = JsonParser()
                     val mJson = parser.parse(data.toString())
-                    if (data.toString().contains("error")) {
+                    if (data.toString().contains("error:")) {
                         val errorModel = gson.fromJson(mJson, ErrorModel::class.java)
                         Toast.makeText(context, errorModel.error, Toast.LENGTH_SHORT).show()
                     }
@@ -80,7 +82,6 @@ class LoginPresenter<V: LoginView, I: LoginInteractorInterface> @Inject construc
                 else {
                     val userModel = gson.fromJson(mJson, UserModel::class.java)
                     currentUserClass.saveCurrentUser(userModel)
-                    Log.e("qqq", "3 current user = ${currentUserClass.readSharedPref()}")
                     Toast.makeText(context, "You login successfully", Toast.LENGTH_SHORT).show()
                     loadAndSaveUsersCards(currentUserClass.readSharedPref()!!.id)
                     interactor.setToken()

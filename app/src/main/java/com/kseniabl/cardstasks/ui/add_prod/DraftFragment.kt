@@ -1,21 +1,21 @@
 package com.kseniabl.cardstasks.ui.add_prod
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.kseniabl.cardtasks.R
+import com.kseniabl.cardstasks.db.view_models.AddProdViewModel
 import com.kseniabl.cardstasks.ui.base.BaseFragment
 import com.kseniabl.cardstasks.ui.base.CurrentUserClass
-import com.kseniabl.cardtasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardtasks.ui.add_prod.DraftPresenterInterface
 import com.kseniabl.cardtasks.ui.add_prod.DraftView
 import com.kseniabl.cardstasks.ui.dialogs.CreateNewTaskDialog
 import com.kseniabl.cardstasks.ui.models.CardModel
-import com.kseniabl.cardtasks.databinding.FragmentActiveTasksBinding
 import com.kseniabl.cardtasks.databinding.FragmentDraftBinding
 import javax.inject.Inject
 import javax.inject.Provider
@@ -25,7 +25,7 @@ class DraftFragment: BaseFragment(), DraftView {
     @Inject
     lateinit var presenter: DraftPresenterInterface<DraftView>
     @Inject
-    lateinit var adapter: DraftAdapter
+    lateinit var draftAdapter: DraftAdapter
     @Inject
     lateinit var layoutManager: Provider<FlexboxLayoutManager>
     @Inject
@@ -34,6 +34,9 @@ class DraftFragment: BaseFragment(), DraftView {
     private var _binding: FragmentDraftBinding? = null
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var viewModelProviderFactory: ViewModelProvider.Factory
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentDraftBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,13 +44,13 @@ class DraftFragment: BaseFragment(), DraftView {
 
     override fun onResume() {
         super.onResume()
-        currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, adapter) }
+        //currentUserClass.readSharedPref()?.id?.let { presenter.loadUserCards(it, draftAdapter) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter.observeDataChange(adapter)
+        //presenter.observeDataChange(draftAdapter)
 
         childFragmentManager.setFragmentResultListener("CreateNewTaskDialog", this) { _, bundle ->
             val resId = bundle.getString("resId")
@@ -69,6 +72,13 @@ class DraftFragment: BaseFragment(), DraftView {
                 currentUserClass.readSharedPref()?.id?.let { presenter.changeUserCard(it, resId, resTitle, resDescription, resDate, resCreateTime, cost, resActive, resByAgreementValue) }
             }
         }
+
+        childFragmentManager.setFragmentResultListener("deleteResultCreateTask", this) { _, bundle ->
+            val userId = bundle.getString("userId")
+            val cardId = bundle.getString("cardId")
+            if (userId != null && cardId != null)
+                presenter.deleteCard(cardId)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,9 +91,15 @@ class DraftFragment: BaseFragment(), DraftView {
 
         binding.apply {
             draftRecyclerView.layoutManager = flexlayoutManager
-            draftRecyclerView.adapter = adapter
+            draftRecyclerView.adapter = draftAdapter
             draftRecyclerView.setHasFixedSize(true)
             draftRecyclerView.setItemViewCacheSize(20)
+        }
+
+        val viewModel = ViewModelProvider(this, viewModelProviderFactory)[AddProdViewModel::class.java]
+        viewModel.allCards.observe(viewLifecycleOwner) {
+            presenter.listToServer(it)
+            draftAdapter.addElements(it.reversed())
         }
     }
 
@@ -110,7 +126,7 @@ class DraftFragment: BaseFragment(), DraftView {
     }
 
     override fun provideAdapter(): DraftAdapter {
-        return adapter
+        return draftAdapter
     }
 
     companion object {

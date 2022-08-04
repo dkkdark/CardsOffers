@@ -3,14 +3,11 @@ package com.kseniabl.cardstasks.ui.show_item
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.ViewCompat
-import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.BaseActivity
 import com.kseniabl.cardstasks.ui.chat.ChatScreenActivity
 import com.kseniabl.cardstasks.ui.main.MainActivity
 import com.kseniabl.cardstasks.ui.models.CardModel
 import com.kseniabl.cardtasks.databinding.ActivityCardDetailsBinding
-import com.kseniabl.cardtasks.databinding.ActivityMainBinding
-import com.kseniabl.cardtasks.ui.show_item.ShowItemPresenterInterface
 import com.kseniabl.cardtasks.ui.show_item.ShowItemView
 import javax.inject.Inject
 
@@ -61,7 +58,7 @@ class ShowItemActivity: BaseActivity(), ShowItemView {
             descriptionText.text = card!!.description
 
             presenter.loadFreelancer(card!!.user_id, nameText, specializationText, itemExeRating)
-
+            presenter.setupFreelancerImage(card!!.user_id, imageViewProfile)
         }
     }
 

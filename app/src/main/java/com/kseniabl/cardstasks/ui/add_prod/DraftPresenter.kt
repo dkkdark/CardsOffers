@@ -1,6 +1,7 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import androidx.cardview.widget.CardView
+import com.kseniabl.cardstasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.models.CardModel
@@ -54,5 +55,13 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
 
     override fun changeUserCard(id: String, cardId: String, title: String, descr: String, date: String, currentTime: Long, cost: Int, active: Boolean, agreement: Boolean) {
         interactor.changeCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
+    }
+
+    override fun listToServer(list: List<CardModel>) {
+        interactor.updateListInServer(list)
+    }
+
+    override fun deleteCard(cardId: String) {
+        interactor.deleteCard(cardId)
     }
 }

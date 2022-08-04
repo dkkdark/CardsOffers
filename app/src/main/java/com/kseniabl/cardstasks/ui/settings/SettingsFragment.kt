@@ -3,6 +3,7 @@ package com.kseniabl.cardstasks.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,8 @@ class SettingsFragment: BaseFragment(), SettingsView {
             presenter.setupUserAdditionalInfo(descriptionAddInfoChangeText, countryChangeText, cityChangeText, typeOfWorkChangeText)
             presenter.setupProfileImage(imageViewProfile)
 
+            presenter.sendProfileInfoToServer()
+
             changeNameImage.setOnClickListener { showChangeNameDialog() }
             editProfessionImage.setOnClickListener { showChangeProfessionDialog() }
             editAdditionalInfoImage.setOnClickListener { showChangeAdditionalInfoDialog() }
@@ -59,12 +62,12 @@ class SettingsFragment: BaseFragment(), SettingsView {
             imageViewProfile.setOnClickListener { chooseImg() }
 
             setGradient()
-        }
-    }
 
-    override fun onPause() {
-        currentUserClass.readSharedPref()?.id?.let { presenter.changeIsFreelancerState(it, binding.beFreelancerCheckBox.isChecked) }
-        super.onPause()
+            beFreelancerCheckBox.setOnCheckedChangeListener { _, b ->
+                currentUserClass.readSharedPref()?.id?.let { presenter.changeIsFreelancerState(it, b) }
+                presenter.sendProfileInfoToServer()
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +77,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val result = bundle.getString("resName")
             if (result != null && currentUserClass.readSharedPref() != null) {
                 presenter.changeName(currentUserClass.readSharedPref()!!.id, result)
+                presenter.sendProfileInfoToServer()
                 presenter.showUserName(binding.profileNameText, result)
             }
         }
@@ -84,6 +88,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val resTagList = bundle.getStringArrayList("resTagList")
             if (resSpecialization != null && resDescription != null && resTagList != null && currentUserClass.readSharedPref() != null) {
                 presenter.changeProfessionField(currentUserClass.readSharedPref()!!.id, resSpecialization, resDescription, resTagList)
+                presenter.sendProfileInfoToServer()
                 presenter.showUserProfession(binding.tagContainerLayout, binding.specializationChangeText, binding.descriptionSpecializationChangeText, resSpecialization, resDescription, resTagList)
             }
         }
@@ -95,6 +100,7 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val resTypeOfWork = bundle.getString("resTypeOfWork")
             if (resDescription != null && resCountry != null && resCity != null && resTypeOfWork != null && currentUserClass.readSharedPref() != null) {
                 presenter.changeAdditionalInfo(currentUserClass.readSharedPref()!!.id, resDescription, resCountry, resCity, resTypeOfWork)
+                presenter.sendProfileInfoToServer()
                 presenter.showUserAdditionalInfo(binding.descriptionAddInfoChangeText, binding.countryChangeText, binding.cityChangeText, binding.typeOfWorkChangeText, resDescription, resCountry, resCity, resTypeOfWork)
             }
         }
@@ -167,8 +173,9 @@ class SettingsFragment: BaseFragment(), SettingsView {
             val uri = it.data?.data!!
             if (currentUserClass.readSharedPref()?.id != null && uri.path != null) {
                 val file = File(uri.path!!)
+                val bytes = file.readBytes()
                 val part = MultipartBody.Part.createFormData("pic", file.name, RequestBody.create(MediaType.parse("image/*"), file))
-                presenter.uploadImage(currentUserClass.readSharedPref()!!.id, part, binding.imageViewProfile, uri)
+                presenter.uploadImage(currentUserClass.readSharedPref()!!.id, part, binding.imageViewProfile, uri, bytes)
             }
         }
     }

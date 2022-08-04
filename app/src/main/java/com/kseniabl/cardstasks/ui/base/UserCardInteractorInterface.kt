@@ -12,4 +12,6 @@ interface UserCardInteractorInterface {
     fun loadAddedCards(id: String): Observable<List<CardModel>>
     fun sendTokenToServer(token: String, id: String)
     fun replaceToken(oldToken: String, newToken: String, id: String)
+
+    fun updateList(list: List<CardModel>)
 }

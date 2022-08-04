@@ -1,17 +1,12 @@
-package com.kseniabl.cardtasks.ui.add_prod
+package com.kseniabl.cardstasks.ui.add_prod
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.kseniabl.cardstasks.ui.add_prod.AddProdFragment
-import com.kseniabl.cardstasks.ui.add_prod.AddProdInteractorInterface
-import com.kseniabl.cardstasks.ui.add_prod.AddProdPresenter
-import com.kseniabl.cardstasks.ui.add_prod.AddProdView
 import com.kseniabl.cardtasks.R
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.models.CardModel
@@ -54,7 +49,6 @@ class AddProdsAdapter @Inject constructor(var presenter: AddProdPresenter<AddPro
         val listToDel = arrayListOf<CardModel>()
         for (el in list)
             listToDel.add(el)
-        Log.e("qqq", "444")
         presenter.removeAllElements(listToDel)
     }
 
@@ -97,7 +91,6 @@ class AddProdsAdapter @Inject constructor(var presenter: AddProdPresenter<AddPro
         }
 
         override fun bindItem(item: CardModel) {
-            //ViewCompat.setTransitionName(cardView, item.id)
 
             cardTxt.text = item.title
             cardDescr.text = item.description

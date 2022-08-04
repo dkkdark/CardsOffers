@@ -10,13 +10,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AddProdsDao {
     @Query("SELECT * FROM CardModel")
-    fun loadAllCards(): LiveData<List<CardModel>>
+    fun loadAllCardsLive(): LiveData<List<CardModel>>
+
+    @Query("SELECT * FROM CardModel")
+    fun loadAllCards(): List<CardModel>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllCards(cards: List<CardModel>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOneCard(card: CardModel)
+
+    @Update
+    fun updateCards(card: CardModel)
 
     @Query("DELETE FROM CardModel")
     fun deleteAllCards()
