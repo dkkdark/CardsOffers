@@ -1,13 +1,14 @@
 package com.kseniabl.cardtasks.ui.add_prod
 
 import androidx.cardview.widget.CardView
+import com.kseniabl.cardstasks.db.RepositoryInterface
 import com.kseniabl.cardstasks.ui.add_prod.DraftAdapter
 import com.kseniabl.cardstasks.ui.base.BasePresenter
 import com.kseniabl.cardstasks.ui.base.ItemViewCardModel
 import com.kseniabl.cardstasks.ui.models.CardModel
 import javax.inject.Inject
 
-class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject constructor(var interactor: I): BasePresenter<V>(), DraftPresenterInterface<V> {
+class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject constructor(var interactor: I, val repository: RepositoryInterface): BasePresenter<V>(), DraftPresenterInterface<V> {
 
     private val items = mutableListOf<CardModel>()
 
@@ -54,7 +55,9 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
     override fun observeDataChange(recyclerAdapter: DraftAdapter) = interactor.observeCards(recyclerAdapter)
 
     override fun changeUserCard(id: String, cardId: String, title: String, descr: String, date: String, currentTime: Long, cost: Int, active: Boolean, agreement: Boolean) {
-        interactor.changeCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
+        //interactor.changeCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
+        val card = CardModel(cardId, title, descr, date, currentTime, cost, active, agreement, id)
+        repository.changeAddProdCard(card)
     }
 
     override fun listToServer(list: List<CardModel>) {
@@ -62,6 +65,7 @@ class DraftPresenter<V: DraftView, I: DraftInteractorInterface> @Inject construc
     }
 
     override fun deleteCard(cardId: String) {
-        interactor.deleteCard(cardId)
+        //interactor.deleteCard(cardId)
+        repository.deleteAddProdCard(cardId)
     }
 }

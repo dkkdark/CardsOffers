@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,8 +74,9 @@ class CreateNewTaskDialog: BaseDialog(), DatePickerDialog.OnDateSetListener, Tim
             binding.crateChangeTask.paint.shader = shader
         }
 
-        setDataToDialog(title, description, date, cost, active, agreement)
         showInitialDate()
+        if (title != "")
+            setDataToDialog(title, description, date, cost, active, agreement)
         clickOnButtonsListeners()
         setListener()
         deleteTask()

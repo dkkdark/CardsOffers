@@ -64,7 +64,6 @@ class AddProdPresenter<V: AddProdView, I: AddProdInteractorInterface> @Inject co
     override fun observeDataChange(recyclerAdapter: AddProdsAdapter) = interactor.observeCards(recyclerAdapter)
 
     override fun changeUserCard(id: String, cardId: String, title: String, descr: String, date: String, currentTime: Long, cost: Int, active: Boolean, agreement: Boolean) {
-        // interactor.changeCard(id, cardId, title, descr, date, currentTime, cost, active, agreement)
         val card = CardModel(cardId, title, descr, date, currentTime, cost, active, agreement, id)
         repository.changeAddProdCard(card)
     }

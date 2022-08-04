@@ -1,6 +1,7 @@
 package com.kseniabl.cardstasks.ui.all_prods
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,12 +61,14 @@ class AllProdsFragment: BaseFragment(), AllProdsView {
 
         val viewModel = ViewModelProvider(this, viewModelProviderFactory)[AllCardsViewModel::class.java]
         viewModel.allCards.observe(viewLifecycleOwner) { res ->
+            Log.e("qqq", "updateee")
             if (res.data != null) {
                 val list = mutableListOf<CardModel>()
                 for (el in res.data) {
                     list.addAll(el.cards)
                 }
-                allProdsAdapter.addElements(list.reversed())
+                if (list.isNotEmpty())
+                    allProdsAdapter.addElements(list.reversed())
             }
 
         }

@@ -26,11 +26,12 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
 
     fun addElements(newList: List<CardModel>) {
         val listToAdd = arrayListOf<CardModel>()
-        if (list != newList) {
-            for (card in newList) {
-                if (card.active)
-                    listToAdd.add(card)
-            }
+        for (card in newList) {
+            if (card.active)
+                listToAdd.add(card)
+        }
+
+        if (list != listToAdd) {
             clearElements()
             presenter.addElementsToList(listToAdd)
             notifyDataSetChanged()
@@ -54,7 +55,6 @@ class AllProdsAdapter @Inject constructor(var presenter: AllProdsPresenter<AllPr
         val listToDel = arrayListOf<CardModel>()
         for (el in list)
             listToDel.add(el)
-        Log.e("qqq", "444")
         presenter.removeAllElements(listToDel)
     }
 
