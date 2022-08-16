@@ -33,8 +33,3 @@ Activity task detail, there is response possibility here:
 
 ![Screenshot_20220816-193543_CardT](https://user-images.githubusercontent.com/49618961/184936239-9dcd9c97-07fd-4954-b256-711807cc9ae8.jpg)
 
-All freelansers fragment:
-
-![Screenshot_20220816-193737_CardT](https://user-images.githubusercontent.com/49618961/184936232-37def835-2243-4e5e-8e84-ce3649d997d0.jpg)
-
-
