@@ -25,9 +25,15 @@ Add tasks fragment:
 
 ![Screenshot_20220816-193309_CardT](https://user-images.githubusercontent.com/49618961/184936245-7a82a526-be11-4298-8703-e1effaa31800.jpg)
 
+Profile settings fragment:
+
 ![Screenshot_20220816-193451_CardT](https://user-images.githubusercontent.com/49618961/184936241-e86bcf47-2a7f-4a51-8f0e-cf5eab9f8250.jpg)
 
+Activity task detail, there is response possibility here:
+
 ![Screenshot_20220816-193543_CardT](https://user-images.githubusercontent.com/49618961/184936239-9dcd9c97-07fd-4954-b256-711807cc9ae8.jpg)
+
+All freelansers fragment:
 
 ![Screenshot_20220816-193737_CardT](https://user-images.githubusercontent.com/49618961/184936232-37def835-2243-4e5e-8e84-ce3649d997d0.jpg)
 
