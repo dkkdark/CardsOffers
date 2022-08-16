@@ -10,11 +10,12 @@ In this app used MVP architecture and technologies such as:
 and other.
 
 
-![Screenshot_20220816-193737_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935455-812dee1b-2dd6-4fbf-a62e-968fefb328ca.jpg)
-![Screenshot_20220816-193543_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935459-11fd502b-432f-4110-91bf-69cb7de45434.jpg)
-![Screenshot_20220816-193451_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935461-8e186b3a-5fb0-4359-b305-23d8cbd40d5a.jpg)
-![Screenshot_20220816-193309_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935463-a8725183-2db6-4c14-a736-92383a1a2551.jpg)
-![Screenshot_20220816-193226_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935464-f3609565-cb82-4ad4-8e7f-a804397d3c21.jpg)
-![Screenshot_20220816-193156_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935466-180be84e-06be-4f52-b5b0-cc462327597f.jpg)
-![Screenshot_20220816-193108_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935469-51e8c909-fdad-49ec-8f88-2ad8d34673f5.jpg)
+![Screenshot_20220816-193737_CardT](https://user-images.githubusercontent.com/49618961/184936232-37def835-2243-4e5e-8e84-ce3649d997d0.jpg)
+![Screenshot_20220816-193543_CardT](https://user-images.githubusercontent.com/49618961/184936239-9dcd9c97-07fd-4954-b256-711807cc9ae8.jpg)
+![Screenshot_20220816-193451_CardT](https://user-images.githubusercontent.com/49618961/184936241-e86bcf47-2a7f-4a51-8f0e-cf5eab9f8250.jpg)
+![Screenshot_20220816-193309_CardT](https://user-images.githubusercontent.com/49618961/184936245-7a82a526-be11-4298-8703-e1effaa31800.jpg)
+![Screenshot_20220816-193226_CardT](https://user-images.githubusercontent.com/49618961/184936247-81736b21-2e23-4300-b743-c62d38379b48.jpg)
+![Screenshot_20220816-193156_CardT](https://user-images.githubusercontent.com/49618961/184936249-c117c86c-846d-4c70-8a32-dc6f501dd7d5.jpg)
+![Screenshot_20220816-193108_CardT](https://user-images.githubusercontent.com/49618961/184936250-6c529da6-8417-41d4-b794-6f51cfd06b7e.jpg)
+
 
