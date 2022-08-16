@@ -10,11 +10,11 @@ In this app used MVP architecture and technologies such as:
 and other.
 
 
-![Screenshot_20220816-193108_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184934802-bdc98a6b-c220-4efc-b3cd-8e16ea2ee7ae.jpg)
-![Screenshot_20220816-193156_CardTasks](https://user-images.githubusercontent.com/49618961/184932894-e557df26-e33e-434c-aeb5-ef27c0335b84.jpg)
-![Screenshot_20220816-193226_CardTasks](https://user-images.githubusercontent.com/49618961/184932902-de90425b-c2fc-440b-8150-7cb56a290a6d.jpg)
-![Screenshot_20220816-193309_CardTasks](https://user-images.githubusercontent.com/49618961/184932906-c99fdbb6-c52f-4f42-83bf-6a2f3ec75442.jpg)
-![Screenshot_20220816-193451_CardTasks](https://user-images.githubusercontent.com/49618961/184932908-15de0c18-4fbe-4970-8fa4-ad72dfa14577.jpg)
-![Screenshot_20220816-193518_CardTasks](https://user-images.githubusercontent.com/49618961/184932911-98b56cd4-ee73-400d-a5a8-b9120001de09.jpg)
-![Screenshot_20220816-193543_CardTasks](https://user-images.githubusercontent.com/49618961/184932914-1fdc7e95-ecd5-44f1-8121-3aef79c5db06.jpg)
-![Screenshot_20220816-193737_CardTasks](https://user-images.githubusercontent.com/49618961/184932916-5a6b9947-a4ec-4826-b905-6d6e2dbf331e.jpg)
+![Screenshot_20220816-193737_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935455-812dee1b-2dd6-4fbf-a62e-968fefb328ca.jpg)
+![Screenshot_20220816-193543_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935459-11fd502b-432f-4110-91bf-69cb7de45434.jpg)
+![Screenshot_20220816-193451_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935461-8e186b3a-5fb0-4359-b305-23d8cbd40d5a.jpg)
+![Screenshot_20220816-193309_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935463-a8725183-2db6-4c14-a736-92383a1a2551.jpg)
+![Screenshot_20220816-193226_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935464-f3609565-cb82-4ad4-8e7f-a804397d3c21.jpg)
+![Screenshot_20220816-193156_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935466-180be84e-06be-4f52-b5b0-cc462327597f.jpg)
+![Screenshot_20220816-193108_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184935469-51e8c909-fdad-49ec-8f88-2ad8d34673f5.jpg)
+
