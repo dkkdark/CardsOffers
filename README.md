@@ -9,9 +9,12 @@ In this app used MVP architecture and technologies such as:
 - Room
 and other.
 
+Login screen:
 ![Screenshot_20220816-193108_CardT](https://user-images.githubusercontent.com/49618961/184936250-6c529da6-8417-41d4-b794-6f51cfd06b7e.jpg)
 
+Add task dialog in add task fragment:
 ![Screenshot_20220816-193156_CardT](https://user-images.githubusercontent.com/49618961/184936249-c117c86c-846d-4c70-8a32-dc6f501dd7d5.jpg)
+
 
 ![Screenshot_20220816-193226_CardT](https://user-images.githubusercontent.com/49618961/184936247-81736b21-2e23-4300-b743-c62d38379b48.jpg)
 
