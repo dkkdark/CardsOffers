@@ -8,6 +8,7 @@ In this app used MVP architecture and technologies such as:
 - Navigation
 - RxJava (for retrofit)
 - Room
+
 and other.
 
 Login screen:
