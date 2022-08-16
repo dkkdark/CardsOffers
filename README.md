@@ -10,7 +10,7 @@ In this app used MVP architecture and technologies such as:
 and other.
 
 
-![Screenshot_20220816-193108_CardTasks](https://user-images.githubusercontent.com/49618961/184932877-74cae32c-edef-4870-a979-a36cf931d739.jpg)
+![Screenshot_20220816-193108_CardTasks_photo-resizer ru](https://user-images.githubusercontent.com/49618961/184934802-bdc98a6b-c220-4efc-b3cd-8e16ea2ee7ae.jpg)
 ![Screenshot_20220816-193156_CardTasks](https://user-images.githubusercontent.com/49618961/184932894-e557df26-e33e-434c-aeb5-ef27c0335b84.jpg)
 ![Screenshot_20220816-193226_CardTasks](https://user-images.githubusercontent.com/49618961/184932902-de90425b-c2fc-440b-8150-7cb56a290a6d.jpg)
 ![Screenshot_20220816-193309_CardTasks](https://user-images.githubusercontent.com/49618961/184932906-c99fdbb6-c52f-4f42-83bf-6a2f3ec75442.jpg)
