@@ -1,12 +1,14 @@
 # CardsOffers
 
+### Это старая версия приложения, архитектура была полностью переделана и новое приложение размещено здесь: https://github.com/dkkdark/CardsServicesApp
+
 App that allow create tasks and do job (be freelancer and be task maker).
 
 In this app used MVP architecture and technologies such as:
 - Dagger 
 - Retrofit (server on pythonanyway)
 - Navigation
-- RxJava (for retrofit)
+- RxJava
 - Room
 
 and other.
